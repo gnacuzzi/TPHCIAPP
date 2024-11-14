@@ -21,40 +21,33 @@ class Cards {
 }
 
 @Composable
-fun Card(){
+fun CardHome(bank: String, number: String, name: String, date: String){
     Surface(
         color = MaterialTheme.colorScheme.tertiary,
         shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.padding(10.dp)
     ){
-        Column (modifier = Modifier.size(width = 400.dp, height = 200.dp)){
+        Column (modifier = Modifier.size(width = 250.dp, height = 160.dp)){
             Text(
-                text = "Santander",
-                modifier = Modifier.align(Alignment.End).padding(horizontal = 10.dp, vertical = 10.dp)
+                text = bank,
+                modifier = Modifier.align(Alignment.End).padding(horizontal = 5.dp, vertical = 5.dp)
             )
             Text(
-                text = "1234 2123 2323 2343",
-                modifier = Modifier.align(Alignment.Start).padding(horizontal = 20.dp, vertical = 20.dp)
+                text = number,
+                modifier = Modifier.align(Alignment.Start).padding(horizontal = 10.dp, vertical = 10.dp)
             )
             Row (modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround) {
                 Text(
-                    text = "Samanta Jones",
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 20.dp)
+                    text = name,
+                    modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
                 )
                 Text(
-                    text = "12/28",
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 20.dp)
+                    text = date,
+                    modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun CardPreview(){
-    PeraAppTheme {
-        Card()
     }
 }
 

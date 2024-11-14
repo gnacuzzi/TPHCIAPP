@@ -68,31 +68,39 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    name: String,
+    bodyContent: @Composable () -> Unit
+) {
     Scaffold(
-        topBar = { TopBar("Inicio") },
+        topBar = { TopBar(name) },
         bottomBar = { BottomBar() }
-    ) {
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(innerPadding)
         ) {
-            SaldoSection()
-            TarjetasSection()
-            MovimientosSection()
+            bodyContent()
         }
     }
 }
 
+@Composable
+fun homePage() {
+    SaldoSection()
+    TarjetasSection()
+    MovimientosSection()
+}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MainScreenPreview() {
     PeraAppTheme {
-        MainScreen()
+        MainScreen("Inicio"){
+            homePage()
+        }
     }
 }
 
@@ -295,7 +303,7 @@ fun TarjetasSection() {
         )
         Row (verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()){
-            CardExample(//esto deberia ser un foreach
+            CardHome(//esto deberia ser un foreach
                 bank = "Santander",
                 number = "1234 5678 9101 1121",
                 name = "Samanta Jones",
@@ -309,37 +317,6 @@ fun TarjetasSection() {
                     contentDescription = "Agregar tarjeta",
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(70.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CardExample(bank: String, number: String, name: String, date: String){
-    Surface(
-        color = MaterialTheme.colorScheme.tertiary,
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.padding(10.dp)
-    ){
-        Column (modifier = Modifier.size(width = 250.dp, height = 160.dp)){
-            Text(
-                text = bank,
-                modifier = Modifier.align(Alignment.End).padding(horizontal = 5.dp, vertical = 5.dp)
-            )
-            Text(
-                text = number,
-                modifier = Modifier.align(Alignment.Start).padding(horizontal = 10.dp, vertical = 10.dp)
-            )
-            Row (modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround) {
-                Text(
-                    text = name,
-                    modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
-                )
-                Text(
-                    text = date,
-                    modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
                 )
             }
         }
