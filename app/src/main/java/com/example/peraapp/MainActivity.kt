@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -291,12 +293,25 @@ fun TarjetasSection() {
             style = MaterialTheme.typography.titleLarge,
             color = Color.Black
         )
-        CardExample(
-            bank = "Santander",
-            number = "1234 5678 9101 1121",
-            name = "Samanta Jones",
-            date = "12/28",
-        )
+        Row (verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()){
+            CardExample(//esto deberia ser un foreach
+                bank = "Santander",
+                number = "1234 5678 9101 1121",
+                name = "Samanta Jones",
+                date = "12/28",
+            )
+            IconButton(
+                onClick = {  }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.AddCircle,
+                    contentDescription = "Agregar tarjeta",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(70.dp)
+                )
+            }
+        }
     }
 }
 
@@ -338,12 +353,20 @@ fun MovimientosSection() {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(
-            text = "Movimientos",
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.Black
-        )
-
+        Row (modifier = Modifier
+            .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween){
+            Text(
+                text = "Movimientos",
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.Black
+            )
+            Text(
+                text = "Ver mas",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Black
+            )
+        }
         MovimientoItem(
             name = "Steam",
             date = "ayer 16:20",
