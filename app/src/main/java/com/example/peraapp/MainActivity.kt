@@ -3,6 +3,7 @@ package com.example.peraapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -37,8 +39,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -89,7 +93,10 @@ fun MainScreen(
 
 @Composable
 fun homePage() {
-    SaldoSection()
+    SaldoSection(
+        name = "Samanta",
+        saldo = 0
+    )
     TarjetasSection()
     MovimientosSection()
 }
@@ -184,14 +191,10 @@ fun TopBar(titleTopBar: String = "") {
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = "Icono de inicio",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 8.dp)
-                        .size(40.dp)
+                Image(
+                    painter = painterResource(id = R.drawable.logoinicio),
+                    contentDescription = "logo pera",
+                    modifier = Modifier.size(50.dp)
                 )
                 Text(
                     text = titleTopBar,
@@ -203,23 +206,29 @@ fun TopBar(titleTopBar: String = "") {
     )
 }
 
+data class HomeBarItem(
+    val icon: ImageVector,
+    val text: String,
+    val onClick: () -> Unit
+)
+
 val homeItems = listOf(
-    BottomBarItem(
+    HomeBarItem(
         icon = Icons.Outlined.Home,
         text = "Transferir",
         onClick = { /* Acción para "Transferir" */ }
     ),
-    BottomBarItem(
+    HomeBarItem(
         icon = Icons.Outlined.DateRange,
         text = "Ingresar",
         onClick = { /* Acción para "Ingresar" */ }
     ),
-    BottomBarItem(
+    HomeBarItem(
         icon = Icons.Outlined.MailOutline,
         text = "Tarjetas",
         onClick = { /* Acción para "Tarjetas" */ }
     ),
-    BottomBarItem(
+    HomeBarItem(
         icon = Icons.Outlined.AccountCircle,
         text = "Cobrar",
         onClick = { /* Acción para "Cobrar" */ }
@@ -227,7 +236,7 @@ val homeItems = listOf(
 )
 
 @Composable
-fun SaldoSection() {
+fun SaldoSection(name:String, saldo: Number) {
     Surface (
         color = MaterialTheme.colorScheme.primary,
         shape = RoundedCornerShape(35.dp),
@@ -240,7 +249,7 @@ fun SaldoSection() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Hola, Samanta!",
+                text = "Hola, $name!",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -250,7 +259,7 @@ fun SaldoSection() {
                 color = MaterialTheme.colorScheme.tertiary
             )
             Text(
-                text = "$204.129,00",
+                text = "$$saldo",
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.align(Alignment.CenterHorizontally).padding(10.dp),
                 color = MaterialTheme.colorScheme.secondary
