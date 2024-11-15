@@ -180,7 +180,7 @@ fun BottomBar(
                             Image(
                                 painter = icon,
                                 contentDescription = item.text,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(32.dp)
                             )
                             Text(
                                 text = item.text,
@@ -279,7 +279,7 @@ fun SaldoSection(name:String, saldo: Number) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Hola, $name!",
+                text = "¡Hola, $name!",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
