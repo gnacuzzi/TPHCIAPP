@@ -57,7 +57,7 @@ fun MovimientoItem(name: String, date: String, amount: String, color: Color) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .padding(start = 15.dp, end = 15.dp),
+            .padding(start = 10.dp, end = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

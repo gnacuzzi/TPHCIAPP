@@ -182,6 +182,7 @@ fun BottomBar(
                             Icon(
                                 imageVector = item.icon,
                                 contentDescription = item.text,
+                                modifier = Modifier.size(28.dp)
                             )
                             Text(
                                 text = item.text,
@@ -258,11 +259,6 @@ val homeItems = listOf(
         onClick = { /* Acción para "Ingresar" */ }
     ),
     HomeBarItem(
-        icon = Icons.Outlined.MailOutline,
-        text = "Tarjetas",
-        onClick = { /* Acción para "Tarjetas" */ }
-    ),
-    HomeBarItem(
         icon = Icons.Outlined.AccountCircle,
         text = "Cobrar",
         onClick = { /* Acción para "Cobrar" */ }
@@ -279,7 +275,6 @@ fun SaldoSection(name:String, saldo: Number) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
                 .padding(16.dp)
         ) {
             Text(
@@ -300,8 +295,9 @@ fun SaldoSection(name:String, saldo: Number) {
             )
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 homeItems.forEach { item ->
                     Button(
@@ -313,7 +309,7 @@ fun SaldoSection(name:String, saldo: Number) {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
+                            verticalArrangement = Arrangement.Center,
                         ) {
                             Icon(
                                 imageVector = item.icon,
@@ -327,7 +323,7 @@ fun SaldoSection(name:String, saldo: Number) {
                         }
                     }
                 }
-                }
+            }
         }
     }
 }
@@ -351,6 +347,7 @@ fun TarjetasSection() {
                 number = "1234 5678 9101 1121",
                 name = "Samanta Jones",
                 date = "12/28",
+                {}
             )
             IconButton(
                 onClick = {  }

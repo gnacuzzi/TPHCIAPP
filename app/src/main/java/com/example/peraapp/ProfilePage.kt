@@ -37,7 +37,17 @@ data class ProfileItem(
 val profileItems = listOf(
     ProfileItem(
         icon = Icons.Outlined.MailOutline,
-        text = "Tarjetas",
+        text = "Transferir",
+        onClick = {  }
+    ),
+    ProfileItem(
+        icon = Icons.Outlined.MailOutline,
+        text = "Ingresar",
+        onClick = {  }
+    ),
+    ProfileItem(
+        icon = Icons.Outlined.MailOutline,
+        text = "Cobrar",
         onClick = {  }
     ),
     ProfileItem(
