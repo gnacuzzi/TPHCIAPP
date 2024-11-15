@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
@@ -29,29 +30,29 @@ class ProfilePage {
 }
 
 data class ProfileItem(
-    val icon: ImageVector,
+    val iconResId: Int,
     val text: String,
     val onClick: () -> Unit
 )
 
 val profileItems = listOf(
     ProfileItem(
-        icon = Icons.Outlined.MailOutline,
+        iconResId = R.drawable.transferir,
         text = "Transferir",
         onClick = {  }
     ),
     ProfileItem(
-        icon = Icons.Outlined.MailOutline,
+        iconResId = R.drawable.ingresar,
         text = "Ingresar",
         onClick = {  }
     ),
     ProfileItem(
-        icon = Icons.Outlined.MailOutline,
+        iconResId = R.drawable.cobrar,
         text = "Cobrar",
         onClick = {  }
     ),
     ProfileItem(
-        icon = Icons.Outlined.Close,
+        iconResId = R.drawable.cerrarsesion,
         text = "Cerrar sesión",
         onClick = {  }
     )
@@ -90,10 +91,11 @@ fun profilePage(name: String,
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth().padding(start = 20.dp)
                     ) {
-                        Icon(
-                            imageVector = item.icon,
+                        val icon: Painter = painterResource(id = item.iconResId)
+                        Image(
+                            painter = icon,
                             contentDescription = item.text,
-                            modifier = Modifier.size(40.dp)
+                            modifier = Modifier.size(28.dp)
                         )
                         Text(
                             text = item.text,

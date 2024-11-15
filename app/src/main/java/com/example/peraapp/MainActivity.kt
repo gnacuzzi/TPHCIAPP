@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,12 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.DateRange
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,11 +37,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.ui.theme.PeraAppTheme
+import androidx.compose.ui.graphics.painter.Painter
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,29 +123,29 @@ fun MainScreenPreview() {
 }
 
 data class BottomBarItem(
-    val icon: ImageVector,
+    val iconResId: Int,
     val text: String,
     val onClick: () -> Unit
 )
 
-val bottomBarItems = listOf(//hay que agregar que si estan apretados cambien de color
+val bottomBarItems = listOf(
     BottomBarItem(
-        icon = Icons.Outlined.Home,
+        iconResId = R.drawable.home,
         text = "Inicio",
         onClick = { /* Acción para "Inicio" */ }
     ),
     BottomBarItem(
-        icon = Icons.Outlined.DateRange,
+        iconResId = R.drawable.movimientos,
         text = "Movimientos",
         onClick = { /* Acción para "Movimientos" */ }
     ),
     BottomBarItem(
-        icon = Icons.Outlined.MailOutline,
+        iconResId = R.drawable.tarjetas,
         text = "Tarjetas",
         onClick = { /* Acción para "Tarjetas" */ }
     ),
     BottomBarItem(
-        icon = Icons.Outlined.AccountCircle,
+        iconResId = R.drawable.cuenta,
         text = "Cuenta",
         onClick = { /* Acción para "Cuenta" */ }
     )
@@ -179,8 +176,9 @@ fun BottomBar(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            Icon(
-                                imageVector = item.icon,
+                            val icon: Painter = painterResource(id = item.iconResId)
+                            Image(
+                                painter = icon,
                                 contentDescription = item.text,
                                 modifier = Modifier.size(28.dp)
                             )
@@ -196,23 +194,26 @@ fun BottomBar(
         }
         FloatingActionButton(
             onClick = onCenterButtonClick,
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.background,
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(y = (-35).dp)
-                .size(70.dp),
+                .size(75.dp)
+                .border(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = CircleShape
+                ),
             shape = CircleShape
         ) {
-            Icon(
-                imageVector = Icons.Default.Add,
+            Image(
+                painter = painterResource(R.drawable.qrpera),
                 contentDescription = "QR Code",
-                tint = Color.White,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(50.dp)
             )
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -242,24 +243,24 @@ fun TopBar(titleTopBar: String = "") {
 }
 
 data class HomeBarItem(
-    val icon: ImageVector,
+    val iconResId: Int,
     val text: String,
     val onClick: () -> Unit
 )
 
 val homeItems = listOf(
     HomeBarItem(
-        icon = Icons.Outlined.Home,
+        iconResId = R.drawable.transferir,
         text = "Transferir",
         onClick = { /* Acción para "Transferir" */ }
     ),
     HomeBarItem(
-        icon = Icons.Outlined.DateRange,
+        iconResId = R.drawable.ingresar,
         text = "Ingresar",
         onClick = { /* Acción para "Ingresar" */ }
     ),
     HomeBarItem(
-        icon = Icons.Outlined.AccountCircle,
+        iconResId = R.drawable.cobrar,
         text = "Cobrar",
         onClick = { /* Acción para "Cobrar" */ }
     )
@@ -311,9 +312,11 @@ fun SaldoSection(name:String, saldo: Number) {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            Icon(
-                                imageVector = item.icon,
+                            val icon: Painter = painterResource(id = item.iconResId)
+                            Image(
+                                painter = icon,
                                 contentDescription = item.text,
+                                modifier = Modifier.size(28.dp)
                             )
                             Text(
                                 text = item.text,
