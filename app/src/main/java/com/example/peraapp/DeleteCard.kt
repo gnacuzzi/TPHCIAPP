@@ -33,8 +33,8 @@ fun DeleteCardPage(){//deberia recibir como parametro la tarjeta pero no se si e
             number = "1234 5678 9101 1121",
             name = "Samanta Jones",
             date = "12/28",
-            {}
         )
+        {}
         Button(
             onClick = {  },
             colors = ButtonDefaults.buttonColors(

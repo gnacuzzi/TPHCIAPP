@@ -118,15 +118,15 @@ fun CardsPage(){
             number = "1234 5678 9101 1121",
             name = "Samanta Jones",
             date = "12/28",
-            {}
         )
+        {}
         Card(//esto deberia ser un foreach
             bank = "Galicia",
             number = "1234 1111 9101 1121",
             name = "Samanta Jones",
-            date = "12/26",
-            {}
+            date = "12/26"
         )
+        {}
         Button(
             onClick = {  },
             colors = ButtonDefaults.buttonColors(
