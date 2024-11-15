@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
@@ -41,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.ui.theme.PeraAppTheme
@@ -94,13 +95,25 @@ fun MainScreen(
 
 @Composable
 fun HomePage() {
-    SaldoSection(
-        name = "Samanta",
-        saldo = 0
-    )
-    TarjetasSection()
-    MovimientosSection()
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        SaldoSection(
+            name = "Samanta",
+            saldo = 0
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())//supuestamente lo hace scrolleable, veremos
+        ) {
+            TarjetasSection()
+            MovimientosSection()
+        }
+    }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -380,37 +393,7 @@ fun MovimientosSection() {
             amount = "-$120.69",
             color = Color.Red
         )
+
     }
 }
-
-@Composable
-fun MovimientoItem(name: String, date: String, amount: String, color: Color) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black
-            )
-            Text(
-                text = date,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
-            )
-        }
-        Text(
-            text = amount,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold,
-            color = color
-        )
-    }
-}
-
-
 
