@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -17,10 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MailOutline
@@ -28,6 +26,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +38,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -79,7 +77,10 @@ fun MainScreen(
 ) {
     Scaffold(
         topBar = { TopBar(name) },
-        bottomBar = { BottomBar() }
+        bottomBar = {
+            BottomBar(onCenterButtonClick = {
+            })
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -92,7 +93,7 @@ fun MainScreen(
 }
 
 @Composable
-fun homePage() {
+fun HomePage() {
     SaldoSection(
         name = "Samanta",
         saldo = 0
@@ -106,7 +107,7 @@ fun homePage() {
 fun MainScreenPreview() {
     PeraAppTheme {
         MainScreen("Inicio"){
-            homePage()
+            HomePage()
         }
     }
 }
@@ -140,44 +141,64 @@ val bottomBarItems = listOf(
     )
 )
 
-
 @Composable
-fun BottomBar() {
-    BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.tertiary,
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+fun BottomBar(
+    onCenterButtonClick: () -> Unit
+) {
+    Box {
+        BottomAppBar(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.tertiary,
         ) {
-            bottomBarItems.forEach { item ->
-                Button(
-                    onClick = item.onClick,
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary
-                    )
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                bottomBarItems.forEach { item ->
+                    Button(
+                        onClick = item.onClick,
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = MaterialTheme.colorScheme.secondary
+                        )
                     ) {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.text,
-                        )
-                        Text(
-                            text = item.text,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = item.text,
+                            )
+                            Text(
+                                text = item.text,
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
                     }
                 }
             }
         }
+        FloatingActionButton(
+            onClick = onCenterButtonClick,
+            containerColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .offset(y = (-35).dp)
+                .size(70.dp),
+            shape = CircleShape
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "QR Code",
+                tint = Color.White,
+                modifier = Modifier.size(40.dp)
+            )
+        }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
