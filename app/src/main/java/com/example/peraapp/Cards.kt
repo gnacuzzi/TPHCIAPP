@@ -143,7 +143,8 @@ fun CardsPage(){
         ) {
             Text(
                 text = "Agregar nueva tarjeta",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }

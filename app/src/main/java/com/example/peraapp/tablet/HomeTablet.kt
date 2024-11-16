@@ -290,14 +290,14 @@ fun TarjetasSectionTablet() {
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CardHome(
+                CardHomeTablet(
                     bank = "Santander",
                     number = "1234 5678 9101 1121",
                     name = "Samanta Jones",
                     date = "12/28",
                 ) {}
 
-                CardHome(
+                CardHomeTablet(
                     bank = "BBVA",
                     number = "4321 8765 1011 2233",
                     name = "Juan Pérez",
