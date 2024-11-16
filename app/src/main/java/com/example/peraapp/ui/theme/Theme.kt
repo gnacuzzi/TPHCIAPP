@@ -22,7 +22,8 @@ private val LightColorScheme = lightColorScheme(
     primary = PeraColor,
     secondary = Color.Black,
     tertiary = GrisColor,
-    background = Color.White
+    background = Color.White,
+    surface = GrisTabletColor
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
