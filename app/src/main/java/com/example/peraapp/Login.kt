@@ -83,15 +83,10 @@ fun LoginPage() {
                 value = "",
                 onValueChange = { /* Manejar el cambio de valor */ },
                 label = { Text("Contraseña") },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 15.dp),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Password
                 )
-            )
-            Text(//no es obligatorio implementarlo, dejemoslo como texto
-                text = "Olvidé mi contraseña",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.align(Alignment.End)
             )
 
             Button(
