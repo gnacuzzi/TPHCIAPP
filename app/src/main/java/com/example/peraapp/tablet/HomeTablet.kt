@@ -55,12 +55,16 @@ class HomeTablet {
 fun MainScreenTablet(
     bodyContent: @Composable () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-                .fillMaxSize()
+    Surface(
+        color = MaterialTheme.colorScheme.background
     ) {
-        SideBarTablet()
-        bodyContent()
+        Row(
+        modifier = Modifier
+            .fillMaxSize()
+        ) {
+            SideBarTablet()
+            bodyContent()
+        }
     }
 }
 
@@ -362,11 +366,12 @@ fun MovimientosSectionTablet() {
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                MovimientoItem(
+                MovimientoItemTablet(//cuando pongan lo del foreach no se olviden del arrangement
                     name = "Steam",
                     date = "ayer 16:20",
                     amount = "-$120.69",
-                    color = Color.Red
+                    color = Color.Red,
+                    arrangement = Arrangement.SpaceBetween
                 )
             }
         }
