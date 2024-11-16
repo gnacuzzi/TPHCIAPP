@@ -52,6 +52,11 @@ val profileItems = listOf(
         onClick = {  }
     ),
     ProfileItem(
+        iconResId = R.drawable.invest,
+        text = "Invertir o rescate",
+        onClick = {  }
+    ),
+    ProfileItem(
         iconResId = R.drawable.cerrarsesion,
         text = "Cerrar sesión",
         onClick = {  }

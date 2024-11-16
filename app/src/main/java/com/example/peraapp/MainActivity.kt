@@ -4,18 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -24,13 +22,13 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -76,8 +74,7 @@ fun MainScreen(
     Scaffold(
         topBar = { TopBar(name) },
         bottomBar = {
-            BottomBar(onCenterButtonClick = {
-            })
+            BottomBar()//onCenterButtonClick = {}) //descomentar si se agrega lo del qr
         }
     ) { innerPadding ->
         Column(
@@ -153,7 +150,7 @@ val bottomBarItems = listOf(
 
 @Composable
 fun BottomBar(
-    onCenterButtonClick: () -> Unit
+    //onCenterButtonClick: () -> Unit //descomentar si se agrega lo del qr
 ) {
     Box {
         BottomAppBar(
@@ -192,6 +189,7 @@ fun BottomBar(
                 }
             }
         }
+        /* es opcional, para mi saquemoslo
         FloatingActionButton(
             onClick = onCenterButtonClick,
             containerColor = MaterialTheme.colorScheme.background,
@@ -212,6 +210,8 @@ fun BottomBar(
                 modifier = Modifier.size(50.dp)
             )
         }
+
+         */
     }
 }
 
@@ -262,6 +262,11 @@ val homeItems = listOf(
     HomeBarItem(
         iconResId = R.drawable.cobrar,
         text = "Cobrar",
+        onClick = { /* Acción para "Cobrar" */ }
+    ),
+    HomeBarItem(
+        iconResId = R.drawable.invest,
+        text = "Invertir",
         onClick = { /* Acción para "Cobrar" */ }
     )
 )
@@ -321,7 +326,7 @@ fun SaldoSection(name:String, saldo: Number) {
                             Text(
                                 text = item.text,
                                 style = MaterialTheme.typography.labelSmall,
-                                modifier = Modifier.padding(top = 4.dp)
+                                modifier = Modifier.padding(top = 4.dp),
                             )
                         }
                     }
@@ -382,12 +387,12 @@ fun MovimientosSection() {
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.Black
             )
-            Button(
-                onClick = {  },
+            TextButton(
+                onClick = {},
                 colors = ButtonDefaults.buttonColors(
                     contentColor = MaterialTheme.colorScheme.secondary,
                     containerColor = MaterialTheme.colorScheme.background
-                ),
+                )
             ) {
                 Text(
                     text = "Ver más",

@@ -88,25 +88,11 @@ fun LoginPage() {
                     keyboardType = KeyboardType.Password
                 )
             )
-
-            Box(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(
-                    onClick = { /* Acción para olvidé mi contraseña */ },
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = Color.Transparent
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(0.dp)
-                ) {
-                    Text(
-                        text = "Olvidé mi contraseña",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
+            Text(//no es obligatorio implementarlo, dejemoslo como texto
+                text = "Olvidé mi contraseña",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.align(Alignment.End)
+            )
 
             Button(
                 onClick = { /* Acción para iniciar sesión */ },
