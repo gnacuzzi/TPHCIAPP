@@ -103,12 +103,13 @@ fun TransferContentTablet() {
     ) {
         IconButton(
             onClick = { /* Aquí iría la acción para volver atrás */ },
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp, start = 20.dp)
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Volver atrás",
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.size(100.dp)
             )
         }
 
