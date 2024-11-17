@@ -26,7 +26,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PeraAppTheme {
-                MainScreen("Inicio") {
+                MainScreen(
+                    name = R.string.inicio
+                ) {
                     HomePage()
                 }
             }

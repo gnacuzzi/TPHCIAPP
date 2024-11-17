@@ -26,21 +26,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
+import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.components.TopBarTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-class Invest {
-}
-
-
 @Composable
-fun InvestPage(name: String = "", bodycontent: @Composable () -> Unit){
+fun InvestPage(name: Int, bodycontent: @Composable () -> Unit){
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
@@ -58,7 +56,7 @@ fun InvestPage(name: String = "", bodycontent: @Composable () -> Unit){
         }
     }else{
         Scaffold(
-            topBar = { TopBar("Inversión o rescate") }
+            topBar = { TopBar(name) }
         ) { innerPadding ->
             Column(
                 modifier = Modifier
@@ -98,7 +96,7 @@ fun InvestContentTablet() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(100.dp)
             )
@@ -109,7 +107,7 @@ fun InvestContentTablet() {
                 .padding(start = 50.dp)
         ){
             Text(
-                text = "Rescatar dinero",
+                text = stringResource(R.string.rescatardinero),
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(top = 8.dp)
             )
@@ -135,11 +133,11 @@ fun InvestContentTablet() {
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Rescatar", style = MaterialTheme.typography.displaySmall)
+                    Text(stringResource(R.string.rescatar), style = MaterialTheme.typography.displaySmall)
                 }
             }
             Text(
-                text = "Ingresa el monto que deseas invertir:",
+                text = "${stringResource(R.string.ingresainvertir)}:",
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(top = 100.dp)
             )
@@ -150,7 +148,7 @@ fun InvestContentTablet() {
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Monto") },
+                    label = { Text(stringResource(R.string.monto)) },
                     modifier = Modifier
                         .padding(bottom = 10.dp, top = 20.dp, start = 30.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -170,7 +168,7 @@ fun InvestContentTablet() {
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Invertir", style = MaterialTheme.typography.displaySmall)
+                    Text(stringResource(R.string.invertir), style = MaterialTheme.typography.displaySmall)
                 }
             }
         }
@@ -190,13 +188,13 @@ fun InvestContentPhone() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
 
         Text(
-            text = "Rescatar dinero",
+            text = stringResource(R.string.rescatardinero),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -204,7 +202,9 @@ fun InvestContentPhone() {
         Text(
             text = "$4000", //plata a rescatar, mandar como parametro
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(top = 20.dp).align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .align(Alignment.CenterHorizontally)
         )
 
         Button(
@@ -219,11 +219,11 @@ fun InvestContentPhone() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Rescatar", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.rescatar), style = MaterialTheme.typography.titleMedium)
         }
 
         Text(
-            text = "Ingresa el monto que deseas invertir:",
+            text = "${stringResource(R.string.ingresainvertir)}:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 30.dp)
         )
@@ -231,7 +231,7 @@ fun InvestContentPhone() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Monto") },
+            label = { Text(stringResource(R.string.monto)) },
             modifier = Modifier
                 .padding(bottom = 10.dp, top = 20.dp)
                 .align(Alignment.CenterHorizontally),
@@ -253,7 +253,7 @@ fun InvestContentPhone() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Invertir", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.invertir), style = MaterialTheme.typography.titleMedium)
         }
 
     }
@@ -264,7 +264,7 @@ fun InvestContentPhone() {
 @Composable
 fun InvestPagePreview() {
     PeraAppTheme {
-        InvestPage ("Invertir o rescatar") {
+        InvestPage (R.string.invertirrescate) {
             InvestContent()
         }
     }
@@ -277,7 +277,7 @@ fun InvestDialogPreview() {
         InvestDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "¿Desea invertir?"
+            dialogTitle = "${stringResource(R.string.deseainvertir)}?"
             //habria que pasar el monto
         )
     }
@@ -308,7 +308,7 @@ fun InvestDialog(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 //habria que hacer una transaccion y mandarla como parametro
-                Text("Monto: $200")
+                Text("${stringResource(R.string.monto)}: $200")
 
                 Row(
                     modifier = Modifier
@@ -318,13 +318,13 @@ fun InvestDialog(
                 ) {
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(
-                            text = "Cancelar",
+                            text = stringResource(R.string.cancelar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     TextButton(onClick = { onConfirmation() }) {
                         Text(
-                            text = "Confirmar",
+                            text = stringResource(R.string.confirmar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
@@ -341,7 +341,7 @@ fun TakeBackDialogPreview() {
         TakeBackDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "¿Desea rescatar?"
+            dialogTitle = "${stringResource(R.string.desearescatar)}?"
             //habria que pasar el monto
         )
     }
@@ -372,7 +372,7 @@ fun TakeBackDialog(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 //habria que hacer una transaccion y mandarla como parametro
-                Text("Monto: $200")
+                Text("${stringResource(R.string.monto)}: $200")
 
                 Row(
                     modifier = Modifier
@@ -382,13 +382,13 @@ fun TakeBackDialog(
                 ) {
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(
-                            text = "Cancelar",
+                            text = stringResource(R.string.cancelar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     TextButton(onClick = { onConfirmation() }) {
                         Text(
-                            text = "Confirmar",
+                            text = stringResource(R.string.confirmar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }

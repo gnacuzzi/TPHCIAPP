@@ -21,7 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.peraapp.R
 import com.example.peraapp.pages.CardHome
 import com.example.peraapp.pages.CardHomeTablet
 
@@ -45,7 +47,7 @@ fun TarjetasSectionPhone() {
             .padding(16.dp)
     ) {
         Text(
-            text = "Tarjetas",
+            text = stringResource(R.string.tarjetas),
             style = MaterialTheme.typography.titleLarge,
             color = Color.Black
         )
@@ -64,7 +66,7 @@ fun TarjetasSectionPhone() {
             ) {
                 Icon(
                     imageVector = Icons.Default.AddCircle,
-                    contentDescription = "Agregar tarjeta",
+                    contentDescription = stringResource(R.string.agregartarjeta),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(70.dp)
                 )
@@ -88,7 +90,7 @@ fun TarjetasSectionTablet() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Tarjetas",
+                text = stringResource(R.string.tarjetas),
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.Black
             )
@@ -116,7 +118,7 @@ fun TarjetasSectionTablet() {
                 ) {
                     Icon(
                         imageVector = Icons.Default.AddCircle,
-                        contentDescription = "Agregar tarjeta",
+                        contentDescription = stringResource(R.string.agregartarjeta),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(65.dp)
                     )

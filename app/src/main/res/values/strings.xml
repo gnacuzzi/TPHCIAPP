@@ -1,3 +1,83 @@
 <resources>
-    <string name="app_name">PeraApp</string>
+    <string name="app_name">Pera</string>
+    <string name="movimientos">Movements</string>
+    <string name="tarjetas">Cards</string>
+    <string name="tarjeta">Card</string>
+    <string name="cuenta">Profile</string>
+    <string name="inicio">Home</string>
+    <string name="hola">Hello</string>
+    <string name="vermas">Show more</string>
+    <string name="transferir">Transfer</string>
+    <string name="ingresar">Deposit</string>
+    <string name="cobrar">Charge</string>
+    <string name="invertir">Invest</string>
+    <string name="invertirrescate">Invest or take back</string>
+    <string name="saldo">Your balance is</string>
+    <string name="cerrarsesion">Log out</string>
+
+    <string name="agregartarjeta">Add card</string>
+    <string name="agregarnuevatarjeta">Add new card</string>
+    <string name="nombretitular">Name on card</string>
+    <string name="numerotarjeta">Card number</string>
+    <string name="fechadeven">Expire date</string>
+    <string name="codigo">Security code</string>
+    <string name="banco">Bank</string>
+    <string name="eliminartarjeta">Delete this card</string>
+    <string name="deseaelimiar">Do you wish to delete this card</string>
+
+    <string name="volveratras">Go back</string>
+
+    <string name="ingresarmonto">Insert amount</string>
+    <string name="monto">Amount</string>
+    <string name="generarlink">Generate link</string>
+    <string name="linkgenerado">Link generated</string>
+    <string name="compartir">Share</string>
+
+    <string name="tualias">Your alias</string>
+    <string name="tucbu">Your CBU</string>
+    <string name="compartirdatos">Share data</string>
+
+    <string name="rescatardinero">Take back money</string>
+    <string name="rescatar">Take back</string>
+    <string name="ingresainvertir">Insert the amount you want to invest</string>
+    <string name="deseainvertir">Do you wish to invest</string>
+    <string name="desearescatar">Do you wish to take back</string>
+    <string name="cancelar">Cancel</string>
+    <string name="confirmar">Confirm</string>
+
+    <string name="iniciodesesion">Log in</string>
+    <string name="mail">Mail</string>
+    <string name="contraseña">Password</string>
+    <string name="iniciarsesion">Log in</string>
+    <string name="registrarme">Sign in</string>
+
+    <string name="comenza">Start in Pera</string>
+    <string name="name">Name</string>
+    <string name="apellido">Surname</string>
+    <string name="dni">ID</string>
+    <string name="fechadenacimiento">Birthdate</string>
+    <string name="confirmarcontraseña">Confirm password</string>
+
+    <string name="formadepago">Method of payment</string>
+    <string name="saldoencuenta">Balance</string>
+    <string name="deseatransaccion">Do you want to do this transaction</string>
+    <string name="pagoa">Payment to</string>
+    <string name="con">With</string>
+
+
+    <string name="iconocerrarsesion">icon logout</string>
+    <string name="iconocobrar">icon de charge</string>
+    <string name="iconocuenta">icon de profile</string>
+    <string name="fotocuentatablet">image for profile page in tablet</string>
+    <string name="fotoinicio">image for login cellphone</string>
+    <string name="fotoiniciotablet">image for login tablet</string>
+    <string name="iconoinicio">home icon</string>
+    <string name="iconoingresar">deposit icon</string>
+    <string name="inconoinvertir">invest icon</string>
+    <string name="logo">logo background pera</string>
+    <string name="logoinicio">logo background white</string>
+    <string name="iconomovimientos">movements icon</string>
+    <string name="fotodeperfil">image default profile</string>
+    <string name="iconotarjetas">card icon</string>
+    <string name="iconotransferir">transfer icon</string>
 </resources>

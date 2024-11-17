@@ -17,37 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 
-data class SideBarItem(
-    val iconResId: Int,
-    val text: String,
-    val onClick: () -> Unit
-)
-
-val sideBarItems = listOf(
-    SideBarItem(
-        iconResId = R.drawable.home,
-        text = "Inicio",
-        onClick = { /* Acción para "Inicio" */ }
-    ),
-    SideBarItem(
-        iconResId = R.drawable.movimientos,
-        text = "Movimientos",
-        onClick = { /* Acción para "Movimientos" */ }
-    ),
-    SideBarItem(
-        iconResId = R.drawable.tarjetas,
-        text = "Tarjetas",
-        onClick = { /* Acción para "Tarjetas" */ }
-    ),
-    SideBarItem(
-        iconResId = R.drawable.cuenta,
-        text = "Cuenta",
-        onClick = { /* Acción para "Cuenta" */ }
-    )
-)
 
 @Composable
 fun SideBar() {
@@ -64,14 +37,14 @@ fun SideBar() {
             contentDescription = "logo pera",
             modifier = Modifier.size(70.dp)
         )
-        sideBarItems.forEach { item ->
+        bottomBarItems.forEach { item ->
             SideBarItem(item = item)
         }
     }
 }
 
 @Composable
-fun SideBarItem(item: SideBarItem) {
+fun SideBarItem(item: BottomBarItem) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,7 +55,7 @@ fun SideBarItem(item: SideBarItem) {
         val icon: Painter = painterResource(id = item.iconResId)
         Image(
             painter = icon,
-            contentDescription = item.text,
+            contentDescription = stringResource(item.text),
             modifier = Modifier.size(50.dp),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
         )

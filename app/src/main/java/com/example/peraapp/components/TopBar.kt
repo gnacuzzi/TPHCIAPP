@@ -1,5 +1,6 @@
 package com.example.peraapp.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,12 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(titleTopBar: String = "") {
+fun TopBar(@StringRes titleTopBar: Int) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -31,11 +33,11 @@ fun TopBar(titleTopBar: String = "") {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logoinicio),
-                    contentDescription = "logo pera",
+                    contentDescription = stringResource(R.string.logoinicio),
                     modifier = Modifier.size(50.dp)
                 )
                 Text(
-                    text = titleTopBar,
+                    text = stringResource(titleTopBar),
                     modifier = Modifier.align(Alignment.Center),
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -46,7 +48,7 @@ fun TopBar(titleTopBar: String = "") {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarTablet(name: String) {
+fun TopBarTablet(@StringRes name: Int) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -59,16 +61,17 @@ fun TopBarTablet(name: String) {
                 Row {
                     Image(
                         painter = painterResource(id = R.drawable.logoinicio),
-                        contentDescription = "logo pera",
+                        contentDescription = stringResource(R.string.logoinicio),
                         modifier = Modifier.size(60.dp)
                     )
-                    Text("Pera",
+                    Text(
+                        stringResource(R.string.app_name),
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.align(Alignment.CenterVertically),
                         style = MaterialTheme.typography.displayMedium)
                 }
                 Text(
-                    text = name,
+                    text = stringResource(name),
                     modifier = Modifier.align(Alignment.Center),
                     style = MaterialTheme.typography.displayMedium
                 )

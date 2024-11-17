@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
@@ -62,7 +63,7 @@ fun LoginPagePhone() {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.fotoinicio),
-                contentDescription = "Login Image",
+                contentDescription = stringResource(R.string.fotoinicio),
                 modifier = Modifier
                     .size(340.dp)
             )
@@ -77,7 +78,7 @@ fun LoginPagePhone() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Inicio de Sesión",
+                text = stringResource(R.string.iniciodesesion),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -85,7 +86,7 @@ fun LoginPagePhone() {
             OutlinedTextField(
                 value = "",
                 onValueChange = { /* Manejar el cambio de valor */ },
-                label = { Text("Mail") },
+                label = { Text(stringResource(R.string.mail)) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Email
@@ -95,7 +96,7 @@ fun LoginPagePhone() {
             OutlinedTextField(
                 value = "",
                 onValueChange = { /* Manejar el cambio de valor */ },
-                label = { Text("Contraseña") },
+                label = { Text(stringResource(R.string.contraseña)) },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 15.dp),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Password
@@ -114,7 +115,7 @@ fun LoginPagePhone() {
                     containerColor = MaterialTheme.colorScheme.secondary
                 )
             ) {
-                Text("Iniciar sesión", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.iniciarsesion), style = MaterialTheme.typography.titleMedium)
             }
 
             Button(
@@ -134,7 +135,7 @@ fun LoginPagePhone() {
                     containerColor = MaterialTheme.colorScheme.background
                 )
             ) {
-                Text("Registrarme", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
             }
         }
     }
@@ -152,7 +153,7 @@ fun LoginPageTablet() {
         ){
             Image(//no quedo bien el color, cambiarla
                 painter = painterResource(id = R.drawable.fotoiniciotablet),
-                contentDescription = "foto cuenta",
+                contentDescription = stringResource(R.string.fotoinicio),
                 modifier = Modifier.size(600.dp),
             )
             Surface (
@@ -168,7 +169,7 @@ fun LoginPageTablet() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Inicio de Sesión",
+                        text = stringResource(R.string.iniciodesesion),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -176,7 +177,7 @@ fun LoginPageTablet() {
                     OutlinedTextField(
                         value = "",
                         onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text("Mail") },
+                        label = { Text(stringResource(R.string.mail)) },
                         modifier = Modifier.padding(top = 20.dp),
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Email
@@ -186,7 +187,7 @@ fun LoginPageTablet() {
                     OutlinedTextField(
                         value = "",
                         onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text("Contraseña") },
+                        label = { Text(stringResource(R.string.contraseña)) },
                         modifier = Modifier.padding(top = 20.dp, bottom = 30.dp),
                         keyboardOptions = KeyboardOptions.Default.copy(
                             keyboardType = KeyboardType.Password
@@ -204,7 +205,7 @@ fun LoginPageTablet() {
                             containerColor = MaterialTheme.colorScheme.secondary
                         )
                     ) {
-                        Text("Iniciar sesión", style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.iniciarsesion), style = MaterialTheme.typography.titleMedium)
                     }
 
                     Button(
@@ -224,7 +225,7 @@ fun LoginPageTablet() {
                             containerColor = MaterialTheme.colorScheme.surface
                         )
                     ) {
-                        Text("Registrarme", style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
                     }
                 }
             }

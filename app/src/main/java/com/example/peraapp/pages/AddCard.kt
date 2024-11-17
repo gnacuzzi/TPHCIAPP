@@ -23,7 +23,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 
 class AddCard {
@@ -32,7 +34,7 @@ class AddCard {
 @Composable
 fun AddCardPage(bodycontent: @Composable () -> Unit){
     Scaffold(
-        topBar = { TopBar("Agregar tarjeta") }
+        topBar = { TopBar(R.string.agregartarjeta) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -56,7 +58,7 @@ fun AddCardContent() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
@@ -64,7 +66,7 @@ fun AddCardContent() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Número de tarjeta") },
+            label = { Text(stringResource(R.string.numerotarjeta)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
@@ -75,7 +77,7 @@ fun AddCardContent() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Nombre del titular") },
+            label = { Text(stringResource(R.string.nombretitular)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text
@@ -86,7 +88,7 @@ fun AddCardContent() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Fecha de vencimiento") },
+            label = { Text(stringResource(R.string.fechadeven)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
@@ -96,7 +98,7 @@ fun AddCardContent() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Código de seguridad") },
+            label = { Text(stringResource(R.string.codigo)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number
@@ -106,7 +108,7 @@ fun AddCardContent() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Banco") },
+            label = { Text(stringResource(R.string.banco)) },
             modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text
@@ -125,7 +127,7 @@ fun AddCardContent() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Agregar tarjeta", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
         }
 
     }

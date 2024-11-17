@@ -18,34 +18,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 
 data class BottomBarItem(
     val iconResId: Int,
-    val text: String,
+    val text: Int,
     val onClick: () -> Unit
 )
 
 val bottomBarItems = listOf(
     BottomBarItem(
         iconResId = R.drawable.home,
-        text = "Inicio",
+        text = R.string.inicio,
         onClick = { /* Acción para "Inicio" */ }
     ),
     BottomBarItem(
         iconResId = R.drawable.movimientos,
-        text = "Movimientos",
+        text = R.string.movimientos,
         onClick = { /* Acción para "Movimientos" */ }
     ),
     BottomBarItem(
         iconResId = R.drawable.tarjetas,
-        text = "Tarjetas",
+        text = R.string.tarjetas,
         onClick = { /* Acción para "Tarjetas" */ }
     ),
     BottomBarItem(
         iconResId = R.drawable.cuenta,
-        text = "Cuenta",
+        text = R.string.cuenta,
         onClick = { /* Acción para "Cuenta" */ }
     )
 )
@@ -78,11 +79,11 @@ fun BottomBar(
                             val icon: Painter = painterResource(id = item.iconResId)
                             Image(
                                 painter = icon,
-                                contentDescription = item.text,
+                                contentDescription = stringResource(item.text),
                                 modifier = Modifier.size(32.dp)
                             )
                             Text(
-                                text = item.text,
+                                text = stringResource(item.text),
                                 style = MaterialTheme.typography.labelSmall,
                                 modifier = Modifier.padding(top = 4.dp)
                             )

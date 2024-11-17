@@ -2,6 +2,7 @@ package com.example.peraapp.pages
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import com.example.peraapp.R
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +43,7 @@ class Transfer {
 }
 
 @Composable
-fun TransferPage(name: String = "",bodycontent: @Composable () -> Unit){
+fun TransferPage(name: Int, bodycontent: @Composable () -> Unit){
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
@@ -59,7 +61,7 @@ fun TransferPage(name: String = "",bodycontent: @Composable () -> Unit){
         }
     } else{
         Scaffold(
-            topBar = { TopBar("Transferir") }
+            topBar = { TopBar(name) }
         ) { innerPadding ->
             Column(
                 modifier = Modifier
@@ -98,7 +100,7 @@ fun TransferContentPhone() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
@@ -106,15 +108,17 @@ fun TransferContentPhone() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Mail") },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+            label = { Text(stringResource(R.string.mail)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Email
             )
         )
 
         Text(
-            text = "Ingresa el monto:",
+            text = "${stringResource(R.string.ingresarmonto)}:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -122,7 +126,7 @@ fun TransferContentPhone() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Monto") },
+            label = { Text(stringResource(R.string.monto)) },
             modifier = Modifier
                 .padding(bottom = 10.dp, top = 20.dp)
                 .align(Alignment.CenterHorizontally),
@@ -133,7 +137,7 @@ fun TransferContentPhone() {
         )
 
         Text(
-            text = "Forma de pago:",
+            text = "${stringResource(R.string.formadepago)}:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -141,7 +145,7 @@ fun TransferContentPhone() {
         Row (
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ){//foreach
-            Card(name = "Saldo en cuenta", bank = "Pera", number = "0", date = "") { }
+            Card(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { }
             Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { }
         }
 
@@ -157,7 +161,7 @@ fun TransferContentPhone() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Transferir", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.transferir), style = MaterialTheme.typography.titleMedium)
         }
 
     }
@@ -177,7 +181,7 @@ fun TransferContentTablet() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(100.dp)
             )
@@ -189,14 +193,14 @@ fun TransferContentTablet() {
         ) {
             Column {
                 Text(
-                    text = "Mail",
+                    text = stringResource(R.string.mail),
                     style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier.padding(top = 8.dp)
                 )
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Mail") },
+                    label = { Text(stringResource(R.string.mail)) },
                     modifier = Modifier.padding(bottom = 10.dp, top = 20.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Email
@@ -206,7 +210,7 @@ fun TransferContentTablet() {
 
             Column {
                 Text(
-                    text = "Ingresa el monto:",
+                    text = "${stringResource(R.string.ingresarmonto)}:",
                     style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -214,7 +218,7 @@ fun TransferContentTablet() {
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Monto") },
+                    label = { Text(stringResource(R.string.monto)) },
                     modifier = Modifier
                         .padding(bottom = 10.dp, top = 20.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -230,7 +234,7 @@ fun TransferContentTablet() {
             modifier = Modifier.fillMaxWidth()
         ){
             Text(
-                text = "Forma de pago:",
+                text = "${stringResource(R.string.formadepago)}:",
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
             )
@@ -238,7 +242,7 @@ fun TransferContentTablet() {
             Row (
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ){//foreach
-                CardTablet(name = "Saldo en cuenta", bank = "Pera", number = "0", date = "") { }
+                CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { }
                 CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { }
 
             }
@@ -255,7 +259,7 @@ fun TransferContentTablet() {
                     containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
-                Text("Transferir", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.transferir), style = MaterialTheme.typography.titleLarge)
             }
         }
     }
@@ -265,7 +269,7 @@ fun TransferContentTablet() {
 @Composable
 fun TransferPagePreview() {
     PeraAppTheme{
-        TransferPage("Transferir"){
+        TransferPage(R.string.transferir){
             TransferContent()
         }
     }
@@ -279,7 +283,7 @@ fun TransferDialogPreview() {
         TransferDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "¿Desea realizar esta transacción?"
+            dialogTitle = "${stringResource(R.string.deseatransaccion)}?"
             //habria que pasar la tarjeta pero actualmente es una funcion no una clase
         )
     }
@@ -310,9 +314,9 @@ fun TransferDialog(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 //habria que hacer una transaccion y mandarla como parametro
-                Text("Pago a: Jane Doe")
-                Text("Monto: $200")
-                Text("Con: Saldo en cuenta")
+                Text("${stringResource(R.string.pagoa)}: Jane Doe")
+                Text("${stringResource(R.string.monto)}: $200")
+                Text("${stringResource(R.string.con)}: Saldo en cuenta")
 
                 Row(
                     modifier = Modifier
@@ -322,13 +326,13 @@ fun TransferDialog(
                 ) {
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(
-                            text = "Cancelar",
+                            text = stringResource(R.string.cancelar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     TextButton(onClick = { onConfirmation() }) {
                         Text(
-                            text = "Confirmar",
+                            text = stringResource(R.string.confirmar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }

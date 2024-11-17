@@ -30,11 +30,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
+import com.example.peraapp.R
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 //habria que mandar tambien el textstyle pero que lo haga otro
@@ -172,7 +174,7 @@ fun CardsPagePhone(){
                 .width(320.dp)
         ) {
             Text(
-                text = "Agregar nueva tarjeta",
+                text = stringResource(R.string.agregarnuevatarjeta),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -194,7 +196,7 @@ fun CardsPageTablet() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Tarjetas",
+                text = stringResource(R.string.tarjetas),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
@@ -231,7 +233,7 @@ fun CardsPageTablet() {
                     .height(80.dp)
             ) {
                 Text(
-                    text = "Agregar nueva tarjeta",
+                    text = stringResource(R.string.agregarnuevatarjeta),
                     style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -244,7 +246,9 @@ fun CardsPageTablet() {
 @Composable
 fun CardsPagePreview() {
     PeraAppTheme {
-        MainScreen("Tarjetas"){
+        MainScreen(
+            name = R.string.tarjetas
+        ){
             CardsPage()
         }
     }
@@ -285,7 +289,7 @@ fun AddCardTabletDialog(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Volver atrás",
+                        contentDescription = stringResource(R.string.volveratras),
                         tint = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.size(100.dp)
                     )
@@ -294,7 +298,7 @@ fun AddCardTabletDialog(
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Número de tarjeta") },
+                    label = { Text(stringResource(R.string.numerotarjeta)) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number
@@ -305,7 +309,7 @@ fun AddCardTabletDialog(
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Nombre del titular") },
+                    label = { Text(stringResource(R.string.nombretitular)) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Text
@@ -316,7 +320,7 @@ fun AddCardTabletDialog(
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Fecha de vencimiento") },
+                    label = { Text(stringResource(R.string.fechadeven)) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number
@@ -326,7 +330,7 @@ fun AddCardTabletDialog(
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Código de seguridad") },
+                    label = { Text(stringResource(R.string.codigo)) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number
@@ -336,7 +340,7 @@ fun AddCardTabletDialog(
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Banco") },
+                    label = { Text(stringResource(R.string.banco)) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Text
@@ -355,7 +359,7 @@ fun AddCardTabletDialog(
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Agregar tarjeta", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.agregarnuevatarjeta), style = MaterialTheme.typography.titleMedium)
                 }
 
             }

@@ -20,6 +20,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import com.example.peraapp.R
 import com.example.peraapp.pages.MovimientoItem
 
 @Composable
@@ -47,7 +49,7 @@ fun MovimientosSectionPhone() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Movimientos",
+                text = stringResource(R.string.movimientos),
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.Black
             )
@@ -59,7 +61,7 @@ fun MovimientosSectionPhone() {
                 )
             ) {
                 Text(
-                    text = "Ver más",
+                    text = stringResource(R.string.vermas),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -94,7 +96,7 @@ fun MovimientosSectionTablet() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Movimientos",
+                    text = stringResource(R.string.movimientos),
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.Black
                 )
@@ -106,7 +108,7 @@ fun MovimientosSectionTablet() {
                     )
                 ) {
                     Text(
-                        text = "Ver más",
+                        text = stringResource(R.string.vermas),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

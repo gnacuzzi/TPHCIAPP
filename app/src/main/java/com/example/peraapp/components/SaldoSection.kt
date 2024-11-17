@@ -19,36 +19,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 
 //obvio que se puede modularizar mas pero solo si tenemos tiempo
 data class HomeBarItem(
     val iconResId: Int,
-    val text: String,
+    val text: Int,
     val onClick: () -> Unit
 )
 
 val homeItems = listOf(
     HomeBarItem(
         iconResId = R.drawable.transferir,
-        text = "Transferir",
+        text = R.string.transferir,
         onClick = { /* Acción para "Transferir" */ }
     ),
     HomeBarItem(
         iconResId = R.drawable.ingresar,
-        text = "Ingresar",
+        text = R.string.ingresar,
         onClick = { /* Acción para "Ingresar" */ }
     ),
     HomeBarItem(
         iconResId = R.drawable.cobrar,
-        text = "Cobrar",
+        text = R.string.cobrar,
         onClick = { /* Acción para "Cobrar" */ }
     ),
     HomeBarItem(
         iconResId = R.drawable.invest,
-        text = "Invertir",
-        onClick = { /* Acción para "Cobrar" */ }
+        text = R.string.invertir,
+        onClick = { /* Acción para "invertir" */ }
     )
 )
 
@@ -77,17 +78,17 @@ fun SaldoSectionPhone(name:String, saldo: Number) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "¡Hola, $name!",
+                text = "${stringResource(R.string.hola)}, $name!",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
             Text(
-                text = "Tu saldo actual es",
+                text = stringResource(R.string.saldoencuenta),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.tertiary
             )
             Text(
-                text = "$$saldo",
+                text = "$$saldo{",
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.align(Alignment.CenterHorizontally).padding(10.dp),
                 color = MaterialTheme.colorScheme.secondary
@@ -113,11 +114,11 @@ fun SaldoSectionPhone(name:String, saldo: Number) {
                             val icon: Painter = painterResource(id = item.iconResId)
                             Image(
                                 painter = icon,
-                                contentDescription = item.text,
+                                contentDescription = stringResource(item.text),
                                 modifier = Modifier.size(28.dp)
                             )
                             Text(
-                                text = item.text,
+                                text = stringResource(item.text),
                                 style = MaterialTheme.typography.labelSmall,
                                 modifier = Modifier.padding(top = 4.dp),
                             )
@@ -142,12 +143,12 @@ fun SaldoSectionTablet(name:String, saldo: Number) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "¡Hola, $name!",
+                text = "${stringResource(R.string.hola)}, $name!",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
             Text(
-                text = "Tu saldo actual es",
+                text = stringResource(R.string.saldoencuenta),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.tertiary
             )
@@ -181,11 +182,11 @@ fun SaldoSectionTablet(name:String, saldo: Number) {
                             val icon: Painter = painterResource(id = item.iconResId)
                             Image(
                                 painter = icon,
-                                contentDescription = item.text,
+                                contentDescription = stringResource(item.text),
                                 modifier = Modifier.size(28.dp)
                             )
                             Text(
-                                text = item.text,
+                                text = stringResource(item.text),
                                 style = MaterialTheme.typography.labelSmall,
                                 modifier = Modifier.padding(top = 4.dp),
                             )

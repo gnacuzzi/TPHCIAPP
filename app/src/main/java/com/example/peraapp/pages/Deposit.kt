@@ -22,9 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
@@ -34,7 +36,7 @@ class Deposit {
 @Composable
 fun DepositPage(bodycontent: @Composable () -> Unit){
     Scaffold(
-        topBar = { TopBar("Ingresar") }
+        topBar = { TopBar(R.string.ingresar) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -58,12 +60,12 @@ fun DepositContent() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
         Text(
-            text = "Tu CBU",
+            text = stringResource(R.string.tucbu),
             modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
             style = MaterialTheme.typography.titleMedium
         )
@@ -78,7 +80,7 @@ fun DepositContent() {
         )
 
         Text(
-            text = "Tu Alias",
+            text = stringResource(R.string.tualias),
             modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
             style = MaterialTheme.typography.titleMedium
         )
@@ -103,7 +105,7 @@ fun DepositContent() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Compartir datos", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.compartirdatos), style = MaterialTheme.typography.titleMedium)
         }
     }
 }
@@ -126,7 +128,7 @@ fun DepositDialogPreview() {
         DepositDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "Ingresar"
+            dialogTitle = stringResource(R.string.ingresar)
             //habria que pasar el monto
         )
     }
@@ -159,7 +161,7 @@ fun DepositDialog(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Volver atrás",
+                            contentDescription = stringResource(R.string.volveratras),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.size(100.dp)
                         )
@@ -173,7 +175,7 @@ fun DepositDialog(
                     )
                 }
                 Text(
-                    text = "Tu CBU",
+                    text = stringResource(R.string.tucbu),
                     modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -188,7 +190,7 @@ fun DepositDialog(
                 )
 
                 Text(
-                    text = "Tu Alias",
+                    text = stringResource(R.string.tualias),
                     modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
                     style = MaterialTheme.typography.titleLarge
                 )
@@ -212,7 +214,7 @@ fun DepositDialog(
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Compartir datos", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.compartirdatos), style = MaterialTheme.typography.titleMedium)
                 }
             }
         }

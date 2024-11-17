@@ -21,10 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.PreviewLocales
 import com.example.peraapp.PreviewSizes
+import com.example.peraapp.R
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
@@ -69,7 +72,7 @@ fun DeleteCardPagePhone(){//deberia recibir como parametro la tarjeta pero no se
                 .width(320.dp)
         ) {
             Text(
-                text = "Eliminar esta tarjeta",
+                text = stringResource(R.string.eliminartarjeta),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -90,7 +93,7 @@ fun DeleteCardPageTablet() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Tarjeta",
+                text = stringResource(R.string.tarjeta),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
@@ -129,7 +132,7 @@ fun DeleteCardPageTablet() {
                     .height(80.dp)
             ) {
                 Text(
-                    text = "Eliminar esta tarjeta",
+                    text = stringResource(R.string.eliminartarjeta),
                     style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -143,12 +146,13 @@ fun DeleteCardPageTablet() {
 @Composable
 fun DeleteCardPagePreview() {
     PeraAppTheme {
-        MainScreen("Tarjeta"){
+        MainScreen(
+            name = R.string.tarjeta
+        ){
             DeleteCardPage()
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -157,7 +161,7 @@ fun DeleteCardDialogPreview() {
         DeleteCardDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "¿Desea eliminar esta tarjeta?"
+            dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
             //habria que pasar la tarjeta pero actualmente es una funcion no una clase
         )
     }
@@ -200,13 +204,13 @@ fun DeleteCardDialog(
                 ) {
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(
-                            text = "Cancelar",
+                            text = stringResource(R.string.cancelar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     TextButton(onClick = { onConfirmation() }) {
                         Text(
-                            text = "Confirmar",
+                            text = stringResource(R.string.confirmar),
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }

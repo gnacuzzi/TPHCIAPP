@@ -22,40 +22,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 
 data class ProfileItem(
     val iconResId: Int,
-    val text: String,
+    val text: Int,
     val onClick: () -> Unit
 )
 
 val profileItems = listOf(
     ProfileItem(
         iconResId = R.drawable.transferir,
-        text = "Transferir",
+        text = R.string.transferir,
         onClick = {  }
     ),
     ProfileItem(
         iconResId = R.drawable.ingresar,
-        text = "Ingresar",
+        text = R.string.ingresar,
         onClick = {  }
     ),
     ProfileItem(
         iconResId = R.drawable.cobrar,
-        text = "Cobrar",
+        text = R.string.cobrar,
         onClick = {  }
     ),
     ProfileItem(
         iconResId = R.drawable.invest,
-        text = "Invertir o rescate",
+        text = R.string.invertir,
         onClick = {  }
     ),
     ProfileItem(
         iconResId = R.drawable.cerrarsesion,
-        text = "Cerrar sesión",
+        text = R.string.cerrarsesion,
         onClick = {  }
     )
 )
@@ -83,7 +84,7 @@ fun ProfilePagePhone(
             horizontalAlignment = Alignment.CenterHorizontally){
         Image(
             painter = painterResource(id = R.drawable.profiledefault),
-            contentDescription = "Imagen de perfil",
+            contentDescription = stringResource(R.string.fotodeperfil),
             modifier = Modifier.size(150.dp).clip(CircleShape)
         )
         Text(text = "$name $surname",
@@ -111,11 +112,11 @@ fun ProfilePagePhone(
                         val icon: Painter = painterResource(id = item.iconResId)
                         Image(
                             painter = icon,
-                            contentDescription = item.text,
+                            contentDescription = stringResource(item.text),
                             modifier = Modifier.size(28.dp)
                         )
                         Text(
-                            text = item.text,
+                            text = stringResource(item.text),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(start = 15.dp)
                         )
@@ -142,7 +143,7 @@ fun ProfilePageTablet(name: String,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Cuenta",
+                text = stringResource(R.string.cuenta),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
@@ -159,7 +160,7 @@ fun ProfilePageTablet(name: String,
                 ){
                     Image(
                         painter = painterResource(id = R.drawable.profiledefault),
-                        contentDescription = "Imagen de perfil",
+                        contentDescription = stringResource(R.string.fotodeperfil),
                         modifier = Modifier.size(200.dp).clip(CircleShape)
                     )
                     Column (
@@ -192,11 +193,11 @@ fun ProfilePageTablet(name: String,
                                 val icon: Painter = painterResource(id = item.iconResId)
                                 Image(
                                     painter = icon,
-                                    contentDescription = item.text,
+                                    contentDescription = stringResource(item.text),
                                     modifier = Modifier.size(46.dp)
                                 )
                                 Text(
-                                    text = item.text,
+                                    text = stringResource(item.text),
                                     style = MaterialTheme.typography.titleLarge,
                                     modifier = Modifier.padding(start = 15.dp)
                                 )
@@ -208,7 +209,7 @@ fun ProfilePageTablet(name: String,
         }
         Image(
             painter = painterResource(id = R.drawable.fotocuentatablet),
-            contentDescription = "foto cuenta",
+            contentDescription = stringResource(R.string.fotocuentatablet),
             modifier = Modifier.size(400.dp).align(Alignment.Bottom)
         )
     }
@@ -218,7 +219,9 @@ fun ProfilePageTablet(name: String,
 @Composable
 fun ProfilePagePreview() {
     PeraAppTheme {
-        MainScreen("Cuenta"){
+        MainScreen(
+            name = R.string.cuenta
+        ){
             ProfilePage(
                 name = "Samanta",
                 surname = "Jones",

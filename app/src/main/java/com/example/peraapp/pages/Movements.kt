@@ -21,9 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
+import com.example.peraapp.R
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
@@ -74,7 +76,7 @@ fun MovementsPageTablet() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Movimientos",
+                text = stringResource(R.string.movimientos),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
@@ -158,7 +160,9 @@ fun MovimientoItem(name: String, date: String, amount: String, color: Color, ico
 @Composable
 fun MovementsPagePreview() {
     PeraAppTheme {
-        MainScreen("Movimientos"){
+        MainScreen(
+            name = R.string.movimientos
+        ){
             MovementsPage(
 
             )

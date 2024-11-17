@@ -1,5 +1,6 @@
 package com.example.peraapp.pages
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +11,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import com.example.peraapp.HomePage
+import com.example.peraapp.PreviewLocales
 import com.example.peraapp.PreviewSizes
+import com.example.peraapp.R
 import com.example.peraapp.components.BottomBar
 import com.example.peraapp.components.SideBar
 import com.example.peraapp.components.TopBar
@@ -19,7 +23,7 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
 fun MainScreen(
-    name: String,
+    @StringRes name: Int,
     bodyContent: @Composable () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -54,10 +58,13 @@ fun MainScreen(
 }
 
 @PreviewSizes
+@PreviewLocales
 @Composable
 fun PeraAppPreview(){
     PeraAppTheme {
-        MainScreen("Inicio"){
+        MainScreen(
+            name = R.string.inicio
+        ){
             HomePage()
         }
     }

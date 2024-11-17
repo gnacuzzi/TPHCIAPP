@@ -23,10 +23,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
@@ -36,7 +38,7 @@ class Charge {
 @Composable
 fun ChargePage(bodycontent: @Composable () -> Unit){
     Scaffold(
-        topBar = { TopBar("Cobrar") }
+        topBar = { TopBar(R.string.cobrar) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -60,13 +62,13 @@ fun ChargeContent() {
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver atrás",
+                contentDescription = stringResource(R.string.volveratras),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         }
 
         Text(
-            text = "Ingresa el monto:",
+            text = "${stringResource(R.string.ingresarmonto)}:",
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -74,7 +76,7 @@ fun ChargeContent() {
         OutlinedTextField(
             value = "",
             onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text("Monto") },
+            label = { Text(stringResource(R.string.monto)) },
             modifier = Modifier
                 .padding(bottom = 10.dp, top = 20.dp)
                 .align(Alignment.CenterHorizontally),
@@ -96,11 +98,11 @@ fun ChargeContent() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Generar link", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.generarlink), style = MaterialTheme.typography.titleMedium)
         }
 
         Text(
-            text = "Link generado: https:/aparece..cuando..apretas",
+            text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
             modifier = Modifier.padding(top = 20.dp)
         )
 
@@ -116,7 +118,7 @@ fun ChargeContent() {
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text("Compartir", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.compartir), style = MaterialTheme.typography.titleMedium)
         }
 
     }
@@ -140,7 +142,7 @@ fun ChargeDialogPreview() {
         ChargeDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "Cobrar"
+            dialogTitle = stringResource(R.string.cobrar)
             //habria que pasar el monto
         )
     }
@@ -174,7 +176,7 @@ fun ChargeDialog(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Volver atrás",
+                            contentDescription = stringResource(R.string.volveratras),
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.size(100.dp)
                         )
@@ -187,7 +189,7 @@ fun ChargeDialog(
                     )
                 }
                 Text(
-                    text = "Ingresa el monto:",
+                    text = "${stringResource(R.string.ingresarmonto)}:",
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -195,7 +197,7 @@ fun ChargeDialog(
                 OutlinedTextField(
                     value = "",
                     onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text("Monto") },
+                    label = { Text(stringResource(R.string.monto)) },
                     modifier = Modifier
                         .padding(bottom = 10.dp, top = 20.dp)
                         .align(Alignment.CenterHorizontally),
@@ -217,11 +219,11 @@ fun ChargeDialog(
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Generar link", style = MaterialTheme.typography.titleLarge)
+                    Text(stringResource(R.string.generarlink), style = MaterialTheme.typography.titleLarge)
                 }
 
                 Text(
-                    text = "Link generado: https:/aparece..cuando..apretas",
+                    text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
                     modifier = Modifier.padding(top = 20.dp),
                     style = MaterialTheme.typography.titleMedium
                 )
@@ -238,7 +240,7 @@ fun ChargeDialog(
                         containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    Text("Compartir", style = MaterialTheme.typography.titleLarge)
+                    Text(stringResource(R.string.compartir), style = MaterialTheme.typography.titleLarge)
                 }
             }
         }
