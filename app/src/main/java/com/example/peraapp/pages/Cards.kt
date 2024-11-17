@@ -39,6 +39,14 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.ui.theme.PeraAppTheme
 
+
+data class card (
+    val bank: String,
+    val number: String,
+    val name: String,
+    val date: String,
+    val code: Int
+)
 //habria que mandar tambien el textstyle pero que lo haga otro
 @Composable
 fun CardHome(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){

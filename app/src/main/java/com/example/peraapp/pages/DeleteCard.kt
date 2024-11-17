@@ -159,6 +159,13 @@ fun DeleteCardPagePreview() {
 fun DeleteCardDialogPreview() {
     PeraAppTheme {
         DeleteCardDialog(
+            card(//esto esta como ejemplo pero no se deberia construir ahi
+                name = "Samanta Jones",
+                bank = "Santander",
+                number = "1234 1111 5678 2212",
+                date = "12/28",
+                code = 111
+            ),
             onDismissRequest = { },
             onConfirmation = { },
             dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
@@ -169,6 +176,7 @@ fun DeleteCardDialogPreview() {
 
 @Composable
 fun DeleteCardDialog(
+    card: card,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String
@@ -192,9 +200,7 @@ fun DeleteCardDialog(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 //habria que mandarla como parametro
-                CardHome(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") {
-
-                }
+                CardHome(card.bank, card.number, card.name, card.date) {}
 
                 Row(
                     modifier = Modifier
