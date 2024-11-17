@@ -14,17 +14,27 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import com.example.peraapp.CardHome
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 class CardsTablet {
@@ -177,4 +187,117 @@ fun CardTablet(bank: String, number: String, name: String, date: String, onCardC
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun AddCardTabletDialogPreview() {
+    PeraAppTheme {
+        AddCardTabletDialog(
+            onDismissRequest = { },
+            onConfirmation = { },
+            //habria que pasar la tarjeta pero actualmente es una funcion no una clase
+        )
+    }
+}
+
+@Composable
+fun AddCardTabletDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = { onDismissRequest() },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Volver atrás",
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.size(100.dp)
+                    )
+                }
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text("Número de tarjeta") },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text("Nombre del titular") },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text("Fecha de vencimiento") },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text("Código de seguridad") },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text("Banco") },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+                Button(
+                    onClick = { onConfirmation() },
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .width(270.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text("Agregar tarjeta", style = MaterialTheme.typography.titleMedium)
+                }
+
+            }
+        }
+    }
+}
+
 

@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -35,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.peraapp.BottomBar
 import com.example.peraapp.Card
 import com.example.peraapp.R
@@ -200,5 +202,82 @@ fun TransferTabletPreview() {
         }
     }
 }
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun TransferTabletDialogPreview() {
+    PeraAppTheme {
+        TransferTabletDialog(
+            onDismissRequest = { },
+            onConfirmation = { },
+            dialogTitle = "¿Desea realizar esta transacción?"
+            //habria que pasar la tarjeta pero actualmente es una funcion no una clase
+        )
+    }
+}
+
+@Composable
+fun TransferTabletDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = dialogTitle,
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                //habria que hacer una transaccion y mandarla como parametro
+                Text(
+                    "Pago a: Jane Doe",
+                    style = MaterialTheme.typography.titleMedium)
+                Text(
+                    "Monto: $200",
+                    style = MaterialTheme.typography.titleMedium)
+                Text(
+                    "Con: Saldo en cuenta",
+                    style = MaterialTheme.typography.titleMedium)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    TextButton(onClick = { onDismissRequest() }) {
+                        Text(
+                            text = "Cancelar",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                    TextButton(onClick = { onConfirmation() }) {
+                        Text(
+                            text = "Confirmar",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 

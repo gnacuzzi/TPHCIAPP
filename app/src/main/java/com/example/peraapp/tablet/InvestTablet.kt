@@ -19,13 +19,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 class InvestTablet {
@@ -147,3 +150,140 @@ fun InvestTabletPreview() {
         }
     }
 }
+
+
+@Preview(showBackground = true)
+@Composable
+fun InvestTabletDialogPreview() {
+    PeraAppTheme {
+        InvestTabletDialog(
+            onDismissRequest = { },
+            onConfirmation = { },
+            dialogTitle = "¿Desea invertir?"
+            //habria que pasar el monto
+        )
+    }
+}
+
+@Composable
+fun InvestTabletDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = dialogTitle,
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                //habria que hacer una transaccion y mandarla como parametro
+                Text("Monto: $200",
+                    style = MaterialTheme.typography.titleLarge)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    TextButton(onClick = { onDismissRequest() }) {
+                        Text(
+                            text = "Cancelar",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                    TextButton(onClick = { onConfirmation() }) {
+                        Text(
+                            text = "Confirmar",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TakeBackTabletDialogPreview() {
+    PeraAppTheme {
+        TakeBackTablet(
+            onDismissRequest = { },
+            onConfirmation = { },
+            dialogTitle = "¿Desea rescatar?"
+            //habria que pasar el monto
+        )
+    }
+}
+
+@Composable
+fun TakeBackTablet(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = dialogTitle,
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                //habria que mandar como parametro el monto
+                Text("Monto: $200",
+                    style = MaterialTheme.typography.titleLarge)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    TextButton(onClick = { onDismissRequest() }) {
+                        Text(
+                            text = "Cancelar",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                    TextButton(onClick = { onConfirmation() }) {
+                        Text(
+                            text = "Confirmar",
+                            color = MaterialTheme.colorScheme.secondary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+
