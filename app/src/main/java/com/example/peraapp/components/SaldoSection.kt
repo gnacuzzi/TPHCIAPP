@@ -88,7 +88,7 @@ fun SaldoSectionPhone(name:String, saldo: Number) {
                 color = MaterialTheme.colorScheme.tertiary
             )
             Text(
-                text = "$$saldo{",
+                text = "$$saldo",
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.align(Alignment.CenterHorizontally).padding(10.dp),
                 color = MaterialTheme.colorScheme.secondary

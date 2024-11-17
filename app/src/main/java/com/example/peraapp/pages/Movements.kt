@@ -10,9 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,24 +41,27 @@ fun MovementsPage() {
 
 @Composable
 fun MovementsPagePhone(){
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState())//supuestamente lo hace scrolleable, veremos
-    ) {
-        MovimientoItem(
-            name = "Steam",
-            date = "ayer 16:20",
-            amount = "-$120.69",
-            color = Color.Red
-        )
-        MovimientoItem(
-            name = "Andrew",
-            date = "ayer 16:20",
-            amount = "$300",
-            color = Color.Green
-        )
+    ) {//foreach
+        item {
+            MovimientoItem(
+                name = "Steam",
+                date = "ayer 16:20",
+                amount = "-$120.69",
+                color = Color.Red
+            )
+        }
+        item {
+            MovimientoItem(
+                name = "Andrew",
+                date = "ayer 16:20",
+                amount = "$300",
+                color = Color.Green
+            )
+        }
     }
 }
 
@@ -80,34 +82,28 @@ fun MovementsPageTablet() {
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
-            Column (
+            LazyColumn (
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
                 //aca iria un foreach con movimientos, agregar la linea gris abajo
-                MovimientoItem(
-                    name = "Steam",
-                    date = "ayer 16:20",
-                    amount = "-$120.69",
-                    color = Color.Red,
-                    iconSize = 70
-                )
-                MovimientoItem(
-                    name = "Steam",
-                    date = "ayer 16:20",
-                    amount = "-$120.69",
-                    color = Color.Red,
-                    iconSize = 70
-                )
-                MovimientoItem(
-                    name = "Steam",
-                    date = "ayer 16:20",
-                    amount = "-$120.69",
-                    color = Color.Red,
-                    iconSize = 70
-                )
+                item {
+                    MovimientoItem(
+                        name = "Steam",
+                        date = "ayer 16:20",
+                        amount = "-$120.69",
+                        color = Color.Red
+                    )
+                }
+                item {
+                    MovimientoItem(
+                        name = "Andrew",
+                        date = "ayer 16:20",
+                        amount = "$300",
+                        color = Color.Green
+                    )
+                }
             }
         }
     }

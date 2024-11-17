@@ -1,6 +1,5 @@
 package com.example.peraapp.pages
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import com.example.peraapp.R
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -142,11 +141,9 @@ fun TransferContentPhone() {
             modifier = Modifier.padding(top = 8.dp)
         )
 
-        Row (
-            modifier = Modifier.horizontalScroll(rememberScrollState())
-        ){//foreach
-            Card(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { }
-            Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { }
+        LazyRow{//foreach
+            item { Card(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
+            item { Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
         }
 
         Button(
@@ -239,12 +236,9 @@ fun TransferContentTablet() {
                 modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
             )
 
-            Row (
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            ){//foreach
-                CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { }
-                CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { }
-
+            LazyRow {//foreach
+                item { CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
+                item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
             }
 
             Button(

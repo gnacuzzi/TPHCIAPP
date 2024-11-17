@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Icon
@@ -51,25 +51,29 @@ fun TarjetasSectionPhone() {
             style = MaterialTheme.typography.titleLarge,
             color = Color.Black
         )
-        Row(
+        LazyRow(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            CardHome(
-                bank = "Santander",
-                number = "1234 5678 9101 1121",
-                name = "Samanta Jones",
-                date = "12/28"
-            ){}
-            IconButton(
-                onClick = {}
-            ) {
-                Icon(
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = stringResource(R.string.agregartarjeta),
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(70.dp)
-                )
+            item {
+                CardHome(
+                    bank = "Santander",
+                    number = "1234 5678 9101 1121",
+                    name = "Samanta Jones",
+                    date = "12/28"
+                ){}
+            }
+            item {
+                IconButton(
+                    onClick = {}
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AddCircle,
+                        contentDescription = stringResource(R.string.agregartarjeta),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(70.dp)
+                    )
+                }
             }
         }
     }
@@ -94,34 +98,39 @@ fun TarjetasSectionTablet() {
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.Black
             )
-            Column(
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CardHomeTablet(
-                    bank = "Santander",
-                    number = "1234 5678 9101 1121",
-                    name = "Samanta Jones",
-                    date = "12/28"
-                ){}
-                CardHomeTablet(
-                    bank = "BBVA",
-                    number = "4321 8765 1011 2233",
-                    name = "Juan Pérez",
-                    date = "01/25"
-                ){}
-                IconButton(
-                    onClick = {},
-                    modifier = Modifier.size(65.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.AddCircle,
-                        contentDescription = stringResource(R.string.agregartarjeta),
-                        tint = MaterialTheme.colorScheme.primary,
+                item {
+                    CardHomeTablet(
+                        bank = "Santander",
+                        number = "1234 5678 9101 1121",
+                        name = "Samanta Jones",
+                        date = "12/28"
+                    ){}
+                }
+                item {
+                    CardHomeTablet(
+                        bank = "BBVA",
+                        number = "4321 8765 1011 2233",
+                        name = "Juan Pérez",
+                        date = "01/25"
+                    ){}
+                }
+                item {
+                    IconButton(
+                        onClick = {},
                         modifier = Modifier.size(65.dp)
-                    )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.AddCircle,
+                            contentDescription = stringResource(R.string.agregartarjeta),
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(65.dp)
+                        )
+                    }
                 }
             }
         }

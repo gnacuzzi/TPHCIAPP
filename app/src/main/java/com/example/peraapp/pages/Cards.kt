@@ -12,10 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -153,39 +152,42 @@ fun CardsPage() {
 
 @Composable
 fun CardsPagePhone(){
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),//supuestamente lo hace scrolleable, veremos
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Card(//esto deberia ser un foreach
-            bank = "Santander",
-            number = "1234 5678 9101 1121",
-            name = "Samanta Jones",
-            date = "12/28",
-        )
-        {}
-        Button(
-            onClick = {  },
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.tertiary,
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .width(320.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.agregarnuevatarjeta),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.secondary
+        item {
+            Card(//esto deberia ser un foreach
+                bank = "Santander",
+                number = "1234 5678 9101 1121",
+                name = "Samanta Jones",
+                date = "12/28",
             )
+            {}
+        }
+        item {
+            Button(
+                onClick = {  },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = MaterialTheme.colorScheme.tertiary,
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
+                modifier = Modifier
+                    .border(
+                        width = 2.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .width(320.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.agregarnuevatarjeta),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
         }
     }
 }
@@ -208,16 +210,16 @@ fun CardsPageTablet() {
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
-            Column (
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ){
+            LazyColumn{
                 //aca iria un foreach
-                CardTablet(//esto deberia ser un foreach
+                item {
+                    CardTablet(
                     bank = "Galicia",
                     number = "1234 1111 9101 1121",
                     name = "Samanta Jones",
                     date = "12/26"
                 ){}
+                }
             }
         }
         Column(

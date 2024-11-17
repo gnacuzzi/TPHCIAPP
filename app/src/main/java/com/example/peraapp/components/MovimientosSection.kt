@@ -14,9 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -113,18 +112,20 @@ fun MovimientosSectionTablet() {
                     )
                 }
             }
-            Column(
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                MovimientoItem(
-                    name = "Steam",
-                    date = "ayer 16:20",
-                    amount = "-$120.69",
-                    color = Color.Red,
-                    iconSize = 70
-                )
+                item {//en realidad aca es la lista
+                    MovimientoItem(
+                        name = "Steam",
+                        date = "ayer 16:20",
+                        amount = "-$120.69",
+                        color = Color.Red,
+                        iconSize = 70
+                    )
+                }
             }
         }
     }
