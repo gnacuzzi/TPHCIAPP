@@ -116,7 +116,7 @@ fun LoginPageTablet() {
                         shape = RoundedCornerShape(4.dp),
                         colors = ButtonDefaults.buttonColors(
                             contentColor = MaterialTheme.colorScheme.secondary,
-                            containerColor = MaterialTheme.colorScheme.background
+                            containerColor = MaterialTheme.colorScheme.surface
                         )
                     ) {
                         Text("Registrarme", style = MaterialTheme.typography.titleMedium)
