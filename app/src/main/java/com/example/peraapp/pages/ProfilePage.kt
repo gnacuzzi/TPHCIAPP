@@ -1,72 +1,130 @@
-package com.example.peraapp.tablet
+package com.example.peraapp.pages
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
-import com.example.peraapp.profileItems
-import com.example.peraapp.ui.theme.PeraAppTheme
 
-class ProfileTablet {
-}
-
-data class ProfileItemTablet(
+data class ProfileItem(
     val iconResId: Int,
     val text: String,
     val onClick: () -> Unit
 )
 
-val profileItemsTablet = listOf(
-    ProfileItemTablet(
+val profileItems = listOf(
+    ProfileItem(
         iconResId = R.drawable.transferir,
         text = "Transferir",
         onClick = {  }
     ),
-    ProfileItemTablet(
+    ProfileItem(
         iconResId = R.drawable.ingresar,
         text = "Ingresar",
         onClick = {  }
     ),
-    ProfileItemTablet(
+    ProfileItem(
         iconResId = R.drawable.cobrar,
         text = "Cobrar",
         onClick = {  }
     ),
-    ProfileItemTablet(
+    ProfileItem(
         iconResId = R.drawable.invest,
         text = "Invertir o rescate",
         onClick = {  }
     ),
-    ProfileItemTablet(
+    ProfileItem(
         iconResId = R.drawable.cerrarsesion,
         text = "Cerrar sesión",
         onClick = {  }
     )
 )
+
+@Composable
+fun ProfilePage(name: String,
+                surname: String,
+                mail: String) {
+    val configuration = LocalConfiguration.current
+    val isTablet = configuration.screenWidthDp >= 600
+
+    if (isTablet) {
+        ProfilePageTablet(name, surname, mail)
+    } else {
+        ProfilePagePhone(name, surname, mail)
+    }
+}
+
+@Composable
+fun ProfilePagePhone(
+                name: String,
+                surname: String,
+                mail: String){
+    Column (modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally){
+        Image(
+            painter = painterResource(id = R.drawable.profiledefault),
+            contentDescription = "Imagen de perfil",
+            modifier = Modifier.size(150.dp).clip(CircleShape)
+        )
+        Text(text = "$name $surname",
+            modifier = Modifier.padding(5.dp),
+            style = MaterialTheme.typography.titleLarge
+        )
+        Text(mail,
+            modifier = Modifier.padding(5.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+        Column {
+            profileItems.forEach { item ->
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    modifier = Modifier.padding(top = 20.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth().padding(start = 20.dp)
+                    ) {
+                        val icon: Painter = painterResource(id = item.iconResId)
+                        Image(
+                            painter = icon,
+                            contentDescription = item.text,
+                            modifier = Modifier.size(28.dp)
+                        )
+                        Text(
+                            text = item.text,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(start = 15.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun ProfilePageTablet(name: String,
@@ -118,7 +176,7 @@ fun ProfilePageTablet(name: String,
                     }
                 }
                 Column {
-                    profileItemsTablet.forEach { item ->
+                    profileItems.forEach { item ->
                         Button(
                             onClick = {},
                             colors = ButtonDefaults.buttonColors(
@@ -156,14 +214,12 @@ fun ProfilePageTablet(name: String,
     }
 }
 
-
-
-@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_c")
+@PreviewSizes
 @Composable
-fun ProfileTabletPreview() {
+fun ProfilePagePreview() {
     PeraAppTheme {
-        MainScreenTablet(){
-            ProfilePageTablet(
+        MainScreen("Cuenta"){
+            ProfilePage(
                 name = "Samanta",
                 surname = "Jones",
                 mail = "sjones@gmail.com"

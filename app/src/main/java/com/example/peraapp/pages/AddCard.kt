@@ -1,6 +1,5 @@
-package com.example.peraapp
+package com.example.peraapp.pages
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,15 +18,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.LineHeightStyle
+import com.example.peraapp.components.TopBar
 
 class AddCard {
 }

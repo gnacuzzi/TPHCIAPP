@@ -1,9 +1,7 @@
-package com.example.peraapp.tablet
+package com.example.peraapp.pages
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,74 +24,145 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.peraapp.BottomBar
-import com.example.peraapp.Card
-import com.example.peraapp.R
-import com.example.peraapp.TopBar
-import com.example.peraapp.TransferContent
+import com.example.peraapp.PreviewSizes
+import com.example.peraapp.components.TopBar
+import com.example.peraapp.components.TopBarTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-class TransferTablet {
+class Transfer {
 }
 
 @Composable
-fun TransferPageTablet(name: String,
-                       bodyContent: @Composable () -> Unit) {
-    Scaffold(
-        topBar = { TopBarTablet(name) },
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            bodyContent()
+fun TransferPage(name: String = "",bodycontent: @Composable () -> Unit){
+    val configuration = LocalConfiguration.current
+    val isTablet = configuration.screenWidthDp >= 600
+
+    if(isTablet){
+        Scaffold(
+            topBar = { TopBarTablet(name) },
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                bodycontent()
+            }
         }
+    } else{
+        Scaffold(
+            topBar = { TopBar("Transferir") }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                bodycontent()
+            }
+        }
+    }
+
+}
+
+@Composable
+fun TransferContent() {
+    val configuration = LocalConfiguration.current
+    val isTablet = configuration.screenWidthDp >= 600
+
+    if (isTablet) {
+        TransferContentTablet()
+    } else {
+        TransferContentPhone()
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarTablet(name: String) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            titleContentColor = MaterialTheme.colorScheme.secondary,
-        ),
-        title = {
-            Box(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row {
-                    Image(
-                        painter = painterResource(id = R.drawable.logoinicio),
-                        contentDescription = "logo pera",
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text("Pera",
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.align(Alignment.CenterVertically),
-                        style = MaterialTheme.typography.displayMedium)
-                }
-                Text(
-                    text = name,
-                    modifier = Modifier.align(Alignment.Center),
-                    style = MaterialTheme.typography.displayMedium
-                )
-            }
+fun TransferContentPhone() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        IconButton(
+            onClick = { /* Aquí iría la acción para volver atrás */ },
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver atrás",
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
-    )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = { Text("Mail") },
+            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email
+            )
+        )
+
+        Text(
+            text = "Ingresa el monto:",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = { Text("Monto") },
+            modifier = Modifier
+                .padding(bottom = 10.dp, top = 20.dp)
+                .align(Alignment.CenterHorizontally),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number
+            ),
+            textStyle = MaterialTheme.typography.titleLarge
+        )
+
+        Text(
+            text = "Forma de pago:",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+
+        Row (
+            modifier = Modifier.horizontalScroll(rememberScrollState())
+        ){//foreach
+            Card(name = "Saldo en cuenta", bank = "Pera", number = "0", date = "") { }
+            Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { }
+        }
+
+        Button(
+            onClick = { /* Acción para transferir */ },
+            modifier = Modifier
+                .padding(top = 60.dp)
+                .width(270.dp)
+                .align(Alignment.CenterHorizontally),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.secondary,
+                containerColor = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            Text("Transferir", style = MaterialTheme.typography.titleMedium)
+        }
+
+    }
 }
+
 
 @Composable
 fun TransferContentTablet() {
@@ -193,23 +261,22 @@ fun TransferContentTablet() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_c")
+@PreviewSizes
 @Composable
-fun TransferTabletPreview() {
-    PeraAppTheme {
-        TransferPageTablet(name = "Transferir"){
-            TransferContentTablet()
+fun TransferPagePreview() {
+    PeraAppTheme{
+        TransferPage("Transferir"){
+            TransferContent()
         }
     }
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
-fun TransferTabletDialogPreview() {
+fun TransferDialogPreview() {
     PeraAppTheme {
-        TransferTabletDialog(
+        TransferDialog(
             onDismissRequest = { },
             onConfirmation = { },
             dialogTitle = "¿Desea realizar esta transacción?"
@@ -219,7 +286,7 @@ fun TransferTabletDialogPreview() {
 }
 
 @Composable
-fun TransferTabletDialog(
+fun TransferDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String
@@ -238,20 +305,14 @@ fun TransferTabletDialog(
             ) {
                 Text(
                     text = dialogTitle,
-                    style = MaterialTheme.typography.displaySmall,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 //habria que hacer una transaccion y mandarla como parametro
-                Text(
-                    "Pago a: Jane Doe",
-                    style = MaterialTheme.typography.titleMedium)
-                Text(
-                    "Monto: $200",
-                    style = MaterialTheme.typography.titleMedium)
-                Text(
-                    "Con: Saldo en cuenta",
-                    style = MaterialTheme.typography.titleMedium)
+                Text("Pago a: Jane Doe")
+                Text("Monto: $200")
+                Text("Con: Saldo en cuenta")
 
                 Row(
                     modifier = Modifier
@@ -262,15 +323,13 @@ fun TransferTabletDialog(
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(
                             text = "Cancelar",
-                            color = MaterialTheme.colorScheme.secondary,
-                            style = MaterialTheme.typography.titleMedium
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     TextButton(onClick = { onConfirmation() }) {
                         Text(
                             text = "Confirmar",
-                            color = MaterialTheme.colorScheme.secondary,
-                            style = MaterialTheme.typography.titleMedium
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
                 }
@@ -278,6 +337,3 @@ fun TransferTabletDialog(
         }
     }
 }
-
-
-

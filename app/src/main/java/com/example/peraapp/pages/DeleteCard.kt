@@ -1,4 +1,4 @@
-package com.example.peraapp.tablet
+package com.example.peraapp.pages
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -22,13 +20,60 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.peraapp.CardHome
+import com.example.peraapp.PreviewSizes
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-class DeleteCardTablet {
+@Composable
+fun DeleteCardPage() {
+    val configuration = LocalConfiguration.current
+    val isTablet = configuration.screenWidthDp >= 600
+
+    if (isTablet) {
+        DeleteCardPageTablet()
+    } else {
+        DeleteCardPagePhone()
+    }
+}
+
+@Composable
+fun DeleteCardPagePhone(){//deberia recibir como parametro la tarjeta pero no se si eso se puede hacer
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Card(//esto deberia ser un foreach
+            bank = "Santander",
+            number = "1234 5678 9101 1121",
+            name = "Samanta Jones",
+            date = "12/28",
+        )
+        {}
+        Button(
+            onClick = {  },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                containerColor = MaterialTheme.colorScheme.background
+            ),
+            modifier = Modifier
+                .border(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .width(320.dp)
+        ) {
+            Text(
+                text = "Eliminar esta tarjeta",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+    }
 }
 
 @Composable
@@ -94,22 +139,22 @@ fun DeleteCardPageTablet() {
 }
 
 
-
-@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_c")
+@PreviewSizes
 @Composable
-fun MovementsTabletPreview() {
+fun DeleteCardPagePreview() {
     PeraAppTheme {
-        MainScreenTablet(){
-            DeleteCardPageTablet()
+        MainScreen("Tarjeta"){
+            DeleteCardPage()
         }
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
-fun DeleteCardTabletDialogPreview() {
+fun DeleteCardDialogPreview() {
     PeraAppTheme {
-        DeleteCardTabletDialog(
+        DeleteCardDialog(
             onDismissRequest = { },
             onConfirmation = { },
             dialogTitle = "¿Desea eliminar esta tarjeta?"
@@ -119,7 +164,7 @@ fun DeleteCardTabletDialogPreview() {
 }
 
 @Composable
-fun DeleteCardTabletDialog(
+fun DeleteCardDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String
@@ -138,7 +183,7 @@ fun DeleteCardTabletDialog(
             ) {
                 Text(
                     text = dialogTitle,
-                    style = MaterialTheme.typography.displaySmall,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -156,15 +201,13 @@ fun DeleteCardTabletDialog(
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(
                             text = "Cancelar",
-                            color = MaterialTheme.colorScheme.secondary,
-                            style = MaterialTheme.typography.titleMedium
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     TextButton(onClick = { onConfirmation() }) {
                         Text(
                             text = "Confirmar",
-                            color = MaterialTheme.colorScheme.secondary,
-                            style = MaterialTheme.typography.titleMedium
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
                 }

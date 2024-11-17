@@ -1,4 +1,4 @@
-package com.example.peraapp.tablet
+package com.example.peraapp.pages
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,18 +26,158 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.peraapp.CardHome
+import com.example.peraapp.PreviewSizes
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-class CardsTablet {
+//habria que mandar tambien el textstyle pero que lo haga otro
+@Composable
+fun CardHome(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
+    Card(
+        bank = bank,
+        number = number,
+        name = name,
+        date = date,
+        width = 250,
+        height = 160,
+        horizontalNumberPadding = 10
+    ) { onCardClick() }
+}
+
+@Composable
+fun CardHomeTablet(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
+    Card(
+        bank = bank,
+        number = number,
+        name = name,
+        date = date,
+        width = 300,
+        height = 180,
+        horizontalNumberPadding = 10,
+        normalPadding = 15
+    ) { onCardClick() }
+}
+
+@Composable
+fun CardTablet(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
+    Card(
+        bank = bank,
+        number = number,
+        name = name,
+        date = date,
+        width = 420,
+        height = 260,
+        horizontalNumberPadding = 25,
+        normalPadding = 15
+    ) { onCardClick() }
+}
+
+@Composable
+fun Card(bank: String,
+         number: String,
+         name: String,
+         date: String,
+         roundedCorner: Int = 16,
+         paddingSurface: Int = 10,
+         width: Int = 320,
+         height: Int = 200,
+         normalPadding: Int = 10,
+         horizontalNumberPadding: Int = 20,
+         onCardClick: () -> Unit){
+    Surface(
+        color = MaterialTheme.colorScheme.tertiary,
+        shape = RoundedCornerShape(roundedCorner.dp),
+        modifier = Modifier
+            .padding(paddingSurface.dp)
+            .padding(bottom = paddingSurface.dp)
+            .clickable(onClick = onCardClick) // no puse la cruz, veamos si podemos agregar otra pantalla
+    ){
+        Column (
+            modifier = Modifier.size(width = width.dp, height = height.dp),
+            verticalArrangement = Arrangement.SpaceAround){
+            Text(
+                text = bank,
+                modifier = Modifier.align(Alignment.End).padding(horizontal = normalPadding.dp),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = number,
+                modifier = Modifier.align(Alignment.Start).padding(horizontal = horizontalNumberPadding.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Row (modifier = Modifier.fillMaxWidth().padding(start = normalPadding.dp, end = normalPadding.dp),
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    text = name,
+                    modifier = Modifier.padding(horizontal = normalPadding.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = date,
+                    modifier = Modifier.padding(horizontal = normalPadding.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CardsPage() {
+    val configuration = LocalConfiguration.current
+    val isTablet = configuration.screenWidthDp >= 600
+
+    if (isTablet) {
+        CardsPageTablet()
+    } else {
+        CardsPagePhone()
+    }
+}
+
+@Composable
+fun CardsPagePhone(){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),//supuestamente lo hace scrolleable, veremos
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Card(//esto deberia ser un foreach
+            bank = "Santander",
+            number = "1234 5678 9101 1121",
+            name = "Samanta Jones",
+            date = "12/28",
+        )
+        {}
+        Button(
+            onClick = {  },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                containerColor = MaterialTheme.colorScheme.background
+            ),
+            modifier = Modifier
+                .border(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .width(320.dp)
+        ) {
+            Text(
+                text = "Agregar nueva tarjeta",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
+    }
 }
 
 @Composable
@@ -100,93 +240,16 @@ fun CardsPageTablet() {
     }
 }
 
-
-
-@Preview(showBackground = true, showSystemUi = true, device = "id:pixel_c")
+@PreviewSizes
 @Composable
-fun CardsTabletPreview() {
+fun CardsPagePreview() {
     PeraAppTheme {
-        MainScreenTablet(){
-            CardsPageTablet()
+        MainScreen("Tarjetas"){
+            CardsPage()
         }
     }
 }
 
-
-@Composable
-fun CardHomeTablet(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
-    Surface(
-        color = MaterialTheme.colorScheme.tertiary,
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.padding(10.dp).clickable(onClick = onCardClick) // no puse la cruz, veamos si podemos agregar otra pantalla
-    ){
-        Column (
-            modifier = Modifier.size(width = 300.dp, height = 180.dp),
-            verticalArrangement = Arrangement.SpaceAround){
-            Text(
-                text = bank,
-                modifier = Modifier.align(Alignment.End).padding(horizontal = 15.dp),
-                style = MaterialTheme.typography.titleLarge
-            )
-            Text(
-                text = number,
-                modifier = Modifier.align(Alignment.Start).padding(horizontal = 15.dp),
-                style = MaterialTheme.typography.titleLarge
-            )
-            Row (modifier = Modifier.fillMaxWidth().padding(start = 15.dp, end = 15.dp),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Text(
-                    text = date,
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CardTablet(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
-    Surface(
-        color = MaterialTheme.colorScheme.tertiary,
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .padding(10.dp)
-            .padding(bottom = 10.dp)
-            .clickable(onClick = onCardClick)
-    ){
-        Column (
-            modifier = Modifier.size(width = 420.dp, height = 260.dp),
-            verticalArrangement = Arrangement.SpaceAround){
-            Text(
-                text = bank,
-                modifier = Modifier.align(Alignment.End).padding(horizontal = 15.dp),
-                style = MaterialTheme.typography.displaySmall
-            )
-            Text(
-                text = number,
-                modifier = Modifier.align(Alignment.Start).padding(horizontal = 25.dp),
-                style = MaterialTheme.typography.displaySmall
-            )
-            Row (modifier = Modifier.fillMaxWidth().padding(start = 15.dp, end = 15.dp),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(
-                    text = name,
-                    modifier = Modifier.padding(horizontal = 15.dp),
-                    style = MaterialTheme.typography.displaySmall
-                )
-                Text(
-                    text = date,
-                    modifier = Modifier.padding(horizontal = 15.dp),
-                    style = MaterialTheme.typography.displaySmall
-                )
-            }
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -195,11 +258,11 @@ fun AddCardTabletDialogPreview() {
         AddCardTabletDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            //habria que pasar la tarjeta pero actualmente es una funcion no una clase
         )
     }
 }
 
+//hay que ver como hacemos para que en la navegacion cambie esto
 @Composable
 fun AddCardTabletDialog(
     onDismissRequest: () -> Unit,
@@ -299,5 +362,7 @@ fun AddCardTabletDialog(
         }
     }
 }
+
+
 
 
