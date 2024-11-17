@@ -5,12 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +29,7 @@ fun SideBar() {
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .width(100.dp)
+            .width(200.dp)
             .background(MaterialTheme.colorScheme.primary),
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -49,15 +51,23 @@ fun SideBarItem(item: BottomBarItem) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = item.onClick)
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(8.dp)
+            .padding(start = 20.dp),
     ) {
         val icon: Painter = painterResource(id = item.iconResId)
-        Image(
-            painter = icon,
-            contentDescription = stringResource(item.text),
-            modifier = Modifier.size(50.dp),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
-        )
+        Row {
+            Image(
+                painter = icon,
+                contentDescription = stringResource(item.text),
+                modifier = Modifier.size(50.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
+            )
+            Text(
+                text = stringResource(item.text),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 4.dp).align(Alignment.CenterVertically),
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
     }
 }
