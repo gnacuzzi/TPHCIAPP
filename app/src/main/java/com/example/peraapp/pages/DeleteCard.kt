@@ -142,17 +142,6 @@ fun DeleteCardPageTablet() {
 }
 
 
-@PreviewSizes
-@Composable
-fun DeleteCardPagePreview() {
-    PeraAppTheme {
-        MainScreen(
-            name = R.string.tarjeta
-        ){
-            DeleteCardPage()
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

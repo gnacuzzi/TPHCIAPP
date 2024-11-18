@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.example.peraapp.components.MovimientosSection
 import com.example.peraapp.components.SaldoSection
 import com.example.peraapp.components.TarjetasSection
+import com.example.peraapp.pages.HomePage
 import com.example.peraapp.pages.MainScreen
 
 
@@ -26,58 +27,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PeraAppTheme {
-                MainScreen(
-                    name = R.string.inicio
-                ) {
-                    HomePage()
-                }
+                MainScreen()
             }
         }
     }
 }
-
-@Composable
-fun HomePage() {
-    val configuration = LocalConfiguration.current
-    if (configuration.screenWidthDp < 600){
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            SaldoSection(
-                name = "Samanta",
-                saldo = 0
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())//supuestamente lo hace scrolleable, veremos
-            ) {
-                TarjetasSection()
-                MovimientosSection()
-            }
-        }
-    }else{
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(30.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.6f)
-                    .fillMaxHeight()
-            ) {
-                SaldoSection(
-                    name = "Samanta",
-                    saldo = 0
-                )
-                MovimientosSection()
-            }
-            Column(modifier = Modifier.weight(0.4f)) {
-                TarjetasSection()
-            }
-        }
-    }
-}
-

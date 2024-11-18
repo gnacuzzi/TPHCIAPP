@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
@@ -41,26 +42,31 @@ fun MovementsPage() {
 
 @Composable
 fun MovementsPagePhone(){
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {//foreach
-        item {
-            MovimientoItem(
-                name = "Steam",
-                date = "ayer 16:20",
-                amount = "-$120.69",
-                color = Color.Red
-            )
-        }
-        item {
-            MovimientoItem(
-                name = "Andrew",
-                date = "ayer 16:20",
-                amount = "$300",
-                color = Color.Green
-            )
+    Column (
+        modifier = Modifier.fillMaxSize()
+    ){
+        TopBar(R.string.movimientos)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {//foreach
+            item {
+                MovimientoItem(
+                    name = "Steam",
+                    date = "ayer 16:20",
+                    amount = "-$120.69",
+                    color = Color.Red
+                )
+            }
+            item {
+                MovimientoItem(
+                    name = "Andrew",
+                    date = "ayer 16:20",
+                    amount = "$300",
+                    color = Color.Green
+                )
+            }
         }
     }
 }
@@ -149,22 +155,6 @@ fun MovimientoItem(name: String, date: String, amount: String, color: Color, ico
     }
 }
 
-
-
-
-@PreviewSizes
-@Composable
-fun MovementsPagePreview() {
-    PeraAppTheme {
-        MainScreen(
-            name = R.string.movimientos
-        ){
-            MovementsPage(
-
-            )
-        }
-    }
-}
 
 @Composable
 fun LetterIcon(

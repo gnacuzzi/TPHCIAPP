@@ -5,12 +5,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,54 +25,63 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.pages.HomePage
+import com.example.peraapp.pages.MainScreen
+import com.example.peraapp.ui.theme.PeraAppTheme
 
 
 @Composable
-fun SideBar() {
+fun SideBar(
+    currentRoute: String?,
+    onNavigateToRoute: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxHeight()
             .width(200.dp)
             .background(MaterialTheme.colorScheme.primary),
-        verticalArrangement = Arrangement.SpaceAround,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.SpaceAround
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "logo pera",
-            modifier = Modifier.size(70.dp)
+            modifier = Modifier
+                .size(70.dp)
+                .padding(top = 16.dp)
+                .align(Alignment.CenterHorizontally)
         )
-        bottomBarItems.forEach { item ->
-            SideBarItem(item = item)
-        }
-    }
-}
-
-@Composable
-fun SideBarItem(item: BottomBarItem) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = item.onClick)
-            .padding(8.dp)
-            .padding(start = 20.dp),
-    ) {
-        val icon: Painter = painterResource(id = item.iconResId)
-        Row {
-            Image(
-                painter = icon,
-                contentDescription = stringResource(item.text),
-                modifier = Modifier.size(50.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
-            )
-            Text(
-                text = stringResource(item.text),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(top = 4.dp).align(Alignment.CenterVertically),
-                color = MaterialTheme.colorScheme.secondary
-            )
+        Column(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            bottomBarItems.forEach { item ->
+                Row(
+                    modifier = Modifier.padding(start = 20.dp).clickable { onNavigateToRoute(item.route) },
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Icon(
+                        painter = painterResource(id = item.iconResId),
+                        contentDescription = stringResource(id = item.text),
+                        modifier = Modifier.size(32.dp),
+                        tint = if (currentRoute == item.route) MaterialTheme.colorScheme.background
+                        else MaterialTheme.colorScheme.secondary
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = stringResource(id = item.text),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
         }
     }
 }

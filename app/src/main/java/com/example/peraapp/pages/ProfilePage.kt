@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.TopBar
 
 data class ProfileItem(
     val iconResId: Int,
@@ -82,6 +83,7 @@ fun ProfilePagePhone(
                 mail: String){
     Column (modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally){
+        TopBar(R.string.cuenta)
         Image(
             painter = painterResource(id = R.drawable.profiledefault),
             contentDescription = stringResource(R.string.fotodeperfil),
@@ -212,21 +214,5 @@ fun ProfilePageTablet(name: String,
             contentDescription = stringResource(R.string.fotocuentatablet),
             modifier = Modifier.size(400.dp).align(Alignment.Bottom)
         )
-    }
-}
-
-@PreviewSizes
-@Composable
-fun ProfilePagePreview() {
-    PeraAppTheme {
-        MainScreen(
-            name = R.string.cuenta
-        ){
-            ProfilePage(
-                name = "Samanta",
-                surname = "Jones",
-                mail = "sjones@gmail.com"
-            )
-        }
     }
 }
