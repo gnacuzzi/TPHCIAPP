@@ -16,9 +16,9 @@ enum class AppDestinations(
     TRANSFERIR(R.drawable.transferir, R.string.transferir, "transferir"),
     INGRESAR(R.drawable.ingresar, R.string.ingresar, "ingresar"),
     COBRAR(R.drawable.cobrar, R.string.cobrar, "cobrar"),
-    INVERTIR(R.drawable.invest, R.string.invertir, "invertirrescate"),
     AGREGARTARJETA(R.drawable.tarjetas, R.string.agregartarjeta, "agregartarjeta"),
     ELIMINARTARJETA(R.drawable.tarjetas, R.string.eliminartarjeta, "eliminartarjeta"), //esta deberia ser dinamica quizas
     INICIARSESION(R.drawable.cuenta, R.string.iniciarsesion, "iniciarsesion"),
-    REGISTRARME(R.drawable.cuenta, R.string.registrarme, "registrarme")
+    REGISTRARME(R.drawable.cuenta, R.string.registrarme, "registrarme"),
+    CERRARSESION(R.drawable.cerrarsesion, R.string.cerrarsesion, "iniciarsesion")
 }

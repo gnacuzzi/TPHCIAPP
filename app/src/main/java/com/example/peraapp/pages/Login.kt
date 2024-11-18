@@ -32,22 +32,23 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
-fun LoginPage() {
+fun LoginPage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if (isTablet) {
-        LoginPageTablet()
+        LoginPageTablet(onNavigateToRoute)
     } else {
-        LoginPagePhone()
+        LoginPagePhone(onNavigateToRoute)
     }
 }
 
 @Composable
-fun LoginPagePhone() {
+fun LoginPagePhone(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -104,7 +105,7 @@ fun LoginPagePhone() {
             )
 
             Button(
-                onClick = { /* Acción para iniciar sesión */ },
+                onClick = { onNavigateToRoute(AppDestinations.INICIO.route) },
                 modifier = Modifier
                     .width(180.dp)
                     .align(Alignment.CenterHorizontally)
@@ -119,7 +120,7 @@ fun LoginPagePhone() {
             }
 
             Button(
-                onClick = { /* Acción para registrarme */ },
+                onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
                 modifier = Modifier
                     .width(180.dp)
                     .align(Alignment.CenterHorizontally)
@@ -142,7 +143,7 @@ fun LoginPagePhone() {
 }
 
 @Composable
-fun LoginPageTablet() {
+fun LoginPageTablet(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -194,7 +195,7 @@ fun LoginPageTablet() {
                         )
                     )
                     Button(
-                        onClick = { /* Acción para iniciar sesión */ },
+                        onClick = { onNavigateToRoute(AppDestinations.INICIO.route)},
                         modifier = Modifier
                             .width(180.dp)
                             .align(Alignment.CenterHorizontally)
@@ -209,7 +210,7 @@ fun LoginPageTablet() {
                     }
 
                     Button(
-                        onClick = { /* Acción para registrarme */ },
+                        onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
                         modifier = Modifier
                             .width(180.dp)
                             .align(Alignment.CenterHorizontally)
@@ -238,6 +239,8 @@ fun LoginPageTablet() {
 @Composable
 fun LoginPagePreview(){
     PeraAppTheme {
-        LoginPage()
+        LoginPage{
+
+        }
     }
 }

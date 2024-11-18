@@ -15,6 +15,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import com.example.peraapp.ui.theme.PeraAppTheme
@@ -27,52 +31,28 @@ import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.navigation.AppDestinations
 
-data class ProfileItem(
-    val iconResId: Int,
-    val text: Int,
-    val onClick: () -> Unit
-)
 
 val profileItems = listOf(
-    ProfileItem(
-        iconResId = R.drawable.transferir,
-        text = R.string.transferir,
-        onClick = {  }
-    ),
-    ProfileItem(
-        iconResId = R.drawable.ingresar,
-        text = R.string.ingresar,
-        onClick = {  }
-    ),
-    ProfileItem(
-        iconResId = R.drawable.cobrar,
-        text = R.string.cobrar,
-        onClick = {  }
-    ),
-    ProfileItem(
-        iconResId = R.drawable.invest,
-        text = R.string.invertir,
-        onClick = {  }
-    ),
-    ProfileItem(
-        iconResId = R.drawable.cerrarsesion,
-        text = R.string.cerrarsesion,
-        onClick = {  }
-    )
+    AppDestinations.TRANSFERIR,
+    AppDestinations.INGRESAR,
+    AppDestinations.COBRAR,
+    AppDestinations.CERRARSESION
 )
 
 @Composable
 fun ProfilePage(name: String,
                 surname: String,
-                mail: String) {
+                mail: String,
+                onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if (isTablet) {
-        ProfilePageTablet(name, surname, mail)
+        ProfilePageTablet(name, surname, mail, onNavigateToRoute)
     } else {
-        ProfilePagePhone(name, surname, mail)
+        ProfilePagePhone(name, surname, mail, onNavigateToRoute)
     }
 }
 
@@ -80,7 +60,8 @@ fun ProfilePage(name: String,
 fun ProfilePagePhone(
                 name: String,
                 surname: String,
-                mail: String){
+                mail: String,
+                onNavigateToRoute: (String) -> Unit){
     Column (modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally){
         TopBar(R.string.cuenta)
@@ -100,7 +81,7 @@ fun ProfilePagePhone(
         Column {
             profileItems.forEach { item ->
                 Button(
-                    onClick = {},
+                    onClick = {onNavigateToRoute(item.route)},
                     colors = ButtonDefaults.buttonColors(
                         contentColor = MaterialTheme.colorScheme.secondary,
                         containerColor = MaterialTheme.colorScheme.background
@@ -132,7 +113,10 @@ fun ProfilePagePhone(
 @Composable
 fun ProfilePageTablet(name: String,
                       surname: String,
-                      mail: String) {
+                      mail: String,
+                      onNavigateToRoute: (String) -> Unit) {
+    var showCobrarDialog by remember { mutableStateOf(false) }
+    var showIngresarDialog by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -181,7 +165,13 @@ fun ProfilePageTablet(name: String,
                 Column {
                     profileItems.forEach { item ->
                         Button(
-                            onClick = {},
+                            onClick = {
+                                when (item.route) {
+                                    AppDestinations.COBRAR.route -> showCobrarDialog = true
+                                    AppDestinations.INGRESAR.route -> showIngresarDialog = true
+                                    else -> onNavigateToRoute(item.route)
+                                }
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 contentColor = MaterialTheme.colorScheme.secondary,
                                 containerColor = MaterialTheme.colorScheme.background
@@ -213,6 +203,22 @@ fun ProfilePageTablet(name: String,
             painter = painterResource(id = R.drawable.fotocuentatablet),
             contentDescription = stringResource(R.string.fotocuentatablet),
             modifier = Modifier.size(400.dp).align(Alignment.Bottom)
+        )
+    }
+
+    if (showCobrarDialog) {
+        ChargeDialog(
+            onDismissRequest = { showCobrarDialog = false },
+            onConfirmation = { /* Lógica de confirmación */ showCobrarDialog = false },
+            dialogTitle = stringResource(R.string.cobrar)
+        )
+    }
+
+    if (showIngresarDialog) {
+        DepositDialog(
+            onDismissRequest = { showIngresarDialog = false },
+            onConfirmation = { /* Lógica de confirmación */ showIngresarDialog = false },
+            dialogTitle = stringResource(R.string.ingresar)
         )
     }
 }

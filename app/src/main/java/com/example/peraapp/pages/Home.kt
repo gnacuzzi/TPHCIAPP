@@ -10,7 +10,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 import com.example.peraapp.components.MovimientosSection
@@ -19,7 +18,7 @@ import com.example.peraapp.components.TarjetasSection
 import com.example.peraapp.components.TopBar
 
 @Composable
-fun HomePage() {
+fun HomePage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     if (configuration.screenWidthDp < 600){
         Column(
@@ -28,7 +27,8 @@ fun HomePage() {
             TopBar(R.string.inicio)
             SaldoSection(
                 name = "Samanta",
-                saldo = 0
+                saldo = 0,
+                onNavigateToRoute = onNavigateToRoute
             )
 
             Column(
@@ -36,8 +36,8 @@ fun HomePage() {
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())//supuestamente lo hace scrolleable, veremos
             ) {
-                TarjetasSection()
-                MovimientosSection()
+                TarjetasSection(onNavigateToRoute)
+                MovimientosSection(onNavigateToRoute)
             }
         }
     }else{
@@ -53,12 +53,13 @@ fun HomePage() {
             ) {
                 SaldoSection(
                     name = "Samanta",
-                    saldo = 0
+                    saldo = 0,
+                    onNavigateToRoute = onNavigateToRoute
                 )
-                MovimientosSection()
+                MovimientosSection(onNavigateToRoute)
             }
             Column(modifier = Modifier.weight(0.4f)) {
-                TarjetasSection()
+                TarjetasSection(onNavigateToRoute)
             }
         }
     }

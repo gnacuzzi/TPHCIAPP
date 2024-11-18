@@ -18,6 +18,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -25,99 +29,92 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.peraapp.PreviewLocales
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
 fun DeleteCardPage() {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
+    var showDeleteCardDialog by remember { mutableStateOf(false) }
 
     if (isTablet) {
-        DeleteCardPageTablet()
-    } else {
-        DeleteCardPagePhone()
-    }
-}
-
-@Composable
-fun DeleteCardPagePhone(){//deberia recibir como parametro la tarjeta pero no se si eso se puede hacer
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Card(//esto deberia ser un foreach
-            bank = "Santander",
-            number = "1234 5678 9101 1121",
-            name = "Samanta Jones",
-            date = "12/28",
-        )
-        {}
-        Button(
-            onClick = {  },
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.tertiary,
-                containerColor = MaterialTheme.colorScheme.background
-            ),
+        Row(
             modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .width(320.dp)
+                .fillMaxSize()
+                .padding(30.dp)
         ) {
-            Text(
-                text = stringResource(R.string.eliminartarjeta),
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
-    }
-}
-
-@Composable
-fun DeleteCardPageTablet() {
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(30.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(0.5f)
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(R.string.tarjeta),
-                style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
-            )
-            Column (
+            Column(
                 modifier = Modifier
+                    .weight(0.5f)
                     .fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.tarjeta),
+                    style = MaterialTheme.typography.displayMedium,
+                    modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
+                )
+                Column (
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ){
+                    //aca iria la tarjeta que pasas por parametro
+                    CardTablet(//esto deberia ser un foreach
+                        bank = "Galicia",
+                        number = "1234 1111 9101 1121",
+                        name = "Samanta Jones",
+                        date = "12/26"
+                    ){}
+                }
+            }
+            Column(
+                modifier = Modifier.weight(0.5f).fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ){
-                //aca iria la tarjeta que pasas por parametro
-                CardTablet(//esto deberia ser un foreach
-                    bank = "Galicia",
-                    number = "1234 1111 9101 1121",
-                    name = "Samanta Jones",
-                    date = "12/26"
-                ){}
+            ) {
+                Button(
+                    onClick = { showDeleteCardDialog = true },
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.tertiary,
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
+                    modifier = Modifier
+                        .border(
+                            width = 2.dp,
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .width(400.dp)
+                        .height(80.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.eliminartarjeta),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
             }
         }
+    } else {
         Column(
-            modifier = Modifier.weight(0.5f).fillMaxHeight(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
+            TopBar(R.string.tarjeta)
+            Card(//esto deberia ser un foreach
+                bank = "Santander",
+                number = "1234 5678 9101 1121",
+                name = "Samanta Jones",
+                date = "12/28",
+            )
+            {}
             Button(
-                onClick = {  },
+                onClick = { showDeleteCardDialog = true },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = MaterialTheme.colorScheme.tertiary,
                     containerColor = MaterialTheme.colorScheme.background
@@ -128,20 +125,39 @@ fun DeleteCardPageTablet() {
                         color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .width(400.dp)
-                    .height(80.dp)
+                    .width(320.dp)
             ) {
                 Text(
                     text = stringResource(R.string.eliminartarjeta),
-                    style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.secondary
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }
     }
+    if (showDeleteCardDialog) {
+        DeleteCardDialog(
+            card(//esto esta como ejemplo pero no se deberia construir ahi
+                name = "Samanta Jones",
+                bank = "Santander",
+                number = "1234 1111 5678 2212",
+                date = "12/28",
+                code = 111
+            ),
+            onDismissRequest = { showDeleteCardDialog = false },
+            onConfirmation = { /* Lógica de confirmación */ showDeleteCardDialog = false },
+            dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
+        )
+    }
 }
 
 
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun previewcard(){
+    PeraAppTheme {
+        DeleteCardPage()
+    }
+}
 
 @Preview(showBackground = true)
 @Composable

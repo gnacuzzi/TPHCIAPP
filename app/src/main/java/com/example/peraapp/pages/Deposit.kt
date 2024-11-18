@@ -30,11 +30,8 @@ import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-class Deposit {
-}
-
 @Composable
-fun DepositPage(bodycontent: @Composable () -> Unit){
+fun DepositPage(onNavigateToRoute: (String) -> Unit){
     Scaffold(
         topBar = { TopBar(R.string.ingresar) }
     ) { innerPadding ->
@@ -43,69 +40,65 @@ fun DepositPage(bodycontent: @Composable () -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            bodycontent()
-        }
-    }
-}
-@Composable
-fun DepositContent() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        IconButton(
-            onClick = { /* Aquí iría la acción para volver atrás */ },
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.volveratras),
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
-        Text(
-            text = stringResource(R.string.tucbu),
-            modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = { onNavigateToRoute("BACK") },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.volveratras),
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.tucbu),
+                    modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
 
-        Text(
-            text = "00000121213242434354545", //hacerlo responsivo
-            modifier = Modifier
-                .padding(start = 30.dp, bottom = 20.dp)
-                .border(1.dp, MaterialTheme.colorScheme.tertiary)
-                .padding(8.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
+                Text(
+                    text = "00000121213242434354545", //hacerlo responsivo
+                    modifier = Modifier
+                        .padding(start = 30.dp, bottom = 20.dp)
+                        .border(1.dp, MaterialTheme.colorScheme.tertiary)
+                        .padding(8.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
 
-        Text(
-            text = stringResource(R.string.tualias),
-            modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = "pera.app", //hacerlo responsivo
-            modifier = Modifier
-                .padding(start = 30.dp)
-                .border(1.dp, MaterialTheme.colorScheme.tertiary)
-                .padding(8.dp),
-            style = MaterialTheme.typography.titleMedium
-        )
+                Text(
+                    text = stringResource(R.string.tualias),
+                    modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "pera.app", //hacerlo responsivo
+                    modifier = Modifier
+                        .padding(start = 30.dp)
+                        .border(1.dp, MaterialTheme.colorScheme.tertiary)
+                        .padding(8.dp),
+                    style = MaterialTheme.typography.titleMedium
+                )
 
-        Button(//deberia solo aparecer una vez que apretas generar link
-            onClick = { /* Acción para transferir */ },
-            modifier = Modifier
-                .padding(top = 60.dp)
-                .width(270.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(stringResource(R.string.compartirdatos), style = MaterialTheme.typography.titleMedium)
+                Button(//deberia solo aparecer una vez que apretas generar link
+                    onClick = { /* Acción para transferir */ },
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .width(270.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(stringResource(R.string.compartirdatos), style = MaterialTheme.typography.titleMedium)
+                }
+            }
         }
     }
 }
@@ -116,9 +109,6 @@ fun DepositContent() {
 fun DepositPagePreview() {
     PeraAppTheme {
         DepositPage {
-            DepositContent()
-            //de alguna forma hay que cambiar esto para que se ponga el dialogo
-            //si es un ipad
         }
     }
 }

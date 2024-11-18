@@ -35,22 +35,23 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
-fun SigninPage() {
+fun SigninPage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if (isTablet) {
-        SigninPageTablet()
+        SigninPageTablet(onNavigateToRoute)
     } else {
-        SigninPagePhone()
+        SigninPagePhone(onNavigateToRoute)
     }
 }
 
 @Composable
-fun SigninPagePhone() {
+fun SigninPagePhone(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +85,7 @@ fun SigninPagePhone() {
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     IconButton(
-                        onClick = { /* Aquí iría la acción para volver atrás */ },
+                        onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
                         modifier = Modifier.padding(bottom = 16.dp)
                     ) {
                         Icon(
@@ -190,7 +191,7 @@ fun SigninPagePhone() {
 
             item {
                 Button(
-                    onClick = { /* Acción para registrarme */ },
+                    onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
                     modifier = Modifier
                         .width(180.dp)
                         .padding(vertical = 16.dp),
@@ -208,7 +209,7 @@ fun SigninPagePhone() {
 }
 
 @Composable
-fun SigninPageTablet() {
+fun SigninPageTablet(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -235,7 +236,7 @@ fun SigninPageTablet() {
                     Row(
                     ) {
                         IconButton(
-                            onClick = { /* Aquí iría la acción para volver atrás */ },
+                            onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
                             modifier = Modifier.padding(bottom = 16.dp)
                         ) {
                             Icon(
@@ -329,7 +330,7 @@ fun SigninPageTablet() {
                     )
 
                     Button(
-                        onClick = { /* Acción para registrarme */ },
+                        onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
                         modifier = Modifier
                             .width(180.dp)
                             .padding(vertical = 16.dp),
@@ -351,6 +352,8 @@ fun SigninPageTablet() {
 @Composable
 fun SigninPagePreview(){
     PeraAppTheme {
-        SigninPage()
+        SigninPage{
+
+        }
     }
 }

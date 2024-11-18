@@ -26,6 +26,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -37,6 +41,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 
@@ -48,6 +53,9 @@ data class card (
     val code: Int
 )
 //habria que mandar tambien el textstyle pero que lo haga otro
+//hay que hacer que el cardclick sea ir a la de eliminar tarjeta
+//esa hay que hacerla dinamica pero vamos a tener que mandarle el id de la tarjeta
+//para eso necesitamos la api para definir bien que ponemos como id
 @Composable
 fun CardHome(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
     Card(
@@ -140,19 +148,19 @@ fun Card(bank: String,
 }
 
 @Composable
-fun CardsPage() {
+fun CardsPage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if (isTablet) {
-        CardsPageTablet()
+        CardsPageTablet(onNavigateToRoute)
     } else {
-        CardsPagePhone()
+        CardsPagePhone(onNavigateToRoute)
     }
 }
 
 @Composable
-fun CardsPagePhone(){
+fun CardsPagePhone(onNavigateToRoute: (String) -> Unit){
     Column (
         modifier = Modifier.fillMaxSize()
     ){
@@ -170,11 +178,11 @@ fun CardsPagePhone(){
                     name = "Samanta Jones",
                     date = "12/28",
                 )
-                {}
+                {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
             }
             item {
                 Button(
-                    onClick = {  },
+                    onClick = { onNavigateToRoute(AppDestinations.AGREGARTARJETA.route) },
                     colors = ButtonDefaults.buttonColors(
                         contentColor = MaterialTheme.colorScheme.tertiary,
                         containerColor = MaterialTheme.colorScheme.background
@@ -199,7 +207,9 @@ fun CardsPagePhone(){
 }
 
 @Composable
-fun CardsPageTablet() {
+fun CardsPageTablet(onNavigateToRoute: (String) -> Unit) {
+    var showAddCardDialog by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -216,15 +226,15 @@ fun CardsPageTablet() {
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
-            LazyColumn{
-                //aca iria un foreach
+            LazyColumn {
+                // Esto podría ser un foreach
                 item {
                     CardTablet(
-                    bank = "Galicia",
-                    number = "1234 1111 9101 1121",
-                    name = "Samanta Jones",
-                    date = "12/26"
-                ){}
+                        bank = "Galicia",
+                        number = "1234 1111 9101 1121",
+                        name = "Samanta Jones",
+                        date = "12/26"
+                    ) {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
                 }
             }
         }
@@ -234,7 +244,7 @@ fun CardsPageTablet() {
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = {  },
+                onClick = { showAddCardDialog = true }, // Abre el diálogo al hacer clic
                 colors = ButtonDefaults.buttonColors(
                     contentColor = MaterialTheme.colorScheme.tertiary,
                     containerColor = MaterialTheme.colorScheme.background
@@ -256,21 +266,20 @@ fun CardsPageTablet() {
             }
         }
     }
-}
 
-
-@Preview(showBackground = true)
-@Composable
-fun AddCardTabletDialogPreview() {
-    PeraAppTheme {
+    if (showAddCardDialog) {
         AddCardTabletDialog(
-            onDismissRequest = { },
-            onConfirmation = { },
+            onDismissRequest = { showAddCardDialog = false },
+            onConfirmation = {
+                showAddCardDialog = false
+                // Agrega la lógica para confirmar
+            }
         )
     }
 }
 
-//hay que ver como hacemos para que en la navegacion cambie esto
+
+
 @Composable
 fun AddCardTabletDialog(
     onDismissRequest: () -> Unit,

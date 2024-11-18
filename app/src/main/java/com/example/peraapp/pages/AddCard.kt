@@ -28,11 +28,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 
-class AddCard {
-}
 
 @Composable
-fun AddCardPage(bodycontent: @Composable () -> Unit){
+fun AddCard(onNavigateToRoute: (String) -> Unit){
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta) }
     ) { innerPadding ->
@@ -41,95 +39,91 @@ fun AddCardPage(bodycontent: @Composable () -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            bodycontent()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = { onNavigateToRoute("BACK") },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.volveratras),
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.numerotarjeta)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.nombretitular)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.fechadeven)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.codigo)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.banco)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+                Button(
+                    onClick = { /* Acción para agregar tarjeta */ },
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .width(270.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
+                }
+
+            }
         }
-    }
-}
-@Composable
-fun AddCardContent() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        IconButton(
-            onClick = { /* Aquí iría la acción para volver atrás */ },
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.volveratras),
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.numerotarjeta)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )
-        )
-
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.nombretitular)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text
-            )
-        )
-
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.fechadeven)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )
-        )
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.codigo)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )
-        )
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.banco)) },
-            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text
-            )
-        )
-
-        Button(
-            onClick = { /* Acción para agregar tarjeta */ },
-            modifier = Modifier
-                .padding(top = 60.dp)
-                .width(270.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
-        }
-
     }
 }
 
@@ -138,8 +132,8 @@ fun AddCardContent() {
 @Composable
 fun AddCardPagePreview() {
     PeraAppTheme{
-        AddCardPage{
-            AddCardContent()
+        AddCard{
+
         }
     }
 }

@@ -21,22 +21,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.example.peraapp.R
+import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.MovimientoItem
 
 @Composable
-fun MovimientosSection() {
+fun MovimientosSection(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if (isTablet) {
-        MovimientosSectionTablet()
+        MovimientosSectionTablet(onNavigateToRoute)
     } else {
-        MovimientosSectionPhone()
+        MovimientosSectionPhone(onNavigateToRoute)
     }
 }
 
 @Composable
-fun MovimientosSectionPhone() {
+fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,7 +54,7 @@ fun MovimientosSectionPhone() {
                 color = Color.Black
             )
             TextButton(
-                onClick = {},
+                onClick = { onNavigateToRoute(AppDestinations.MOVIMIENTOS.route) },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = MaterialTheme.colorScheme.secondary,
                     containerColor = MaterialTheme.colorScheme.background
@@ -75,7 +76,7 @@ fun MovimientosSectionPhone() {
 }
 
 @Composable
-fun MovimientosSectionTablet() {
+fun MovimientosSectionTablet(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(20.dp),
@@ -100,7 +101,7 @@ fun MovimientosSectionTablet() {
                     color = Color.Black
                 )
                 TextButton(
-                    onClick = {},
+                    onClick = {onNavigateToRoute(AppDestinations.MOVIMIENTOS.route)},
                     colors = ButtonDefaults.buttonColors(
                         contentColor = MaterialTheme.colorScheme.secondary,
                         containerColor = MaterialTheme.colorScheme.surface

@@ -14,6 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -22,51 +26,41 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
+import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.pages.ChargeDialog
+import com.example.peraapp.pages.DepositDialog
 
 //obvio que se puede modularizar mas pero solo si tenemos tiempo
-data class HomeBarItem(
-    val iconResId: Int,
-    val text: Int,
-    val onClick: () -> Unit
-)
+
 
 val homeItems = listOf(
-    HomeBarItem(
-        iconResId = R.drawable.transferir,
-        text = R.string.transferir,
-        onClick = { /* Acción para "Transferir" */ }
-    ),
-    HomeBarItem(
-        iconResId = R.drawable.ingresar,
-        text = R.string.ingresar,
-        onClick = { /* Acción para "Ingresar" */ }
-    ),
-    HomeBarItem(
-        iconResId = R.drawable.cobrar,
-        text = R.string.cobrar,
-        onClick = { /* Acción para "Cobrar" */ }
-    ),
-    HomeBarItem(
-        iconResId = R.drawable.invest,
-        text = R.string.invertir,
-        onClick = { /* Acción para "invertir" */ }
-    )
+    AppDestinations.TRANSFERIR,
+    AppDestinations.INGRESAR,
+    AppDestinations.COBRAR
 )
 
 @Composable
-fun SaldoSection(name: String, saldo: Number) {
+fun SaldoSection(
+    name: String,
+    saldo: Number,
+    onNavigateToRoute: (String) -> Unit
+) {
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if (isTablet) {
-        SaldoSectionTablet(name, saldo)
+        SaldoSectionTablet(name, saldo, onNavigateToRoute)
     } else {
-        SaldoSectionPhone(name, saldo)
+        SaldoSectionPhone(name, saldo, onNavigateToRoute)
     }
 }
 
 @Composable
-fun SaldoSectionPhone(name:String, saldo: Number) {
+fun SaldoSectionPhone(
+    name:String,
+    saldo: Number,
+    onNavigateToRoute: (String) -> Unit
+) {
     Surface (
         color = MaterialTheme.colorScheme.primary,
         shape = RoundedCornerShape(35.dp),
@@ -101,7 +95,7 @@ fun SaldoSectionPhone(name:String, saldo: Number) {
             ) {
                 homeItems.forEach { item ->
                     Button(
-                        onClick = item.onClick,
+                        onClick = { onNavigateToRoute(item.route) },
                         colors = ButtonDefaults.buttonColors(
                             contentColor = MaterialTheme.colorScheme.secondary
                         ),
@@ -131,12 +125,19 @@ fun SaldoSectionPhone(name:String, saldo: Number) {
 }
 
 @Composable
-fun SaldoSectionTablet(name:String, saldo: Number) {
-    Surface (
+fun SaldoSectionTablet(
+    name: String,
+    saldo: Number,
+    onNavigateToRoute: (String) -> Unit
+) {
+    var showCobrarDialog by remember { mutableStateOf(false) }
+    var showIngresarDialog by remember { mutableStateOf(false) }
+
+    Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier.padding(10.dp)
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -168,7 +169,13 @@ fun SaldoSectionTablet(name:String, saldo: Number) {
             ) {
                 homeItems.forEach { item ->
                     Button(
-                        onClick = item.onClick,
+                        onClick = {
+                            when (item.route) {
+                                AppDestinations.COBRAR.route -> showCobrarDialog = true
+                                AppDestinations.INGRESAR.route -> showIngresarDialog = true
+                                else -> onNavigateToRoute(item.route)
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(
                             contentColor = MaterialTheme.colorScheme.secondary,
                             containerColor = MaterialTheme.colorScheme.surface
@@ -195,5 +202,21 @@ fun SaldoSectionTablet(name:String, saldo: Number) {
                 }
             }
         }
+    }
+
+    if (showCobrarDialog) {
+        ChargeDialog(
+            onDismissRequest = { showCobrarDialog = false },
+            onConfirmation = { /* Lógica de confirmación */ showCobrarDialog = false },
+            dialogTitle = stringResource(R.string.cobrar)
+        )
+    }
+
+    if (showIngresarDialog) {
+        DepositDialog(
+            onDismissRequest = { showIngresarDialog = false },
+            onConfirmation = { /* Lógica de confirmación */ showIngresarDialog = false },
+            dialogTitle = stringResource(R.string.ingresar)
+        )
     }
 }

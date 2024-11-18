@@ -42,230 +42,206 @@ class Transfer {
 }
 
 @Composable
-fun TransferPage(name: Int, bodycontent: @Composable () -> Unit){
+fun TransferPage(onNavigateToRoute: (String) -> Unit){
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
 
     if(isTablet){
         Scaffold(
-            topBar = { TopBarTablet(name) },
+            topBar = { TopBarTablet(R.string.transferir) },
         ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                bodycontent()
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxSize()
+                ) {
+                    IconButton(
+                        onClick = { onNavigateToRoute("BACK") },
+                        modifier = Modifier.padding(bottom = 16.dp, start = 20.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.volveratras),
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.size(100.dp)
+                        )
+                    }
+
+                    Row (
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column {
+                            Text(
+                                text = stringResource(R.string.mail),
+                                style = MaterialTheme.typography.displaySmall,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                            OutlinedTextField(
+                                value = "",
+                                onValueChange = { /* Manejar el cambio de valor */ },
+                                label = { Text(stringResource(R.string.mail)) },
+                                modifier = Modifier.padding(bottom = 10.dp, top = 20.dp),
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Email
+                                )
+                            )
+                        }
+
+                        Column {
+                            Text(
+                                text = "${stringResource(R.string.ingresarmonto)}:",
+                                style = MaterialTheme.typography.displaySmall,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+
+                            OutlinedTextField(
+                                value = "",
+                                onValueChange = { /* Manejar el cambio de valor */ },
+                                label = { Text(stringResource(R.string.monto)) },
+                                modifier = Modifier
+                                    .padding(bottom = 10.dp, top = 20.dp),
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Number
+                                ),
+                                textStyle = MaterialTheme.typography.titleLarge
+                            )
+                        }
+                    }
+
+                    Column (
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth()
+                    ){
+                        Text(
+                            text = "${stringResource(R.string.formadepago)}:",
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
+                        )
+
+                        LazyRow {//foreach
+                            item { CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
+                            item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                        }
+
+                        Button(
+                            onClick = { /* Acción para transferir */ },
+                            modifier = Modifier
+                                .padding(top = 50.dp)
+                                .width(270.dp)
+                                .align(Alignment.CenterHorizontally),
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                contentColor = MaterialTheme.colorScheme.secondary,
+                                containerColor = MaterialTheme.colorScheme.primary
+                            )
+                        ) {
+                            Text(stringResource(R.string.transferir), style = MaterialTheme.typography.titleLarge)
+                        }
+                    }
+                }
             }
         }
     } else{
         Scaffold(
-            topBar = { TopBar(name) }
+            topBar = { TopBar(R.string.transferir) }
         ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                bodycontent()
-            }
-        }
-    }
-
-}
-
-@Composable
-fun TransferContent() {
-    val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
-
-    if (isTablet) {
-        TransferContentTablet()
-    } else {
-        TransferContentPhone()
-    }
-}
-
-@Composable
-fun TransferContentPhone() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        IconButton(
-            onClick = { /* Aquí iría la acción para volver atrás */ },
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.volveratras),
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.mail)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Email
-            )
-        )
-
-        Text(
-            text = "${stringResource(R.string.ingresarmonto)}:",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.monto)) },
-            modifier = Modifier
-                .padding(bottom = 10.dp, top = 20.dp)
-                .align(Alignment.CenterHorizontally),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            ),
-            textStyle = MaterialTheme.typography.titleLarge
-        )
-
-        Text(
-            text = "${stringResource(R.string.formadepago)}:",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-
-        LazyRow{//foreach
-            item { Card(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
-            item { Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
-        }
-
-        Button(
-            onClick = { /* Acción para transferir */ },
-            modifier = Modifier
-                .padding(top = 60.dp)
-                .width(270.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(stringResource(R.string.transferir), style = MaterialTheme.typography.titleMedium)
-        }
-
-    }
-}
-
-
-@Composable
-fun TransferContentTablet() {
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize()
-    ) {
-        IconButton(
-            onClick = { /* Aquí iría la acción para volver atrás */ },
-            modifier = Modifier.padding(bottom = 16.dp, start = 20.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.volveratras),
-                tint = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.size(100.dp)
-            )
-        }
-
-        Row (
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column {
-                Text(
-                    text = stringResource(R.string.mail),
-                    style = MaterialTheme.typography.displaySmall,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.mail)) },
-                    modifier = Modifier.padding(bottom = 10.dp, top = 20.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Email
-                    )
-                )
-            }
-
-            Column {
-                Text(
-                    text = "${stringResource(R.string.ingresarmonto)}:",
-                    style = MaterialTheme.typography.displaySmall,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.monto)) },
+                Column(
                     modifier = Modifier
-                        .padding(bottom = 10.dp, top = 20.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    textStyle = MaterialTheme.typography.titleLarge
-                )
-            }
-        }
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    IconButton(
+                        onClick = { onNavigateToRoute("BACK") },
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.volveratras),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
 
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
-        ){
-            Text(
-                text = "${stringResource(R.string.formadepago)}:",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
-            )
+                    OutlinedTextField(
+                        value = "",
+                        onValueChange = { /* Manejar el cambio de valor */ },
+                        label = { Text(stringResource(R.string.mail)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 10.dp),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Email
+                        )
+                    )
 
-            LazyRow {//foreach
-                item { CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
-                item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
-            }
+                    Text(
+                        text = "${stringResource(R.string.ingresarmonto)}:",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
 
-            Button(
-                onClick = { /* Acción para transferir */ },
-                modifier = Modifier
-                    .padding(top = 50.dp)
-                    .width(270.dp)
-                    .align(Alignment.CenterHorizontally),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = MaterialTheme.colorScheme.secondary,
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
-            ) {
-                Text(stringResource(R.string.transferir), style = MaterialTheme.typography.titleLarge)
+                    OutlinedTextField(
+                        value = "",
+                        onValueChange = { /* Manejar el cambio de valor */ },
+                        label = { Text(stringResource(R.string.monto)) },
+                        modifier = Modifier
+                            .padding(bottom = 10.dp, top = 20.dp)
+                            .align(Alignment.CenterHorizontally),
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        textStyle = MaterialTheme.typography.titleLarge
+                    )
+
+                    Text(
+                        text = "${stringResource(R.string.formadepago)}:",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+
+                    LazyRow{//foreach
+                        item { Card(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
+                        item { Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    }
+
+                    Button(
+                        onClick = { /* Acción para transferir */ },
+                        modifier = Modifier
+                            .padding(top = 60.dp)
+                            .width(270.dp)
+                            .align(Alignment.CenterHorizontally),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = MaterialTheme.colorScheme.secondary,
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Text(stringResource(R.string.transferir), style = MaterialTheme.typography.titleMedium)
+                    }
+
+                }
             }
         }
     }
+
 }
+
 
 @PreviewSizes
 @Composable
 fun TransferPagePreview() {
     PeraAppTheme{
-        TransferPage(R.string.transferir){
-            TransferContent()
-        }
+        TransferPage{}
     }
 }
 

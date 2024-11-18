@@ -32,11 +32,8 @@ import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-class Charge {
-}
-
 @Composable
-fun ChargePage(bodycontent: @Composable () -> Unit){
+fun ChargePage(onNavigateToRoute: (String) -> Unit){
     Scaffold(
         topBar = { TopBar(R.string.cobrar) }
     ) { innerPadding ->
@@ -45,82 +42,78 @@ fun ChargePage(bodycontent: @Composable () -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            bodycontent()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = { onNavigateToRoute("BACK") },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.volveratras),
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+
+                Text(
+                    text = "${stringResource(R.string.ingresarmonto)}:",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.monto)) },
+                    modifier = Modifier
+                        .padding(bottom = 10.dp, top = 20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    ),
+                    textStyle = MaterialTheme.typography.titleLarge
+                )
+
+                Button(
+                    onClick = { /* Acción para transferir */ },
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .width(270.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(stringResource(R.string.generarlink), style = MaterialTheme.typography.titleMedium)
+                }
+
+                Text(
+                    text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
+                    modifier = Modifier.padding(top = 20.dp)
+                )
+
+                Button(//deberia solo aparecer una vez que apretas generar link
+                    onClick = { /* Acción para transferir */ },
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .width(270.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(stringResource(R.string.compartir), style = MaterialTheme.typography.titleMedium)
+                }
+
+            }
         }
-    }
-}
-@Composable
-fun ChargeContent() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        IconButton(
-            onClick = { /* Aquí iría la acción para volver atrás */ },
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(R.string.volveratras),
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
-
-        Text(
-            text = "${stringResource(R.string.ingresarmonto)}:",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.monto)) },
-            modifier = Modifier
-                .padding(bottom = 10.dp, top = 20.dp)
-                .align(Alignment.CenterHorizontally),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            ),
-            textStyle = MaterialTheme.typography.titleLarge
-        )
-
-        Button(
-            onClick = { /* Acción para transferir */ },
-            modifier = Modifier
-                .padding(top = 60.dp)
-                .width(270.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(stringResource(R.string.generarlink), style = MaterialTheme.typography.titleMedium)
-        }
-
-        Text(
-            text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
-            modifier = Modifier.padding(top = 20.dp)
-        )
-
-        Button(//deberia solo aparecer una vez que apretas generar link
-            onClick = { /* Acción para transferir */ },
-            modifier = Modifier
-                .padding(top = 60.dp)
-                .width(270.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(stringResource(R.string.compartir), style = MaterialTheme.typography.titleMedium)
-        }
-
     }
 }
 
@@ -129,9 +122,8 @@ fun ChargeContent() {
 @Composable
 fun ChargePagePreview() {
     PeraAppTheme {
-        ChargePage {
-            ChargeContent()
-            //cambiar a abrir dialogo si es ipad
+        ChargePage{
+
         }
     }
 }
