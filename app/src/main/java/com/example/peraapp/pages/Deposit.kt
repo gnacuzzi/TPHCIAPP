@@ -117,6 +117,8 @@ fun DepositPagePreview() {
     PeraAppTheme {
         DepositPage {
             DepositContent()
+            //de alguna forma hay que cambiar esto para que se ponga el dialogo
+            //si es un ipad
         }
     }
 }

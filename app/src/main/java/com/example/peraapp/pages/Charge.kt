@@ -131,6 +131,7 @@ fun ChargePagePreview() {
     PeraAppTheme {
         ChargePage {
             ChargeContent()
+            //cambiar a abrir dialogo si es ipad
         }
     }
 }
