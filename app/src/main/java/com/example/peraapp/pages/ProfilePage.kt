@@ -118,7 +118,6 @@ fun ProfilePageTabletPortrait(
     onNavigateToRoute: (String) -> Unit
 ) {
     var showCobrarDialog by remember { mutableStateOf(false) }
-    var showIngresarDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -150,7 +149,6 @@ fun ProfilePageTabletPortrait(
                     onClick = {
                         when (item.route) {
                             AppDestinations.COBRAR.route -> showCobrarDialog = true
-                            AppDestinations.INGRESAR.route -> showIngresarDialog = true
                             else -> onNavigateToRoute(item.route)
                         }
                     },
@@ -175,13 +173,6 @@ fun ProfilePageTabletPortrait(
         )
     }
 
-    if (showIngresarDialog) {
-        DepositDialog(
-            onDismissRequest = { showIngresarDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showIngresarDialog = false },
-            dialogTitle = stringResource(R.string.ingresar)
-        )
-    }
 }
 
 
@@ -217,7 +208,6 @@ fun ProfilePageTabletLandscape(name: String,
                       mail: String,
                       onNavigateToRoute: (String) -> Unit) {
     var showCobrarDialog by remember { mutableStateOf(false) }
-    var showIngresarDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -254,7 +244,6 @@ fun ProfilePageTabletLandscape(name: String,
                             onClick = {
                                 when (item.route) {
                                     AppDestinations.COBRAR.route -> showCobrarDialog = true
-                                    AppDestinations.INGRESAR.route -> showIngresarDialog = true
                                     else -> onNavigateToRoute(item.route)
                                 }
                             },
@@ -282,13 +271,6 @@ fun ProfilePageTabletLandscape(name: String,
         )
     }
 
-    if (showIngresarDialog) {
-        DepositDialog(
-            onDismissRequest = { showIngresarDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showIngresarDialog = false },
-            dialogTitle = stringResource(R.string.ingresar)
-        )
-    }
 }
 
 @Composable

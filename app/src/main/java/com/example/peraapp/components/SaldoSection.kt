@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.ChargeDialog
-import com.example.peraapp.pages.DepositDialog
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 
@@ -134,7 +133,6 @@ fun SaldoSectionTablet(
     onNavigateToRoute: (String) -> Unit
 ) {
     var showCobrarDialog by remember { mutableStateOf(false) }
-    var showIngresarDialog by remember { mutableStateOf(false) }
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -175,7 +173,6 @@ fun SaldoSectionTablet(
                         onClick = {
                             when (item.route) {
                                 AppDestinations.COBRAR.route -> showCobrarDialog = true
-                                AppDestinations.INGRESAR.route -> showIngresarDialog = true
                                 else -> onNavigateToRoute(item.route)
                             }
                         },
@@ -212,14 +209,6 @@ fun SaldoSectionTablet(
             onDismissRequest = { showCobrarDialog = false },
             onConfirmation = { /* Lógica de confirmación */ showCobrarDialog = false },
             dialogTitle = stringResource(R.string.cobrar)
-        )
-    }
-
-    if (showIngresarDialog) {
-        DepositDialog(
-            onDismissRequest = { showIngresarDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showIngresarDialog = false },
-            dialogTitle = stringResource(R.string.ingresar)
         )
     }
 }

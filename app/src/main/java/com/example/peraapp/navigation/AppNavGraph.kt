@@ -8,7 +8,7 @@ import com.example.peraapp.R
 import com.example.peraapp.pages.AddCard
 import com.example.peraapp.pages.CardsPage
 import com.example.peraapp.pages.ChargePage
-import com.example.peraapp.pages.DeleteCardPage
+import com.example.peraapp.pages.DeleteCardScreen
 import com.example.peraapp.pages.DepositPage
 import com.example.peraapp.pages.HomePage
 import com.example.peraapp.pages.LoginPage
@@ -56,7 +56,7 @@ fun AppNavGraph(navController: NavHostController,
             AddCard(onNavigateToRoute)
         }
         composable(route = AppDestinations.ELIMINARTARJETA.route){
-            DeleteCardPage()//falta esta porque tiene que ser dinamica segun la tarjeta apretada
+            DeleteCardScreen()//falta esta porque tiene que ser dinamica segun la tarjeta apretada
         }
         composable(route = AppDestinations.INICIARSESION.route){
             LoginPage(onNavigateToRoute)
