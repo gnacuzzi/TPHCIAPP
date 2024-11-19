@@ -45,6 +45,7 @@ import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
+import com.example.peraapp.utils.ModularizedFunctions.ModularizedCardLayout
 
 
 data class card (
@@ -152,19 +153,12 @@ fun Card(bank: String,
 
 @Composable
 fun CardsPage(onNavigateToRoute: (String) -> Unit) {
-    val configuration = LocalConfiguration.current
-    val isTabletDevice = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    if (isTabletDevice) {
-        CardsPageTablet(onNavigateToRoute)
-    } else {
-        if (isLandscape) {
-            CardsPagePhoneLandscape(onNavigateToRoute)
-        } else {
-            CardsPagePhonePortrait(onNavigateToRoute)
-        }
-    }
+    ModularizedCardLayout(
+        contentPhonePortrait = { CardsPagePhonePortrait(onNavigateToRoute) },
+        contentPhoneLandscape = { CardsPagePhoneLandscape(onNavigateToRoute) },
+        contentTabletPortrait = { CardsPageTablet(onNavigateToRoute) },
+        contentTabletLandscape = { CardsPageTablet(onNavigateToRoute)}
+    )
 }
 
 
@@ -425,7 +419,3 @@ fun AddCardTabletDialog(
         }
     }
 }
-
-
-
-

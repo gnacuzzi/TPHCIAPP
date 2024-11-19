@@ -36,30 +36,20 @@ import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.BackButton
+import com.example.peraapp.utils.ModularizedFunctions.ModularizedCardLayout
 
 //hay que recibir la tarjeta por parametro
 @Composable
-fun DeleteCardPage() {
-    val configuration = LocalConfiguration.current
-    val isTablet = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    if (isTablet) {
-        if (isLandscape) {
-            DeleteCardPageTabletLandscape()
-        } else {
-            DeleteCardPageTabletPortrait()
-        }
-    } else {
-        if (isLandscape) {
-            DeleteCardPagePhoneLandscape()
-        } else {
-            DeleteCardPagePhonePortrait()
-        }
-    }
+fun DeleteCardScreen() {
+    ModularizedCardLayout (
+        contentPhonePortrait = { DeleteCardScreenPhonePortrait() },
+        contentPhoneLandscape = { DeleteCardScreenPhoneLandscape() },
+        contentTabletPortrait = { DeleteCardScreenTabletPortrait() },
+        contentTabletLandscape = { DeleteCardScreenTabletLandscape() }
+    )
 }
 @Composable
-fun DeleteCardPagePhonePortrait() {
+fun DeleteCardScreenPhonePortrait() {
     val card = card(
         name = "Samanta Jones",
         bank = "Santander",
@@ -92,7 +82,7 @@ fun DeleteCardPagePhonePortrait() {
     }
 }
 @Composable
-fun DeleteCardPagePhoneLandscape() {
+fun DeleteCardScreenPhoneLandscape() {
     val card = card(
         name = "Samanta Jones",
         bank = "Santander",
@@ -145,7 +135,7 @@ fun DeleteCardPagePhoneLandscape() {
 
 }
 @Composable
-fun DeleteCardPageTabletLandscape() {
+fun DeleteCardScreenTabletLandscape() {
     val card = card(
         name = "Samanta Jones",
         bank = "Santander",
@@ -205,7 +195,7 @@ fun DeleteCardPageTabletLandscape() {
 }
 
 @Composable
-fun DeleteCardPageTabletPortrait() {
+fun DeleteCardScreenTabletPortrait() {
     val card = card(
         name = "Samanta Jones",
         bank = "Santander",
@@ -314,7 +304,7 @@ fun DeleteCardDialogHandler(
 @Composable
 fun previewcard(){
     PeraAppTheme {
-        DeleteCardPage()
+        DeleteCardScreen()
     }
 }
 
