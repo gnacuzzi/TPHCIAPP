@@ -41,6 +41,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 
@@ -193,10 +195,11 @@ fun CardsPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun CardsPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(R.string.tarjetas)
+        TopBar(R.string.tarjetas, false)
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             LazyColumn(
                 modifier = Modifier.padding(16.dp),

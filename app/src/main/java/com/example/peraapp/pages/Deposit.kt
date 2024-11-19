@@ -33,6 +33,9 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
+import com.example.peraapp.components.BackButton
 
 @Composable
 fun DepositPage(onNavigateToRoute: (String) -> Unit) {
@@ -78,7 +81,7 @@ fun DepositPageLandscape(
     onNavigateToRoute: (String) -> Unit,
 ) {
     Scaffold(
-        topBar = { TopBar(R.string.ingresar) }
+        topBar = { TopBar(R.string.ingresar, false) }
     ) { innerPadding ->
         Row(
             modifier = Modifier

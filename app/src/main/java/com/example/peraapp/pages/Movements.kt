@@ -1,5 +1,6 @@
 package com.example.peraapp.pages
 
+import android.text.BoringLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -27,25 +28,28 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
 
 @Composable
 fun MovementsPage() {
     val configuration = LocalConfiguration.current
     val isTablet = isTablet(configuration)
+    val isLandscape = isLandscape(configuration)
 
     if (isTablet) {
         MovementsPageTablet()
     } else {
-        MovementsPagePhone()
+        MovementsPagePhone(isLandscape)
     }
 }
 
 @Composable
-fun MovementsPagePhone(){
+fun MovementsPagePhone(isLanscape: Boolean){
     Column (
         modifier = Modifier.fillMaxSize()
     ){
-        TopBar(R.string.movimientos)
+        TopBar(R.string.movimientos, !isLanscape)
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()

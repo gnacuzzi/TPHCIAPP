@@ -29,8 +29,8 @@ import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.ChargeDialog
 import com.example.peraapp.pages.DepositDialog
-import com.example.peraapp.pages.isLandscape
-import com.example.peraapp.pages.isTablet
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
 
 //obvio que se puede modularizar mas pero solo si tenemos tiempo
 

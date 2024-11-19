@@ -28,7 +28,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.peraapp.R
+import com.example.peraapp.components.BackButton
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.components.isLandscape
 
 data class CardValues(
     val cardNumber: String = "",
@@ -68,7 +70,7 @@ fun AddCardLandscape(
     onValueChange: (CardValues) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar(R.string.agregartarjeta) }
+        topBar = { TopBar(R.string.agregartarjeta, false) }
     ) { innerPadding ->
         Column(
             modifier = Modifier

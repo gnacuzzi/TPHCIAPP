@@ -21,7 +21,7 @@ import com.example.peraapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(@StringRes titleTopBar: Int) {
+fun TopBar(@StringRes titleTopBar: Int, showLogo: Boolean = true) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -31,49 +31,17 @@ fun TopBar(@StringRes titleTopBar: Int) {
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logoinicio),
-                    contentDescription = stringResource(R.string.logoinicio),
-                    modifier = Modifier.size(50.dp)
-                )
+                if (showLogo){
+                    Image(
+                        painter = painterResource(id = R.drawable.logoinicio),
+                        contentDescription = stringResource(R.string.logoinicio),
+                        modifier = Modifier.size(50.dp)
+                    )
+                }
                 Text(
                     text = stringResource(titleTopBar),
                     modifier = Modifier.align(Alignment.Center),
                     style = MaterialTheme.typography.titleLarge
-                )
-            }
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBarTablet(@StringRes name: Int) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            titleContentColor = MaterialTheme.colorScheme.secondary,
-        ),
-        title = {
-            Box(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row {
-                    Image(
-                        painter = painterResource(id = R.drawable.logoinicio),
-                        contentDescription = stringResource(R.string.logoinicio),
-                        modifier = Modifier.size(60.dp)
-                    )
-                    Text(
-                        stringResource(R.string.app_name),
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.align(Alignment.CenterVertically),
-                        style = MaterialTheme.typography.displayMedium)
-                }
-                Text(
-                    text = stringResource(name),
-                    modifier = Modifier.align(Alignment.Center),
-                    style = MaterialTheme.typography.displayMedium
                 )
             }
         }

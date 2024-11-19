@@ -37,7 +37,7 @@ fun TarjetasSection(
     onNavigateToRoute: (String) -> Unit
 ) {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTablet = isTablet(configuration)
 
     if (isTablet) {
         TarjetasSectionTablet(onNavigateToRoute)

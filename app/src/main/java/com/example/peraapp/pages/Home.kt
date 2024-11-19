@@ -1,6 +1,5 @@
 package com.example.peraapp.pages
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,19 +17,10 @@ import com.example.peraapp.components.MovimientosSection
 import com.example.peraapp.components.SaldoSection
 import com.example.peraapp.components.TarjetasSection
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 
-@Composable
-fun isTablet(configuration: Configuration): Boolean {
-    val screenWidth = configuration.screenWidthDp
-    val screenHeight = configuration.screenHeightDp
-    return screenWidth >= 600 && screenHeight >= 600
-}
-
-@Composable
-fun isLandscape(configuration: Configuration): Boolean {
-    return configuration.screenWidthDp > configuration.screenHeightDp
-}
 
 
 @Composable

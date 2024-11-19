@@ -1,5 +1,6 @@
 package com.example.peraapp.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,86 +33,80 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.components.isLandscape
 import com.example.peraapp.ui.theme.PeraAppTheme
+import com.example.peraapp.components.BackButton
 
 @Composable
 fun ChargePage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isLandscape = isLandscape(configuration)
 
-    Scaffold(
-        topBar = { TopBar(R.string.cobrar) }
-    ) { innerPadding ->
-        if (isLandscape) {
-            LandscapeChargeContent(
-                onNavigateToRoute = onNavigateToRoute,
-                modifier = Modifier.padding(innerPadding)
-            )
-        } else {
-            PortraitChargeContent(
-                onNavigateToRoute = onNavigateToRoute,
-                modifier = Modifier.padding(innerPadding)
-            )
-        }
+    if (isLandscape) {
+        LandscapeChargeContent(
+            onNavigateToRoute = onNavigateToRoute,
+        )
+    } else {
+        PortraitChargeContent(
+            onNavigateToRoute = onNavigateToRoute,
+        )
     }
 }
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LandscapeChargeContent(
     onNavigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        BackButton(onNavigateToRoute)
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ){
-            AmountInputSection(onNavigateToRoute)
-            LinkGeneratedSection()
+    Scaffold(
+        topBar = { TopBar(R.string.cobrar, false) }
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            BackButton(onNavigateToRoute)
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ){
+                BackButton(onNavigateToRoute)
+                AmountInputSection(onNavigateToRoute)
+                LinkGeneratedSection()
+            }
         }
     }
-}
 
+}
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PortraitChargeContent(
     onNavigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        BackButton(onNavigateToRoute)
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally
+    Scaffold(
+        topBar = { TopBar(R.string.cobrar) }
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            BackButton(onNavigateToRoute)
+            Column (
+                modifier = modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                AmountInputSection(onNavigateToRoute)
+                LinkGeneratedSection()
+            }
 
-        ){
-            AmountInputSection(onNavigateToRoute)
-            LinkGeneratedSection()
         }
-
     }
 }
 
-@Composable
-fun BackButton(onNavigateToRoute: (String) -> Unit) {
-    IconButton(
-        onClick = { onNavigateToRoute("BACK") },
-        modifier = Modifier.padding(bottom = 16.dp)
-    ) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = stringResource(R.string.volveratras),
-            tint = MaterialTheme.colorScheme.onBackground
-        )
-    }
-}
 
 @Composable
 fun AmountInputSection(onNavigateToRoute: (String) -> Unit) {
@@ -161,7 +156,7 @@ fun LinkGeneratedSection() {
     ) {
         Text(
             text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 20.dp).align(Alignment.CenterHorizontally)
         )
 
         Button(

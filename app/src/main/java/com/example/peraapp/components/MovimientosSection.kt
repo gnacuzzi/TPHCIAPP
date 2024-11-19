@@ -27,7 +27,7 @@ import com.example.peraapp.pages.MovimientoItem
 @Composable
 fun MovimientosSection(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTablet = isTablet(configuration)
 
     if (isTablet) {
         MovimientosSectionTablet(onNavigateToRoute)

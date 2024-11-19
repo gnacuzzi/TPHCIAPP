@@ -38,6 +38,8 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
 
 @Composable
 fun LoginPage(onNavigateToRoute: (String) -> Unit) {

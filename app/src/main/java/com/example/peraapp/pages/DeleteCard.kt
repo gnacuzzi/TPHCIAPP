@@ -32,8 +32,10 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.components.TopBarTablet
+import com.example.peraapp.components.isLandscape
+import com.example.peraapp.components.isTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
+import com.example.peraapp.components.BackButton
 
 //hay que recibir la tarjeta por parametro
 @Composable
@@ -72,6 +74,7 @@ fun DeleteCardPagePhonePortrait() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(R.string.tarjeta)
+        BackButton {  } //todavia no esta terminada esta parte
         Card(
             bank = card.bank,
             number = card.number,
@@ -97,45 +100,49 @@ fun DeleteCardPagePhoneLandscape() {
         date = "12/28",
         code = 111
     )
-
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        Column(
+    Column {
+        TopBar(R.string.tarjeta, false)
+        BackButton {  } //todavia no esta terminada esta parte
+        Row(
             modifier = Modifier
-                .fillMaxHeight()
-                .weight(0.5f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Card(
-                bank = card.bank,
-                number = card.number,
-                name = card.name,
-                date = card.date
-            ) {}
-        }
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(0.5f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Card(
+                    bank = card.bank,
+                    number = card.number,
+                    name = card.name,
+                    date = card.date
+                ) {}
+            }
 
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .weight(0.5f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            DeleteCardDialogHandler(
-                card = card,
-                dialogTitle = stringResource(R.string.deseaelimiar),
-                onDeleteConfirmed = {
-                    // Lógica para eliminar la tarjeta
-                    println("Tarjeta eliminada")
-                }
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(0.5f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                DeleteCardDialogHandler(
+                    card = card,
+                    dialogTitle = stringResource(R.string.deseaelimiar),
+                    onDeleteConfirmed = {
+                        // Lógica para eliminar la tarjeta
+                        println("Tarjeta eliminada")
+                    }
+                )
+            }
         }
     }
+
 }
 @Composable
 fun DeleteCardPageTabletLandscape() {
@@ -155,13 +162,15 @@ fun DeleteCardPageTabletLandscape() {
             modifier = Modifier
                 .weight(0.5f)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(R.string.tarjeta),
                 style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .align(Alignment.Start)
             )
+            BackButton {  } //todavia no esta terminada esta parte
             Column (
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -213,13 +222,15 @@ fun DeleteCardPageTabletPortrait() {
             modifier = Modifier
                 .weight(0.5f)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(R.string.tarjeta),
                 style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .align(Alignment.Start)
             )
+            BackButton {  } //todavia no esta terminada esta parte
             Column (
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
