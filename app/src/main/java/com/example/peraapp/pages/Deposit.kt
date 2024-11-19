@@ -179,11 +179,12 @@ fun DepositPagePhoneLandscape(onNavigateToRoute: (String) -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            BackButton(onNavigateToRoute)
             Row (
                 modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ){
-                BackButton(onNavigateToRoute)
                 Column(
                     modifier = Modifier
                         .padding(16.dp),

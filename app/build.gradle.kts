@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -41,7 +42,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+    implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,6 +55,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.adaptive.android)
     implementation(libs.androidx.material3.adaptive.navigation.suite.android)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

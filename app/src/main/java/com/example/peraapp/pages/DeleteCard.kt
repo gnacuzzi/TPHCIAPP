@@ -61,24 +61,29 @@ fun DeleteCardScreenPhonePortrait() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(R.string.tarjeta)
-        BackButton {  } //todavia no esta terminada esta parte
-        Card(
-            bank = card.bank,
-            number = card.number,
-            name = card.name,
-            date = card.date
-        ) {}
-        DeleteCardDialogHandler(
-            card = card,
-            dialogTitle = stringResource(R.string.deseaelimiar),
-            onDeleteConfirmed = {
-                //para eliminar la tarjeta
-                println("Tarjeta eliminada")
-            }
-        )
+        BackButton {  }
+        Column (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Card(
+                bank = card.bank,
+                number = card.number,
+                name = card.name,
+                date = card.date
+            ) {}
+            DeleteCardDialogHandler(
+                card = card,
+                dialogTitle = stringResource(R.string.deseaelimiar),
+                onDeleteConfirmed = {
+                    //para eliminar la tarjeta
+                    println("Tarjeta eliminada")
+                }
+            )
+        }
+
     }
 }
 @Composable
