@@ -160,13 +160,25 @@ fun AddCardPortrait(
 fun CardNumberField(value: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            if (newValue.length <= 19 && newValue.all { it.isDigit() }) { // Máximo 19 dígitos y solo números
+                onValueChange(newValue)
+            }
+        },
         label = { Text(stringResource(R.string.numerotarjeta)) },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
-        )
+        ),
+        isError = value.length !in 16..19 // Puede ajustarse según las reglas bancarias
     )
+    if (value.length !in 16..19) {
+        Text(
+            text = stringResource(R.string.error_numero_tarjeta),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
 }
 
 @Composable
@@ -186,26 +198,50 @@ fun CardHolderField(value: String, onValueChange: (String) -> Unit) {
 fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            if (newValue.length <= 5 && newValue.matches(Regex("^\\d{0,2}/?\\d{0,2}$"))) {
+                onValueChange(newValue)
+            }
+        },
         label = { Text(stringResource(R.string.fechadeven)) },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
-        )
+        ),
+        isError = !value.matches(Regex("^\\d{2}/\\d{2}$")) // Validar formato MM/YY
     )
+    if (!value.matches(Regex("^\\d{2}/\\d{2}$"))) {
+        Text(
+            text = stringResource(R.string.error_fecha),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
 }
 
 @Composable
 fun CVVField(value: String, onValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            if (newValue.length <= 4 && newValue.all { it.isDigit() }) { // Máximo 4 dígitos y solo números
+                onValueChange(newValue)
+            }
+        },
         label = { Text(stringResource(R.string.codigo)) },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
-        )
+        ),
+        isError = value.length != 3 && value.length != 4 // CVV generalmente tiene 3 o 4 dígitos
     )
+    if (value.length !in 3..4) {
+        Text(
+            text = stringResource(R.string.error_codigo),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
 }
 
 @Composable
