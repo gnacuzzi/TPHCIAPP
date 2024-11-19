@@ -31,7 +31,7 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 @Composable
 fun MovementsPage() {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTablet = isTablet(configuration)
 
     if (isTablet) {
         MovementsPageTablet()
@@ -178,6 +178,14 @@ fun LetterIcon(
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+@PreviewSizes
+@Composable
+fun movements(){
+    PeraAppTheme {
+        MovementsPage()
     }
 }
 

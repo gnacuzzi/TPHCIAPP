@@ -1,8 +1,11 @@
 package com.example.peraapp.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,88 +35,150 @@ import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
-fun DepositPage(onNavigateToRoute: (String) -> Unit){
+fun DepositPage(onNavigateToRoute: (String) -> Unit) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = isLandscape(configuration)
+
+    if (isLandscape) {
+        DepositPageLandscape(
+            onNavigateToRoute = onNavigateToRoute,
+        )
+    } else {
+        DepositPagePortrait(
+            onNavigateToRoute = onNavigateToRoute,
+        )
+    }
+}
+
+@Composable
+fun DepositPagePortrait(
+    onNavigateToRoute: (String) -> Unit,
+) {
     Scaffold(
         topBar = { TopBar(R.string.ingresar) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+        ) {
+            BackButton(onNavigateToRoute)
+            Column (
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                CardInfoDisplay()
+                ShareButton()
+            }
+        }
+    }
+}
+
+@Composable
+fun DepositPageLandscape(
+    onNavigateToRoute: (String) -> Unit,
+) {
+    Scaffold(
+        topBar = { TopBar(R.string.ingresar) }
+    ) { innerPadding ->
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding).padding(start = 10.dp),
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+                    .weight(0.5f)
+                    .fillMaxHeight()
             ) {
-                IconButton(
-                    onClick = { onNavigateToRoute("BACK") },
-                    modifier = Modifier.padding(bottom = 16.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.volveratras),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-                Text(
-                    text = stringResource(R.string.tucbu),
-                    modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
+                BackButton(onNavigateToRoute)
+                CardInfoDisplay()
+            }
 
-                Text(
-                    text = "00000121213242434354545", //hacerlo responsivo
-                    modifier = Modifier
-                        .padding(start = 30.dp, bottom = 20.dp)
-                        .border(1.dp, MaterialTheme.colorScheme.tertiary)
-                        .padding(8.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = stringResource(R.string.tualias),
-                    modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "pera.app", //hacerlo responsivo
-                    modifier = Modifier
-                        .padding(start = 30.dp)
-                        .border(1.dp, MaterialTheme.colorScheme.tertiary)
-                        .padding(8.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Button(//deberia solo aparecer una vez que apretas generar link
-                    onClick = { /* Acción para transferir */ },
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .width(270.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(stringResource(R.string.compartirdatos), style = MaterialTheme.typography.titleMedium)
-                }
+            Column(
+                modifier = Modifier
+                    .weight(0.5f)
+                    .fillMaxHeight()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ShareButton()
             }
         }
     }
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DepositPagePreview() {
-    PeraAppTheme {
-        DepositPage {
-        }
+fun ShareButton() {
+    Button(
+        onClick = { /* Acción para transferir */ },
+        modifier = Modifier
+            .padding(top = 60.dp)
+            .width(270.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.secondary,
+            containerColor = MaterialTheme.colorScheme.primary
+        )
+    ) {
+        Text(stringResource(R.string.compartirdatos), style = MaterialTheme.typography.titleMedium)
     }
 }
 
+
+@Composable
+fun CardInfoDisplay() {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(16.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.tucbu),
+            modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Text(
+            text = "00000121213242434354545", // Reemplazar con valor dinámico
+            modifier = Modifier
+                .padding(start = 30.dp, bottom = 20.dp)
+                .border(1.dp, MaterialTheme.colorScheme.tertiary)
+                .padding(8.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Text(
+            text = stringResource(R.string.tualias),
+            modifier = Modifier.padding(start = 10.dp, bottom = 20.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Text(
+            text = "pera.app", // Reemplazar con valor dinámico
+            modifier = Modifier
+                .padding(start = 30.dp)
+                .border(1.dp, MaterialTheme.colorScheme.tertiary)
+                .padding(8.dp),
+            style = MaterialTheme.typography.titleMedium
+        )
+    }
+}
+
+
+@Preview(device = "spec:width=411dp,height=891dp", showBackground = true, showSystemUi = true)
+@Composable
+fun depositPagePortraitPreview() {
+    PeraAppTheme {
+        DepositPage{}
+    }
+}
+@Preview(device = "spec:width=891dp,height=411dp", showBackground = true, showSystemUi = true)
+@Composable
+fun depositPageLandscapePreview() {
+    PeraAppTheme {
+        DepositPage{}
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun DepositDialogPreview() {

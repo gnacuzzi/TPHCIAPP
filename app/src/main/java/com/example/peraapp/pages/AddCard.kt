@@ -1,140 +1,255 @@
 package com.example.peraapp.pages
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.MaterialTheme
 import com.example.peraapp.ui.theme.PeraAppTheme
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 
+data class CardValues(
+    val cardNumber: String = "",
+    val cardHolder: String = "",
+    val expiryDate: String = "",
+    val cvv: String = "",
+    val bank: String = ""
+)
+
 
 @Composable
-fun AddCard(onNavigateToRoute: (String) -> Unit){
+fun AddCard(onNavigateToRoute: (String) -> Unit) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = isLandscape(configuration)
+    var cardValues by remember { mutableStateOf(CardValues()) }
+
+    if (isLandscape) {
+        AddCardLandscape(
+            onNavigateToRoute = onNavigateToRoute,
+            cardValues = cardValues,
+            onValueChange = { cardValues = it }
+        )
+    } else {
+        AddCardPortrait(
+            onNavigateToRoute = onNavigateToRoute,
+            cardValues = cardValues,
+            onValueChange = { cardValues = it }
+        )
+    }
+}
+
+
+@Composable
+fun AddCardLandscape(
+    onNavigateToRoute: (String) -> Unit,
+    cardValues: CardValues,
+    onValueChange: (CardValues) -> Unit
+) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(innerPadding)
+                .fillMaxWidth(),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+            BackButton(onNavigateToRoute)
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClick = { onNavigateToRoute("BACK") },
-                    modifier = Modifier.padding(bottom = 16.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.volveratras),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    CardNumberField(value = cardValues.cardNumber) { newValue ->
+                        onValueChange(cardValues.copy(cardNumber = newValue))
+                    }
+                    Row {
+                        CardHolderField(value = cardValues.cardHolder) { newValue ->
+                            onValueChange(cardValues.copy(cardHolder = newValue))
+                        }
+                        ExpiryDateField(value = cardValues.expiryDate) { newValue ->
+                            onValueChange(cardValues.copy(expiryDate = newValue))
+                        }
+                    }
+                    Row {
+                        CVVField(value = cardValues.cvv) { newValue ->
+                            onValueChange(cardValues.copy(cvv = newValue))
+                        }
+                        BankField(value = cardValues.bank) { newValue ->
+                            onValueChange(cardValues.copy(bank = newValue))
+                        }
+                    }
                 }
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.numerotarjeta)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.nombretitular)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text
-                    )
-                )
-
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.fechadeven)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.codigo)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.banco)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text
-                    )
-                )
-
-                Button(
-                    onClick = { /* Acción para agregar tarjeta */ },
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .width(270.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
-                }
-
+                AddCardButton()
             }
         }
     }
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun AddCardPagePreview() {
-    PeraAppTheme{
-        AddCard{
 
+@Composable
+fun AddCardPortrait(
+    onNavigateToRoute: (String) -> Unit,
+    cardValues: CardValues,
+    onValueChange: (CardValues) -> Unit
+) {
+    Scaffold(
+        topBar = { TopBar(R.string.agregartarjeta) }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
+        ) {
+            BackButton(onNavigateToRoute)
+            Column (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                CardNumberField(value = cardValues.cardNumber) { newValue ->
+                    onValueChange(cardValues.copy(cardNumber = newValue))
+                }
+                CardHolderField(value = cardValues.cardHolder) { newValue ->
+                    onValueChange(cardValues.copy(cardHolder = newValue))
+                }
+                ExpiryDateField(value = cardValues.expiryDate) { newValue ->
+                    onValueChange(cardValues.copy(expiryDate = newValue))
+                }
+                CVVField(value = cardValues.cvv) { newValue ->
+                    onValueChange(cardValues.copy(cvv = newValue))
+                }
+                BankField(value = cardValues.bank) { newValue ->
+                    onValueChange(cardValues.copy(bank = newValue))
+                }
+                AddCardButton(60)
+            }
         }
+    }
+}
+
+
+
+@Composable
+fun CardNumberField(value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.numerotarjeta)) },
+        modifier = Modifier.padding(bottom = 10.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number
+        )
+    )
+}
+
+@Composable
+fun CardHolderField(value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.nombretitular)) },
+        modifier = Modifier.padding(bottom = 10.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text
+        )
+    )
+}
+
+@Composable
+fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.fechadeven)) },
+        modifier = Modifier.padding(bottom = 10.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number
+        )
+    )
+}
+
+@Composable
+fun CVVField(value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.codigo)) },
+        modifier = Modifier.padding(bottom = 10.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number
+        )
+    )
+}
+
+@Composable
+fun BankField(value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.banco)) },
+        modifier = Modifier.padding(bottom = 10.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Text
+        )
+    )
+}
+
+@Composable
+fun AddCardButton(toppadding: Int = 10) {
+    Button(
+        onClick = { /* Acción para agregar tarjeta */ },
+        modifier = Modifier
+            .padding(top = toppadding.dp)
+            .width(270.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.secondary,
+            containerColor = MaterialTheme.colorScheme.primary
+        )
+    ) {
+        Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
+    }
+}
+
+
+
+@Preview(device = "spec:width=411dp,height=891dp", showBackground = true, showSystemUi = true)
+@Composable
+fun CardPagePortraitPreview() {
+    PeraAppTheme {
+        AddCard{}
+    }
+}
+@Preview(device = "spec:width=891dp,height=411dp", showBackground = true, showSystemUi = true)
+@Composable
+fun CardPageLandscapePreview() {
+    PeraAppTheme {
+        AddCard{}
     }
 }
 

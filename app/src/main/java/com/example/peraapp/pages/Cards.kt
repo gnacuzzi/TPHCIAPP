@@ -52,6 +52,7 @@ data class card (
     val date: String,
     val code: Int
 )
+
 //habria que mandar tambien el textstyle pero que lo haga otro
 //hay que hacer que el cardclick sea ir a la de eliminar tarjeta
 //esa hay que hacerla dinamica pero vamos a tener que mandarle el id de la tarjeta
@@ -150,25 +151,27 @@ fun Card(bank: String,
 @Composable
 fun CardsPage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTabletDevice = isTablet(configuration)
+    val isLandscape = isLandscape(configuration)
 
-    if (isTablet) {
+    if (isTabletDevice) {
         CardsPageTablet(onNavigateToRoute)
     } else {
-        CardsPagePhone(onNavigateToRoute)
+        if (isLandscape) {
+            CardsPagePhoneLandscape(onNavigateToRoute)
+        } else {
+            CardsPagePhonePortrait(onNavigateToRoute)
+        }
     }
 }
 
+
 @Composable
-fun CardsPagePhone(onNavigateToRoute: (String) -> Unit){
-    Column (
-        modifier = Modifier.fillMaxSize()
-    ){
+fun CardsPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
+    Column(modifier = Modifier.fillMaxSize()) {
         TopBar(R.string.tarjetas)
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
@@ -181,35 +184,42 @@ fun CardsPagePhone(onNavigateToRoute: (String) -> Unit){
                 {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
             }
             item {
-                Button(
-                    onClick = { onNavigateToRoute(AppDestinations.AGREGARTARJETA.route) },
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.tertiary,
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    modifier = Modifier
-                        .border(
-                            width = 2.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .width(320.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.agregarnuevatarjeta),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                }
+                AddCardButton(onNavigateToRoute)
             }
         }
     }
 }
 
 @Composable
+fun CardsPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBar(R.string.tarjetas)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            LazyColumn(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                item {
+                    Card(//esto deberia ser un foreach
+                        bank = "Santander",
+                        number = "1234 5678 9101 1121",
+                        name = "Samanta Jones",
+                        date = "12/28",
+                    )
+                    {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}                }
+            }
+            AddCardButton(onNavigateToRoute)
+        }
+    }
+}
+
+
+@Composable
 fun CardsPageTablet(onNavigateToRoute: (String) -> Unit) {
     var showAddCardDialog by remember { mutableStateOf(false) }
-
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -278,6 +288,39 @@ fun CardsPageTablet(onNavigateToRoute: (String) -> Unit) {
     }
 }
 
+@Composable
+fun AddCardButton(onNavigateToRoute: (String) -> Unit) {
+    Button(
+        onClick = { onNavigateToRoute(AppDestinations.AGREGARTARJETA.route) },
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.tertiary,
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        modifier = Modifier
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .width(320.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.agregarnuevatarjeta),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
+@PreviewSizes
+@Composable
+fun cardpagepreview(){
+    PeraAppTheme {
+        CardsPage {
+
+        }
+    }
+}
 
 
 @Composable

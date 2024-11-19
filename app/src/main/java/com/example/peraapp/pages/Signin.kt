@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,17 +42,49 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 @Composable
 fun SigninPage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTablet = isTablet(configuration)
+    val isLanscape = isLandscape(configuration)
 
     if (isTablet) {
-        SigninPageTablet(onNavigateToRoute)
+        if (isLanscape){
+            SigninPageTabletLandscape(onNavigateToRoute)
+        }else{
+            SigninPageTabletPortrait(onNavigateToRoute)
+        }
     } else {
-        SigninPagePhone(onNavigateToRoute)
+        if (isLanscape){
+            SigninPagePhoneLandscape(onNavigateToRoute)
+        }else{
+            SigninPagePhonePortrait(onNavigateToRoute)
+        }
     }
 }
 
 @Composable
-fun SigninPagePhone(onNavigateToRoute: (String) -> Unit) {
+fun SigninPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            TopSectionImage(
+                imageResId = R.drawable.fotoiniciotablet,
+                contentDescription = stringResource(R.string.fotoinicio),
+                modifier = Modifier.size(400.dp)
+            )
+            FormContainer(
+                onNavigateToRoute = onNavigateToRoute,
+                modifier = Modifier.size(width = 600.dp, height = 480.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun SigninPageTabletPortrait(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,16 +93,15 @@ fun SigninPagePhone(onNavigateToRoute: (String) -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.45f)
+                .fillMaxHeight(0.63f)
                 .background(MaterialTheme.colorScheme.primary),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.fotoinicio),
+            TopSectionImage(
+                imageResId = R.drawable.fotoinicio,
                 contentDescription = stringResource(R.string.fotoinicio),
-                modifier = Modifier
-                    .size(300.dp)
+                modifier = Modifier.size(600.dp)
             )
         }
 
@@ -81,269 +113,226 @@ fun SigninPagePhone(onNavigateToRoute: (String) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    IconButton(
-                        onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.volveratras),
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                    Text(
-                        text = stringResource(R.string.comenza),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                }
+                FormHeader(onNavigateToRoute)
             }
-
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.name)) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.apellido)) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
+                FormFields()
             }
-
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.dni)) },
-                        modifier = Modifier.weight(1f),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
-                        )
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.fechadenacimiento),
-                                style=MaterialTheme.typography.bodyMedium)},
-                        modifier = Modifier.weight(1f),
-                        placeholder = { Text("DD/MM/AAAA") },
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number
-                        )
-                    )
-                }
-            }
-
-            item {
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.mail)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Email
-                    )
-                )
-            }
-
-            item {
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.contraseña)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Password
-                    )
-                )
-            }
-
-            item {
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.confirmarcontraseña)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Password
-                    )
-                )
-            }
-
-            item {
-                Button(
-                    onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
-                    modifier = Modifier
-                        .width(180.dp)
-                        .padding(vertical = 16.dp),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.background,
-                        containerColor = MaterialTheme.colorScheme.secondary
-                    )
-                ) {
-                    Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
-                }
+                FormActions(onNavigateToRoute)
             }
         }
     }
 }
 
 @Composable
-fun SigninPageTablet(onNavigateToRoute: (String) -> Unit) {
+fun TopSectionImage(imageResId: Int, contentDescription: String, modifier: Modifier) {
+    Image(
+        painter = painterResource(id = imageResId),
+        contentDescription = contentDescription,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun FormContainer(onNavigateToRoute: (String) -> Unit, modifier: Modifier) {
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        shape = RoundedCornerShape(20.dp),
+        modifier = modifier
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            FormHeader(onNavigateToRoute)
+            FormFields()
+            FormActions(onNavigateToRoute)
+        }
+    }
+}
+
+@Composable
+fun FormHeader(onNavigateToRoute: (String) -> Unit) {
+    Row {
+        IconButton(
+            onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.volveratras),
+                tint = MaterialTheme.colorScheme.onBackground
+            )
+        }
+        Text(
+            text = stringResource(R.string.comenza),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .align(Alignment.CenterVertically)
+        )
+    }
+}
+
+@Composable
+fun FormFields() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.width(400.dp)
+    ) {
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = { Text(stringResource(R.string.name)) },
+            modifier = Modifier.weight(1f).height(55.dp)
+        )
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = { Text(stringResource(R.string.apellido)) },
+            modifier = Modifier.weight(1f).height(55.dp)
+        )
+    }
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.width(400.dp)
+    ) {
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = { Text(stringResource(R.string.dni)) },
+            modifier = Modifier.weight(1f).height(55.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number
+            )
+        )
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = {
+                Text(
+                    stringResource(R.string.fechadenacimiento),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            modifier = Modifier.weight(1f).height(55.dp),
+            placeholder = { Text("DD/MM/AAAA") },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number
+            )
+        )
+    }
+    OutlinedTextField(
+        value = "",
+        onValueChange = { /* Manejar el cambio de valor */ },
+        label = { Text(stringResource(R.string.mail)) },
+        modifier = Modifier.width(400.dp).height(55.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Email
+        )
+    )
+    OutlinedTextField(
+        value = "",
+        onValueChange = { /* Manejar el cambio de valor */ },
+        label = { Text(stringResource(R.string.contraseña)) },
+        modifier = Modifier.width(400.dp).height(55.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Password
+        )
+    )
+    OutlinedTextField(
+        value = "",
+        onValueChange = { /* Manejar el cambio de valor */ },
+        label = { Text(stringResource(R.string.confirmarcontraseña)) },
+        modifier = Modifier.width(400.dp).height(55.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Password
+        )
+    )
+}
+
+@Composable
+fun FormActions(onNavigateToRoute: (String) -> Unit) {
+    Button(
+        onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
+        modifier = Modifier
+            .width(180.dp)
+            .padding(vertical = 16.dp),
+        shape = RoundedCornerShape(4.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.secondary
+        )
+    ) {
+        Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
+    }
+}
+
+@Composable
+fun SigninPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.50f)
+                .background(MaterialTheme.colorScheme.primary),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TopSectionImage(
+                imageResId = R.drawable.fotoinicio,
+                contentDescription = stringResource(R.string.fotoinicio),
+                modifier = Modifier.size(400.dp)
+            )
+        }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                FormHeader(onNavigateToRoute)
+            }
+            item {
+                FormFields()
+            }
+            item {
+                FormActions(onNavigateToRoute)
+            }
+        }
+    }
+}
+
+@Composable
+fun SigninPageTabletLandscape(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
     ) {
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
-        ){
-            Image(//no quedo bien el color, cambiarla
-                painter = painterResource(id = R.drawable.fotoiniciotablet),
+        ) {
+            TopSectionImage(
+                imageResId = R.drawable.fotoiniciotablet,
                 contentDescription = stringResource(R.string.fotoinicio),
-                modifier = Modifier.size(600.dp),
+                modifier = Modifier.size(600.dp)
             )
-            Surface (
-                color = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(20.dp),
+
+            FormContainer(
+                onNavigateToRoute = onNavigateToRoute,
                 modifier = Modifier.size(width = 600.dp, height = 480.dp)
-            ){
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                    ) {
-                        IconButton(
-                            onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.volveratras),
-                                tint = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                        Text(
-                            text = stringResource(R.string.comenza),
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier
-                                .padding(bottom = 8.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.width(400.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = { /* Manejar el cambio de valor */ },
-                            label = { Text(stringResource(R.string.name)) },
-                            modifier = Modifier.weight(1f)
-                        )
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = { /* Manejar el cambio de valor */ },
-                            label = { Text(stringResource(R.string.apellido)) },
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.width(400.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = { /* Manejar el cambio de valor */ },
-                            label = { Text(stringResource(R.string.dni)) },
-                            modifier = Modifier.weight(1f),
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number
-                            )
-                        )
-                        OutlinedTextField(
-                            value = "",
-                            onValueChange = { /* Manejar el cambio de valor */ },
-                            label = { Text(stringResource(R.string.fechadenacimiento),
-                                style=MaterialTheme.typography.bodyMedium)},
-                            modifier = Modifier.weight(1f),
-                            placeholder = { Text("DD/MM/AAAA") },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Number
-                            )
-                        )
-                    }
-
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.mail)) },
-                        modifier = Modifier.width(400.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Email
-                        )
-                    )
-
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.contraseña)) },
-                        modifier = Modifier.width(400.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Password
-                        )
-                    )
-
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.confirmarcontraseña)) },
-                        modifier = Modifier.width(400.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Password
-                        )
-                    )
-
-                    Button(
-                        onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
-                        modifier = Modifier
-                            .width(180.dp)
-                            .padding(vertical = 16.dp),
-                        shape = RoundedCornerShape(4.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            contentColor = MaterialTheme.colorScheme.background,
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        )
-                    ) {
-                        Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
-                    }
-                }
-            }
+            )
         }
     }
 }

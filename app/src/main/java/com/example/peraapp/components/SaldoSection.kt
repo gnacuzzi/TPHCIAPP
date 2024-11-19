@@ -29,6 +29,8 @@ import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.ChargeDialog
 import com.example.peraapp.pages.DepositDialog
+import com.example.peraapp.pages.isLandscape
+import com.example.peraapp.pages.isTablet
 
 //obvio que se puede modularizar mas pero solo si tenemos tiempo
 
@@ -46,9 +48,10 @@ fun SaldoSection(
     onNavigateToRoute: (String) -> Unit
 ) {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTabletDevice = isTablet(configuration)
+    val isLandscape = isLandscape(configuration)
 
-    if (isTablet) {
+    if ((isTabletDevice && isLandscape) || (isTabletDevice)) {
         SaldoSectionTablet(name, saldo, onNavigateToRoute)
     } else {
         SaldoSectionPhone(name, saldo, onNavigateToRoute)

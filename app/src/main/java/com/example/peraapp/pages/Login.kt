@@ -1,5 +1,7 @@
 package com.example.peraapp.pages
 
+import android.widget.Space
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,201 +42,245 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 @Composable
 fun LoginPage(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
+    val isTablet = isTablet(configuration)
+    val isLanscape = isLandscape(configuration)
 
     if (isTablet) {
-        LoginPageTablet(onNavigateToRoute)
+        if (isLanscape){
+            LoginPageTabletLandscape(onNavigateToRoute)
+        }else{
+            LoginPageTabletPortrait(onNavigateToRoute)
+        }
     } else {
-        LoginPagePhone(onNavigateToRoute)
+        if (isLanscape){
+            LoginPagePhoneLandscape(onNavigateToRoute)
+        }else{
+            LoginPagePhonePortrait(onNavigateToRoute)
+        }
     }
 }
 
 @Composable
-fun LoginPagePhone(onNavigateToRoute: (String) -> Unit) {
+fun LoginPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            TopImageSection(
+                imageRes = R.drawable.fotoiniciotablet,
+                contentDescription = stringResource(R.string.fotoinicio),
+                modifier = Modifier.size(500.dp)
+            )
+
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.size(width = 500.dp, height = 350.dp)
+            ) {
+                LoginFormSection(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    onNavigateToRoute = onNavigateToRoute
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun LoginPageTabletPortrait(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Column(
+        TopImageSection(
+            imageRes = R.drawable.fotoinicio,
+            contentDescription = stringResource(R.string.fotoinicio),
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.55f)
-                .background(MaterialTheme.colorScheme.primary),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.fotoinicio),
-                contentDescription = stringResource(R.string.fotoinicio),
-                modifier = Modifier
-                    .size(340.dp)
-            )
-        }
+                .fillMaxHeight(0.75f)
+                .background(MaterialTheme.colorScheme.primary)
+        )
 
-        Column(
+        LoginFormSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            onNavigateToRoute = onNavigateToRoute
+        )
+    }
+}
+
+@Composable
+fun LoginPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        TopImageSection(
+            imageRes = R.drawable.fotoinicio,
+            contentDescription = stringResource(R.string.fotoinicio),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.65f)
+                .background(MaterialTheme.colorScheme.primary)
+        )
+
+        LoginFormSection(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            onNavigateToRoute = onNavigateToRoute
+        )
+    }
+}
+
+
+@Composable
+fun LoginPageTabletLandscape(onNavigateToRoute: (String) -> Unit) {
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Text(
-                text = stringResource(R.string.iniciodesesion),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
+            TopImageSection(
+                imageRes = R.drawable.fotoiniciotablet,
+                contentDescription = stringResource(R.string.fotoinicio),
+                modifier = Modifier.size(600.dp)
             )
 
-            OutlinedTextField(
-                value = "",
-                onValueChange = { /* Manejar el cambio de valor */ },
-                label = { Text(stringResource(R.string.mail)) },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Email
-                )
-            )
-
-            OutlinedTextField(
-                value = "",
-                onValueChange = { /* Manejar el cambio de valor */ },
-                label = { Text(stringResource(R.string.contraseña)) },
-                modifier = Modifier.fillMaxWidth().padding(bottom = 15.dp),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Password
-                )
-            )
-
-            Button(
-                onClick = { onNavigateToRoute(AppDestinations.INICIO.route) },
-                modifier = Modifier
-                    .width(180.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .height(50.dp),
-                shape = RoundedCornerShape(4.dp),
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = MaterialTheme.colorScheme.background,
-                    containerColor = MaterialTheme.colorScheme.secondary
-                )
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.size(width = 500.dp, height = 350.dp)
             ) {
-                Text(stringResource(R.string.iniciarsesion), style = MaterialTheme.typography.titleMedium)
-            }
-
-            Button(
-                onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
-                modifier = Modifier
-                    .width(180.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 15.dp)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.secondary,
-                        shape = RoundedCornerShape(4.dp)
-                    ),
-                shape = RoundedCornerShape(4.dp),
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = MaterialTheme.colorScheme.secondary,
-                    containerColor = MaterialTheme.colorScheme.background
+                LoginFormSection(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    onNavigateToRoute = onNavigateToRoute
                 )
-            ) {
-                Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
             }
         }
     }
 }
 
 @Composable
-fun LoginPageTablet(onNavigateToRoute: (String) -> Unit) {
-    Surface(
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.fillMaxSize()
+fun TopImageSection(
+    @DrawableRes imageRes: Int,
+    contentDescription: String,
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = contentDescription,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun LoginFormSection(
+    modifier: Modifier = Modifier,
+    onNavigateToRoute: (String) -> Unit
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
-        ){
-            Image(//no quedo bien el color, cambiarla
-                painter = painterResource(id = R.drawable.fotoiniciotablet),
-                contentDescription = stringResource(R.string.fotoinicio),
-                modifier = Modifier.size(600.dp),
-            )
-            Surface (
-                color = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier.size(width = 500.dp, height = 500.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = stringResource(R.string.iniciodesesion),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
+        Text(
+            text = stringResource(R.string.iniciodesesion),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground
+        )
 
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.mail)) },
-                        modifier = Modifier.padding(top = 20.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Email
-                        )
-                    )
+        LoginTextField(
+            label = stringResource(R.string.mail),
+            keyboardType = KeyboardType.Email
+        )
 
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Manejar el cambio de valor */ },
-                        label = { Text(stringResource(R.string.contraseña)) },
-                        modifier = Modifier.padding(top = 20.dp, bottom = 30.dp),
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Password
-                        )
-                    )
-                    Button(
-                        onClick = { onNavigateToRoute(AppDestinations.INICIO.route)},
-                        modifier = Modifier
-                            .width(180.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .height(50.dp),
-                        shape = RoundedCornerShape(4.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            contentColor = MaterialTheme.colorScheme.background,
-                            containerColor = MaterialTheme.colorScheme.secondary
-                        )
-                    ) {
-                        Text(stringResource(R.string.iniciarsesion), style = MaterialTheme.typography.titleMedium)
-                    }
+        LoginTextField(
+            label = stringResource(R.string.contraseña),
+            keyboardType = KeyboardType.Password,
+            modifier = Modifier.padding(bottom = 15.dp)
+        )
 
-                    Button(
-                        onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
-                        modifier = Modifier
-                            .width(180.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .padding(bottom = 15.dp, top = 15.dp)
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(4.dp)
-                            ),
-                        shape = RoundedCornerShape(4.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            contentColor = MaterialTheme.colorScheme.secondary,
-                            containerColor = MaterialTheme.colorScheme.surface
-                        )
-                    ) {
-                        Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
-                    }
-                }
-            }
-        }
+        LoginButton(
+            text = stringResource(R.string.iniciarsesion),
+            onClick = { onNavigateToRoute(AppDestinations.INICIO.route) },
+            backgroundColor = MaterialTheme.colorScheme.secondary,
+            textColor = MaterialTheme.colorScheme.background
+        )
+        Spacer(modifier = Modifier.padding(10.dp))
+        LoginButton(
+            text = stringResource(R.string.registrarme),
+            onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
+            backgroundColor = MaterialTheme.colorScheme.background,
+            textColor = MaterialTheme.colorScheme.secondary,
+            border = true
+        )
     }
 }
+
+@Composable
+fun LoginTextField(
+    label: String,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = "",
+        onValueChange = { /* Manejar el cambio de valor */ },
+        label = { Text(label) },
+        modifier = modifier.fillMaxWidth(),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = keyboardType
+        )
+    )
+}
+
+@Composable
+fun LoginButton(
+    text: String,
+    onClick: () -> Unit,
+    backgroundColor: Color,
+    textColor: Color,
+    border: Boolean = false
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .width(180.dp)
+            .height(50.dp)
+            .then(
+                if (border) Modifier.border(
+                    width = 1.dp,
+                    color = textColor,
+                    shape = RoundedCornerShape(4.dp)
+                ) else Modifier
+            ),
+        shape = RoundedCornerShape(4.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = textColor
+        )
+    ) {
+        Text(text, style = MaterialTheme.typography.titleMedium)
+    }
+}
+
 
 
 @PreviewSizes

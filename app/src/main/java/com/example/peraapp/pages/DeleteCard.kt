@@ -29,129 +29,277 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.components.TopBarTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 
+//hay que recibir la tarjeta por parametro
 @Composable
 fun DeleteCardPage() {
     val configuration = LocalConfiguration.current
-    val isTablet = configuration.screenWidthDp >= 600
-    var showDeleteCardDialog by remember { mutableStateOf(false) }
+    val isTablet = isTablet(configuration)
+    val isLandscape = isLandscape(configuration)
 
     if (isTablet) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(30.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.5f)
-                    .fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.tarjeta),
-                    style = MaterialTheme.typography.displayMedium,
-                    modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
-                )
-                Column (
-                    modifier = Modifier
-                        .fillMaxHeight(),
-                    verticalArrangement = Arrangement.Center
-                ){
-                    //aca iria la tarjeta que pasas por parametro
-                    CardTablet(//esto deberia ser un foreach
-                        bank = "Galicia",
-                        number = "1234 1111 9101 1121",
-                        name = "Samanta Jones",
-                        date = "12/26"
-                    ){}
-                }
-            }
-            Column(
-                modifier = Modifier.weight(0.5f).fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Button(
-                    onClick = { showDeleteCardDialog = true },
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.tertiary,
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    modifier = Modifier
-                        .border(
-                            width = 2.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .width(400.dp)
-                        .height(80.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.eliminartarjeta),
-                        style = MaterialTheme.typography.displaySmall,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                }
-            }
+        if (isLandscape) {
+            DeleteCardPageTabletLandscape()
+        } else {
+            DeleteCardPageTabletPortrait()
         }
     } else {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            TopBar(R.string.tarjeta)
-            Card(//esto deberia ser un foreach
-                bank = "Santander",
-                number = "1234 5678 9101 1121",
-                name = "Samanta Jones",
-                date = "12/28",
-            )
-            {}
-            Button(
-                onClick = { showDeleteCardDialog = true },
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = MaterialTheme.colorScheme.tertiary,
-                    containerColor = MaterialTheme.colorScheme.background
-                ),
-                modifier = Modifier
-                    .border(
-                        width = 2.dp,
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .width(320.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.eliminartarjeta),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
+        if (isLandscape) {
+            DeleteCardPagePhoneLandscape()
+        } else {
+            DeleteCardPagePhonePortrait()
         }
     }
-    if (showDeleteCardDialog) {
+}
+@Composable
+fun DeleteCardPagePhonePortrait() {
+    val card = card(
+        name = "Samanta Jones",
+        bank = "Santander",
+        number = "1234 5678 9101 1121",
+        date = "12/28",
+        code = 111
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TopBar(R.string.tarjeta)
+        Card(
+            bank = card.bank,
+            number = card.number,
+            name = card.name,
+            date = card.date
+        ) {}
+        DeleteCardDialogHandler(
+            card = card,
+            dialogTitle = stringResource(R.string.deseaelimiar),
+            onDeleteConfirmed = {
+                //para eliminar la tarjeta
+                println("Tarjeta eliminada")
+            }
+        )
+    }
+}
+@Composable
+fun DeleteCardPagePhoneLandscape() {
+    val card = card(
+        name = "Samanta Jones",
+        bank = "Santander",
+        number = "1234 5678 9101 1121",
+        date = "12/28",
+        code = 111
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(0.5f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Card(
+                bank = card.bank,
+                number = card.number,
+                name = card.name,
+                date = card.date
+            ) {}
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(0.5f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            DeleteCardDialogHandler(
+                card = card,
+                dialogTitle = stringResource(R.string.deseaelimiar),
+                onDeleteConfirmed = {
+                    // Lógica para eliminar la tarjeta
+                    println("Tarjeta eliminada")
+                }
+            )
+        }
+    }
+}
+@Composable
+fun DeleteCardPageTabletLandscape() {
+    val card = card(
+        name = "Samanta Jones",
+        bank = "Santander",
+        number = "1234 5678 9101 1121",
+        date = "12/28",
+        code = 111
+    )
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(30.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(0.5f)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(R.string.tarjeta),
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
+            )
+            Column (
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                CardTablet(
+                    bank = card.bank,
+                    number = card.number,
+                    name = card.name,
+                    date = card.date
+                ) {}
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .weight(0.5f)
+                .fillMaxHeight(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            DeleteCardDialogHandler(
+                card = card,
+                dialogTitle = stringResource(R.string.deseaelimiar),
+                onDeleteConfirmed = {
+                    // Lógica para eliminar la tarjeta
+                    println("Tarjeta eliminada")
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun DeleteCardPageTabletPortrait() {
+    val card = card(
+        name = "Samanta Jones",
+        bank = "Santander",
+        number = "1234 5678 9101 1121",
+        date = "12/28",
+        code = 111
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(30.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(0.5f)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = stringResource(R.string.tarjeta),
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
+            )
+            Column (
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                CardTablet(
+                    bank = card.bank,
+                    number = card.number,
+                    name = card.name,
+                    date = card.date
+                ) {}
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .weight(0.5f)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            DeleteCardDialogHandler(
+                card = card,
+                dialogTitle = stringResource(R.string.deseaelimiar),
+                onDeleteConfirmed = {
+                    // Lógica para eliminar la tarjeta
+                    println("Tarjeta eliminada")
+                }
+            )
+        }
+    }
+}
+
+//me parece que la logica para eliminar se puede dejar fija asi no repetimos tanto codigo
+@Composable
+fun DeleteCardDialogHandler(
+    card: card,
+    dialogTitle: String,
+    onDeleteConfirmed: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // Estado del diálogo
+    var showDialog by remember { mutableStateOf(false) }
+
+    // Mostrar el botón que abre el diálogo
+    Button(
+        onClick = { showDialog = true },
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.tertiary,
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        modifier = modifier
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .width(320.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.eliminartarjeta),
+            style = MaterialTheme.typography.titleLarge
+        )
+    }
+
+    if (showDialog) {
         DeleteCardDialog(
-            card(//esto esta como ejemplo pero no se deberia construir ahi
-                name = "Samanta Jones",
-                bank = "Santander",
-                number = "1234 1111 5678 2212",
-                date = "12/28",
-                code = 111
-            ),
-            onDismissRequest = { showDeleteCardDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showDeleteCardDialog = false },
-            dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
+            card = card,
+            onDismissRequest = { showDialog = false },
+            onConfirmation = {
+                onDeleteConfirmed()
+                showDialog = false
+            },
+            dialogTitle = dialogTitle
         )
     }
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@PreviewSizes
 @Composable
 fun previewcard(){
     PeraAppTheme {

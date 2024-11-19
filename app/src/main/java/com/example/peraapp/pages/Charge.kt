@@ -1,5 +1,6 @@
 package com.example.peraapp.pages
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,94 +35,167 @@ import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
-fun ChargePage(onNavigateToRoute: (String) -> Unit){
+fun ChargePage(onNavigateToRoute: (String) -> Unit) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = isLandscape(configuration)
+
     Scaffold(
         topBar = { TopBar(R.string.cobrar) }
     ) { innerPadding ->
-        Column(
+        if (isLandscape) {
+            LandscapeChargeContent(
+                onNavigateToRoute = onNavigateToRoute,
+                modifier = Modifier.padding(innerPadding)
+            )
+        } else {
+            PortraitChargeContent(
+                onNavigateToRoute = onNavigateToRoute,
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
+
+@Composable
+fun LandscapeChargeContent(
+    onNavigateToRoute: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        BackButton(onNavigateToRoute)
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ){
+            AmountInputSection(onNavigateToRoute)
+            LinkGeneratedSection()
+        }
+    }
+}
+
+@Composable
+fun PortraitChargeContent(
+    onNavigateToRoute: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        BackButton(onNavigateToRoute)
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ){
+            AmountInputSection(onNavigateToRoute)
+            LinkGeneratedSection()
+        }
+
+    }
+}
+
+@Composable
+fun BackButton(onNavigateToRoute: (String) -> Unit) {
+    IconButton(
+        onClick = { onNavigateToRoute("BACK") },
+        modifier = Modifier.padding(bottom = 16.dp)
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = stringResource(R.string.volveratras),
+            tint = MaterialTheme.colorScheme.onBackground
+        )
+    }
+}
+
+@Composable
+fun AmountInputSection(onNavigateToRoute: (String) -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "${stringResource(R.string.ingresarmonto)}:",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = { /* Manejar el cambio de valor */ },
+            label = { Text(stringResource(R.string.monto)) },
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+                .padding(bottom = 10.dp, top = 20.dp)
+                .align(Alignment.CenterHorizontally),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number
+            ),
+            textStyle = MaterialTheme.typography.titleLarge
+        )
+
+        Button(
+            onClick = { /* Acción para generar link */ },
+            modifier = Modifier
+                .padding(top = 60.dp)
+                .width(270.dp)
+                .align(Alignment.CenterHorizontally),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.secondary,
+                containerColor = MaterialTheme.colorScheme.primary
+            )
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                IconButton(
-                    onClick = { onNavigateToRoute("BACK") },
-                    modifier = Modifier.padding(bottom = 16.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.volveratras),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+            Text(stringResource(R.string.generarlink), style = MaterialTheme.typography.titleMedium)
+        }
+    }
+}
 
-                Text(
-                    text = "${stringResource(R.string.ingresarmonto)}:",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
+@Composable
+fun LinkGeneratedSection() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
+            modifier = Modifier.padding(top = 20.dp)
+        )
 
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.monto)) },
-                    modifier = Modifier
-                        .padding(bottom = 10.dp, top = 20.dp)
-                        .align(Alignment.CenterHorizontally),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    textStyle = MaterialTheme.typography.titleLarge
-                )
-
-                Button(
-                    onClick = { /* Acción para transferir */ },
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .width(270.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(stringResource(R.string.generarlink), style = MaterialTheme.typography.titleMedium)
-                }
-
-                Text(
-                    text = "${stringResource(R.string.linkgenerado)}: https:/aparece..cuando..apretas",
-                    modifier = Modifier.padding(top = 20.dp)
-                )
-
-                Button(//deberia solo aparecer una vez que apretas generar link
-                    onClick = { /* Acción para transferir */ },
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .width(270.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(stringResource(R.string.compartir), style = MaterialTheme.typography.titleMedium)
-                }
-
-            }
+        Button(
+            onClick = { /* Acción para compartir */ },
+            modifier = Modifier
+                .padding(top = 60.dp)
+                .width(270.dp)
+                .align(Alignment.CenterHorizontally),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = MaterialTheme.colorScheme.secondary,
+                containerColor = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            Text(stringResource(R.string.compartir), style = MaterialTheme.typography.titleMedium)
         }
     }
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+
+
+@Preview(device = "spec:width=411dp,height=891dp")
 @Composable
-fun ChargePagePreview() {
+fun ChargePagePortraitPreview() {
+    PeraAppTheme {
+        ChargePage{
+
+        }
+    }
+}
+@Preview(device = "spec:width=891dp,height=411dp")
+@Composable
+fun ChargePageLandscapePreview() {
     PeraAppTheme {
         ChargePage{
 
