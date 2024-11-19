@@ -210,12 +210,16 @@ fun LoginFormSection(
 
         LoginTextField(
             label = stringResource(R.string.mail),
-            keyboardType = KeyboardType.Email
+            keyboardType = KeyboardType.Email,
+            validate = { isValidEmail(it) },
+            onValueChange = { /* Manejar el valor del correo */ }
         )
 
         LoginTextField(
             label = stringResource(R.string.contraseña),
             keyboardType = KeyboardType.Password,
+            validate = { it.isNotEmpty() }, // Aquí podrías añadir más validaciones si es necesario
+            onValueChange = { /* Manejar el valor de la contraseña */ },
             modifier = Modifier.padding(bottom = 15.dp)
         )
 
@@ -240,17 +244,37 @@ fun LoginFormSection(
 fun LoginTextField(
     label: String,
     keyboardType: KeyboardType,
+    onValueChange: (String) -> Unit,
+    validate: (String) -> Boolean,
     modifier: Modifier = Modifier
 ) {
+    var errorMessage: String? = null
+
     OutlinedTextField(
         value = "",
-        onValueChange = { /* Manejar el cambio de valor */ },
+        onValueChange = { input ->
+            if (!validate(input)) {
+                errorMessage = "Correo inválido" // Mensaje de error si no pasa la validación
+            } else {
+                errorMessage = null
+            }
+            onValueChange(input)
+        },
         label = { Text(label) },
         modifier = modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType
-        )
+        ),
+        isError = errorMessage != null
     )
+    errorMessage?.let {
+        Text(
+            text = it,
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+        )
+    }
 }
 
 @Composable
