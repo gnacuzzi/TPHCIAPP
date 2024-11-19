@@ -40,6 +40,7 @@ import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
+import androidx.compose.runtime.*
 
 @Composable
 fun SigninPage(onNavigateToRoute: (String) -> Unit) {
@@ -181,80 +182,84 @@ fun FormHeader(onNavigateToRoute: (String) -> Unit) {
 
 @Composable
 fun FormFields() {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.width(400.dp)
-    ) {
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.name)) },
-            modifier = Modifier.weight(1f).height(55.dp)
-        )
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.apellido)) },
-            modifier = Modifier.weight(1f).height(55.dp)
-        )
-    }
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.width(400.dp)
-    ) {
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.dni)) },
-            modifier = Modifier.weight(1f).height(55.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )
-        )
-        OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = {
-                Text(
-                    stringResource(R.string.fechadenacimiento),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            },
-            modifier = Modifier.weight(1f).height(55.dp),
-            placeholder = { Text("DD/MM/AAAA") },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )
-        )
-    }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
+    var confirmPasswordError by remember { mutableStateOf<String?>(null) }
+
     OutlinedTextField(
-        value = "",
-        onValueChange = { /* Manejar el cambio de valor */ },
+        value = email,
+        onValueChange = {
+            email = it
+            emailError = if (isValidEmail(it)) null else "Email inválido"
+        },
         label = { Text(stringResource(R.string.mail)) },
         modifier = Modifier.width(400.dp).height(55.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Email
-        )
+        ),
+        isError = emailError != null
     )
+    if (emailError != null) {
+        Text(
+            text = emailError ?: "",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+        )
+    }
+
     OutlinedTextField(
-        value = "",
-        onValueChange = { /* Manejar el cambio de valor */ },
+        value = password,
+        onValueChange = {
+            password = it
+            passwordError = if (it.length >= 8) null else "La contraseña debe tener al menos 8 caracteres"
+        },
         label = { Text(stringResource(R.string.contraseña)) },
         modifier = Modifier.width(400.dp).height(55.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password
-        )
+        ),
+        isError = passwordError != null
     )
+    if (passwordError != null) {
+        Text(
+            text = passwordError ?: "",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+        )
+    }
+
     OutlinedTextField(
-        value = "",
-        onValueChange = { /* Manejar el cambio de valor */ },
+        value = confirmPassword,
+        onValueChange = {
+            confirmPassword = it
+            confirmPasswordError = if (it == password) null else "Las contraseñas no coinciden"
+        },
         label = { Text(stringResource(R.string.confirmarcontraseña)) },
         modifier = Modifier.width(400.dp).height(55.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password
-        )
+        ),
+        isError = confirmPasswordError != null
     )
+    if (confirmPasswordError != null) {
+        Text(
+            text = confirmPasswordError ?: "",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+        )
+    }
 }
+
+fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
 
 @Composable
 fun FormActions(onNavigateToRoute: (String) -> Unit) {
