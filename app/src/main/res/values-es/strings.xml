@@ -19,7 +19,7 @@
     <string name="agregartarjeta">Agregar tarjeta</string>
     <string name="agregarnuevatarjeta">Agregar nueva tarjeta</string>
     <string name="nombretitular">Nombre del titular</string>
-    <string name="numerotarjeta">Numero de tarjeta</string>
+    <string name="numerotarjeta">Número de tarjeta</string>
     <string name="fechadeven">Fecha de vencimiento</string>
     <string name="codigo">Código de seguridad</string>
     <string name="banco">Banco</string>
@@ -81,4 +81,12 @@
     <string name="fotodeperfil">imagen de default de perfil</string>
     <string name="iconotarjetas">icono de tarjeta</string>
     <string name="iconotransferir">icono de transferir</string>
+
+    <string name="estadoregistro">El registro</string>
+    <string name="estadoagregartarjeta">Agregar tarjeta</string>
+    <string name="estadoeliminartarjeta">Eliminar tarjeta</string>
+    <string name="estadoingresar">Ingresar dinero</string>
+    <string name="estadotransferir">La transferencia</string>
+    <string name="correcto">se completó</string>
+    <string name="fallo">falló</string>
 </resources>

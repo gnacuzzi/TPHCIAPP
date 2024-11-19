@@ -18,6 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import com.example.peraapp.components.isTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.BackButton
 import com.example.peraapp.utils.ModularizedFunctions.ModularizedCardLayout
+import kotlinx.coroutines.delay
 
 //hay que recibir la tarjeta por parametro
 @Composable
@@ -384,3 +386,49 @@ fun DeleteCardDialog(
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun DeleteCardDialogStatePreview() {
+    PeraAppTheme {
+        DeleteCardDialogState(
+            onDismissRequest = { /* seria eliminarse nomas */ },
+            dialogTitle = stringResource(R.string.estadoeliminartarjeta)
+        )
+    }
+}
+
+@Composable
+fun DeleteCardDialogState(
+    onDismissRequest: () -> Unit,
+    dialogTitle: String,
+    dismissAfterMillis: Long = 3000,
+    state: Boolean = true
+) {
+    var addText = stringResource(R.string.correcto)
+    if (!state){
+        addText = stringResource(R.string.fallo)
+    }
+    LaunchedEffect(Unit) {
+        delay(dismissAfterMillis)
+        onDismissRequest()
+    }
+
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Text(
+                text = "$dialogTitle $addText",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}
+
+
+

@@ -80,4 +80,13 @@
     <string name="fotodeperfil">image default profile</string>
     <string name="iconotarjetas">card icon</string>
     <string name="iconotransferir">transfer icon</string>
+
+    <string name="estadoregistro">The registration</string>
+    <string name="estadoagregartarjeta">Add card</string>
+    <string name="estadoeliminartarjeta">Delete card</string>
+    <string name="estadoingresar">Deposit</string>
+    <string name="estadotransferir">Transfer</string>
+    <string name="correcto">succeded</string>
+    <string name="fallo">failed</string>
+
 </resources>

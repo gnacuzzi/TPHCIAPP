@@ -18,7 +18,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.window.Dialog
 import com.example.peraapp.R
 import com.example.peraapp.components.BackButton
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.components.isLandscape
+import kotlinx.coroutines.delay
 
 data class CardValues(
     val cardNumber: String = "",
@@ -254,4 +258,48 @@ fun CardPageLandscapePreview() {
         AddCard{}
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun AddCardDialogStatePreview() {
+    PeraAppTheme {
+        AddCardDialogState(
+            onDismissRequest = { /* seria eliminarse nomas */ },
+            dialogTitle = stringResource(R.string.estadoagregartarjeta)
+        )
+    }
+}
+
+@Composable
+fun AddCardDialogState(
+    onDismissRequest: () -> Unit,
+    dialogTitle: String,
+    dismissAfterMillis: Long = 3000,
+    state: Boolean = true
+) {
+    var addText = stringResource(R.string.correcto)
+    if (!state){
+        addText = stringResource(R.string.fallo)
+    }
+    LaunchedEffect(Unit) {
+        delay(dismissAfterMillis)
+        onDismissRequest()
+    }
+
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Text(
+                text = "$dialogTitle $addText",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}
+
 

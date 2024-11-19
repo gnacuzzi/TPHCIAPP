@@ -26,20 +26,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
+import kotlinx.coroutines.delay
 
 @Composable
 fun SigninPage(onNavigateToRoute: (String) -> Unit) {
@@ -345,6 +350,49 @@ fun SigninPagePreview(){
     PeraAppTheme {
         SigninPage{
 
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SigninDialogPreview() {
+    PeraAppTheme {
+        SigninDialog(
+            onDismissRequest = { /* seria volver al inicio */ },
+            dialogTitle = stringResource(R.string.estadoregistro)
+        )
+    }
+}
+
+@Composable
+fun SigninDialog(
+    onDismissRequest: () -> Unit,
+    dialogTitle: String,
+    dismissAfterMillis: Long = 3000,
+    state: Boolean = true
+) {
+    var addText = stringResource(R.string.correcto)
+    if (!state){
+        addText = stringResource(R.string.fallo)
+    }
+    LaunchedEffect(Unit) {
+        delay(dismissAfterMillis)
+        onDismissRequest()
+    }
+
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Text(
+                text = "$dialogTitle $addText",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }
