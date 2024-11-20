@@ -158,20 +158,40 @@ fun AddCardPortrait(
     }
 }
 
-
-
 @Composable
 fun CardNumberField(value: String, onValueChange: (String) -> Unit) {
+    var cardNumberTouched by remember { mutableStateOf(false) }
+
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            if (newValue.length <= 19 && newValue.all { it.isDigit() }) {
+                onValueChange(newValue)
+            }
+        },
         label = { Text(stringResource(R.string.numerotarjeta)) },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
-        )
+        ),
+        isError = cardNumberTouched && (value.length !in 16..19)
     )
+    if (cardNumberTouched && value.length !in 16..19) {
+        Text(
+            text = stringResource(R.string.error_numero_tarjeta),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+
+    // Detecta cuando el campo ha sido tocado
+    LaunchedEffect(value) {
+        if (value.isNotEmpty()) {
+            cardNumberTouched = true
+        }
+    }
 }
+
 
 @Composable
 fun CardHolderField(value: String, onValueChange: (String) -> Unit) {
@@ -188,29 +208,97 @@ fun CardHolderField(value: String, onValueChange: (String) -> Unit) {
 
 @Composable
 fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
+    var expiryDate by remember { mutableStateOf("") }
+    var expiryDateTouched by remember { mutableStateOf(false) }
+    val formattedValue = remember(value) {
+        formatExpiryDate(value)
+    }
+
     OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.fechadeven)) },
+        value = formattedValue,
+        onValueChange = { newValue ->
+            if (newValue.length <= 5 && newValue.matches(Regex("^\\d{0,2}/?\\d{0,2}$"))) {
+                onValueChange(newValue)
+            }
+        },
+        label = { Text("Fecha de Vencimiento") },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
-        )
+        ),
+        isError = expiryDateTouched && !formattedValue.matches(Regex("^\\d{2}/\\d{2}$"))
     )
+    if (expiryDateTouched && !formattedValue.matches(Regex("^\\d{2}/\\d{2}$"))) {
+        Text(
+            text = "Formato de fecha inválido. Debe ser MM/AA",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+
+    // Detecta cuando el campo ha sido tocado
+    LaunchedEffect(value) {
+        if (value.isNotEmpty()) {
+            expiryDateTouched = true
+        }
+    }
 }
+
+// Función para formatear la fecha automáticamente
+fun formatExpiryDate(input: String): String {
+    // Remueve todo lo que no sea un número
+    val digitsOnly = input.filter { it.isDigit() }
+
+    return when {
+        digitsOnly.length <= 2 -> {
+            // Agrega solo los dos primeros dígitos
+            digitsOnly
+        }
+        digitsOnly.length in 3..4 -> {
+            // Coloca la barra inclinada después de los dos primeros dígitos
+            "${digitsOnly.substring(0, 2)}/${digitsOnly.substring(2)}"
+        }
+        else -> {
+            // Si hay más de 4 dígitos, solo toma los primeros 4
+            "${digitsOnly.substring(0, 2)}/${digitsOnly.substring(2, 4)}"
+        }
+    }
+}
+
 
 @Composable
 fun CVVField(value: String, onValueChange: (String) -> Unit) {
+    var cvvTouched by remember { mutableStateOf(false) }
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            if (newValue.length <= 4 && newValue.all { it.isDigit() }) {
+                onValueChange(newValue)
+            }
+        },
         label = { Text(stringResource(R.string.codigo)) },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
-        )
+        ),
+        isError = cvvTouched && (value.length != 3 && value.length != 4)
     )
+    if (cvvTouched && (value.length != 3 && value.length != 4)) {
+        Text(
+            text = stringResource(R.string.error_codigo),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+
+    // Detecta cuando el campo ha sido tocado
+    LaunchedEffect(value) {
+        if (value.isNotEmpty()) {
+            cvvTouched = true
+        }
+    }
 }
+
 
 @Composable
 fun BankField(value: String, onValueChange: (String) -> Unit) {

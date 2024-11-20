@@ -48,7 +48,7 @@ fun DeleteCardScreen() {
 }
 @Composable
 fun DeleteCardScreenPhonePortrait() {
-    val card = card(
+    val card = Card(
         name = "Samanta Jones",
         bank = "Santander",
         number = "1234 5678 9101 1121",
@@ -86,7 +86,7 @@ fun DeleteCardScreenPhonePortrait() {
 }
 @Composable
 fun DeleteCardScreenPhoneLandscape() {
-    val card = card(
+    val card = Card(
         name = "Samanta Jones",
         bank = "Santander",
         number = "1234 5678 9101 1121",
@@ -139,7 +139,7 @@ fun DeleteCardScreenPhoneLandscape() {
 }
 @Composable
 fun DeleteCardScreenTabletLandscape() {
-    val card = card(
+    val card = Card(
         name = "Samanta Jones",
         bank = "Santander",
         number = "1234 5678 9101 1121",
@@ -199,7 +199,7 @@ fun DeleteCardScreenTabletLandscape() {
 
 @Composable
 fun DeleteCardScreenTabletPortrait() {
-    val card = card(
+    val card = Card(
         name = "Samanta Jones",
         bank = "Santander",
         number = "1234 5678 9101 1121",
@@ -260,7 +260,7 @@ fun DeleteCardScreenTabletPortrait() {
 //me parece que la logica para eliminar se puede dejar fija asi no repetimos tanto codigo
 @Composable
 fun DeleteCardDialogHandler(
-    card: card,
+    card: Card,
     dialogTitle: String,
     onDeleteConfirmed: () -> Unit,
     modifier: Modifier = Modifier
@@ -305,7 +305,7 @@ fun DeleteCardDialogHandler(
 
 @PreviewSizes
 @Composable
-fun previewcard(){
+fun Previewcard(){
     PeraAppTheme {
         DeleteCardScreen()
     }
@@ -316,7 +316,7 @@ fun previewcard(){
 fun DeleteCardDialogPreview() {
     PeraAppTheme {
         DeleteCardDialog(
-            card(//esto esta como ejemplo pero no se deberia construir ahi
+            Card(//esto esta como ejemplo pero no se deberia construir ahi
                 name = "Samanta Jones",
                 bank = "Santander",
                 number = "1234 1111 5678 2212",
@@ -333,7 +333,7 @@ fun DeleteCardDialogPreview() {
 
 @Composable
 fun DeleteCardDialog(
-    card: card,
+    card: Card,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String

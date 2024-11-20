@@ -181,7 +181,7 @@ fun LetterIcon(
 
 @PreviewSizes
 @Composable
-fun movements(){
+fun Movements(){
     PeraAppTheme {
         MovementsScreen()
     }

@@ -44,7 +44,7 @@ import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 
-data class card (
+data class Card (
     val bank: String,
     val number: String,
     val name: String,
@@ -307,7 +307,7 @@ fun AddCardButton(onNavigateToRoute: (String) -> Unit) {
 
 @PreviewSizes
 @Composable
-fun cardscreenpreview(){
+fun Cardscreenpreview(){
     PeraAppTheme {
         CardsScreen {
 

@@ -289,7 +289,6 @@ fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
     }
 }
 
-
 @Composable
 fun TransferInputField(
     labelText: String,
@@ -297,8 +296,11 @@ fun TransferInputField(
     onValueChange: (String) -> Unit,
     keyboardType: KeyboardType,
     modifier: Modifier = Modifier,
-    width: Int = 270
+    width: Int = 270,
+    showError: Boolean = false // Nuevo parámetro para controlar la visualización del error
 ) {
+    var error by remember { mutableStateOf(false) } // Estado de error
+
     Column(
         modifier = modifier
     ) {
@@ -309,8 +311,25 @@ fun TransferInputField(
         )
 
         OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
+            value = value, // Usa el valor directamente del parámetro
+            onValueChange = {
+                // Validamos solo si el tipo de teclado es para correo electrónico
+                if (keyboardType == KeyboardType.Email) {
+                    error = if (isValidEmail(it)) {
+                        false // Si el correo es válido, restablecemos el error
+                    } else {
+                        true // Si el correo es inválido, establecemos el error
+                    }
+                } else if (keyboardType == KeyboardType.Number) {
+                    // Validamos que solo se ingresen números
+                    error = if (it.isEmpty() || it.matches("\\d*".toRegex())) {
+                        false // Restablecemos el error si la entrada es válida
+                    } else {
+                        true // Establecemos el error si la entrada no es numérica
+                    }
+                }
+                onValueChange(it) // Actualizamos el valor en el parent composable
+            },
             label = { Text(labelText) },
             modifier = Modifier
                 .padding(bottom = 10.dp, top = 20.dp)
@@ -318,10 +337,29 @@ fun TransferInputField(
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = keyboardType
             ),
+            isError = showError || error, // Si hay un error, lo mostramos
+            supportingText = {
+                if (showError || error) {
+                    if (keyboardType == KeyboardType.Email) {
+                        Text(
+                            text = "Correo electrónico no válido",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    } else if (keyboardType == KeyboardType.Number) {
+                        Text(
+                            text = "Por favor ingrese un monto válido",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+            }
         )
     }
 }
-
 
 @Composable
 fun TransferButton(onClick: () -> Unit) {
