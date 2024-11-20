@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.peraapp.data.DataSourceException
+import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.Card
+import com.example.peraapp.data.model.CardPayment
 import com.example.peraapp.data.model.Error
+import com.example.peraapp.data.repository.PaymentRepository
 import com.example.peraapp.data.repository.UserRepository
 import com.example.peraapp.data.repository.WalletRepository
 import kotlinx.coroutines.Job
@@ -22,11 +25,13 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     sessionManager: SessionManager,
     private val userRepository: UserRepository,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val paymentRepository: PaymentRepository
 ) : ViewModel() {
 
     private var walletDetailStreamJob: Job? = null
     private var creditCardsStreamJob: Job? = null
+    private var paymentStreamJob: Job? = null
     private val _uiState = MutableStateFlow(HomeUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
@@ -34,6 +39,7 @@ class HomeViewModel(
         if (uiState.value.isAuthenticated) {
             observeWalletDetailStream()
             observeCreditCardsStream()
+            observePaymentStream()
         }
     }
 
@@ -42,6 +48,7 @@ class HomeViewModel(
             userRepository.login(username, password)
             observeWalletDetailStream()
             observeCreditCardsStream()
+            observePaymentStream()
         },
         { state, _ -> state.copy(isAuthenticated = true) }
     )
@@ -50,6 +57,7 @@ class HomeViewModel(
         {
             walletDetailStreamJob?.cancel()
             creditCardsStreamJob?.cancel()
+            paymentStreamJob?.cancel()
             userRepository.logout()
         },
         { state, _ ->
@@ -88,16 +96,41 @@ class HomeViewModel(
         }
     )
 
+    fun makeBalancePayment(balancePayment: BalancePayment) = runOnViewModelScope(
+        { paymentRepository.makeBalancePayment(balancePayment) },
+        { state, _ ->
+            state.copy(
+                payments = null //no se si esto esta bien
+            )
+        }
+    )
+
+    fun makeCardPayment(cardPayment: CardPayment) = runOnViewModelScope(
+        { paymentRepository.makeCardPayment(cardPayment) },
+        { state, _ ->
+            state.copy(
+                payments = null //no se si esto esta bien
+            )
+        }
+    )
+
+
     private fun observeWalletDetailStream() {
         walletDetailStreamJob = collectOnViewModelScope(
             walletRepository.walletDetailStream
         ) { state, response -> state.copy(walletDetail = response) }
     }
 
-    private fun observeCreditCardsStream() { // Nuevo método
+    private fun observeCreditCardsStream() {
         creditCardsStreamJob = collectOnViewModelScope(
             walletRepository.getCardsStream
         ) { state, response -> state.copy(cards = response) }
+    }
+
+    private fun observePaymentStream() {
+        paymentStreamJob = collectOnViewModelScope(
+            paymentRepository.paymentDetailStream
+        ) { state, response -> state.copy(payments = response) }
     }
 
     private fun <T> collectOnViewModelScope(
@@ -144,7 +177,8 @@ class HomeViewModel(
                 return HomeViewModel(
                     application.sessionManager,
                     application.userRepository,
-                    application.walletRepository) as T
+                    application.walletRepository,
+                    application.paymentRepository) as T
             }
         }
     }

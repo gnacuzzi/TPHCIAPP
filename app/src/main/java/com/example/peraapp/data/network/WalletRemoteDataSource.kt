@@ -21,7 +21,6 @@ class WalletRemoteDataSource(
         }
     }
 
-    //no se si esto funciona
     val getCardsStream: Flow<List<NetworkCard>> = flow {
         while (true){
             val cards = handleApiResponse {

@@ -3,7 +3,6 @@ package com.example.peraapp.data.repository
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.WalletDetail
 import com.example.peraapp.data.network.WalletRemoteDataSource
-import com.example.peraapp.data.network.model.NetworkCard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
