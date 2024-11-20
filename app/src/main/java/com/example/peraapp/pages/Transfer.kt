@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,35 +36,23 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 import com.example.peraapp.components.BackButton
+import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
 @Composable
-fun TransferPage(onNavigateToRoute: (String) -> Unit){
-    val configuration = LocalConfiguration.current
-    val isTablet = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    if (isTablet) {
-        if(isLandscape){
-            TransferPageTabletLandscape(onNavigateToRoute)
-        }else{
-            TransferPageTabletPortrait(onNavigateToRoute)
-        }
-    } else {
-        if(isLandscape){
-            TransferPagePhoneLandscape(onNavigateToRoute)
-        }else{
-            TransferPagePhonePortrait(onNavigateToRoute)
-        }
-    }
-
+fun TransferScreen(onNavigateToRoute: (String) -> Unit) {
+    ModularizedLayout(
+        contentPhonePortrait = { TransferScreenPhonePortrait(onNavigateToRoute) },
+        contentPhoneLandscape = { TransferScreenPhoneLandscape(onNavigateToRoute) },
+        contentTabletPortrait = { TransferScreenTabletPortrait(onNavigateToRoute) },
+        contentTabletLandscape = { TransferScreenTabletLandscape(onNavigateToRoute) }
+    )
 }
 
+
 @Composable
-fun TransferPageTabletLandscape(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     Column(
@@ -128,7 +115,7 @@ fun TransferPageTabletLandscape(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun TransferPageTabletPortrait(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     Column(
@@ -191,7 +178,7 @@ fun TransferPageTabletPortrait(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun TransferPagePhoneLandscape(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
 
@@ -255,7 +242,7 @@ fun TransferPagePhoneLandscape(onNavigateToRoute: (String) -> Unit){
     }
 }
 @Composable
-fun TransferPagePhonePortrait(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
 
@@ -356,9 +343,9 @@ fun TransferButton(onClick: () -> Unit) {
 
 @PreviewSizes
 @Composable
-fun TransferPagePreview() {
+fun TransferScreenPreview() {
     PeraAppTheme{
-        TransferPage{}
+        TransferScreen{}
     }
 }
 

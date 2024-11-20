@@ -38,7 +38,7 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.BackButton
 
 @Composable
-fun ChargePage(onNavigateToRoute: (String) -> Unit) {
+fun ChargeScreen(onNavigateToRoute: (String) -> Unit) {
     val configuration = LocalConfiguration.current
     val isLandscape = isLandscape(configuration)
 
@@ -181,18 +181,18 @@ fun LinkGeneratedSection() {
 
 @Preview(device = "spec:width=411dp,height=891dp")
 @Composable
-fun ChargePagePortraitPreview() {
+fun ChargeScreenPortraitPreview() {
     PeraAppTheme {
-        ChargePage{
+        ChargeScreen{
 
         }
     }
 }
 @Preview(device = "spec:width=891dp,height=411dp")
 @Composable
-fun ChargePageLandscapePreview() {
+fun ChargeScreenLandscapePreview() {
     PeraAppTheme {
-        ChargePage{
+        ChargeScreen{
 
         }
     }

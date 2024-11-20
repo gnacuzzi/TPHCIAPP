@@ -4,18 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.example.peraapp.R
 import com.example.peraapp.pages.AddCard
-import com.example.peraapp.pages.CardsPage
-import com.example.peraapp.pages.ChargePage
+import com.example.peraapp.pages.CardsScreen
+import com.example.peraapp.pages.ChargeScreen
 import com.example.peraapp.pages.DeleteCardScreen
-import com.example.peraapp.pages.DepositPage
-import com.example.peraapp.pages.HomePage
-import com.example.peraapp.pages.LoginPage
-import com.example.peraapp.pages.MovementsPage
-import com.example.peraapp.pages.ProfilePage
-import com.example.peraapp.pages.SigninPage
-import com.example.peraapp.pages.TransferPage
+import com.example.peraapp.pages.DepositScreen
+import com.example.peraapp.pages.HomeScreen
+import com.example.peraapp.pages.LoginScreen
+import com.example.peraapp.pages.MovementsScreen
+import com.example.peraapp.pages.ProfileScreen
+import com.example.peraapp.pages.SigninScreen
+import com.example.peraapp.pages.TransferScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController,
@@ -27,16 +26,16 @@ fun AppNavGraph(navController: NavHostController,
         startDestination = AppDestinations.INICIO.route
     ){
         composable(route = AppDestinations.INICIO.route){
-            HomePage(onNavigateToRoute)
+            HomeScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.MOVIMIENTOS.route){
-            MovementsPage()
+            MovementsScreen()
         }
         composable(route = AppDestinations.TARJETAS.route){
-            CardsPage(onNavigateToRoute)
+            CardsScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.CUENTA.route){
-            ProfilePage(//tiene que ser dinamico
+            ProfileScreen(//tiene que ser dinamico
                     name = "Samanta",
                     surname = "Jones",
                     mail = "sjones@gmail.com",
@@ -44,13 +43,13 @@ fun AppNavGraph(navController: NavHostController,
             )
         }
         composable(route = AppDestinations.TRANSFERIR.route){
-            TransferPage(onNavigateToRoute)
+            TransferScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.INGRESAR.route){
-            DepositPage(onNavigateToRoute)
+            DepositScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.COBRAR.route) {
-            ChargePage(onNavigateToRoute)
+            ChargeScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.AGREGARTARJETA.route){
             AddCard(onNavigateToRoute)
@@ -59,10 +58,10 @@ fun AppNavGraph(navController: NavHostController,
             DeleteCardScreen()//falta esta porque tiene que ser dinamica segun la tarjeta apretada
         }
         composable(route = AppDestinations.INICIARSESION.route){
-            LoginPage(onNavigateToRoute)
+            LoginScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.REGISTRARME.route){
-            SigninPage(onNavigateToRoute)
+            SigninScreen(onNavigateToRoute)
         }
     }
 }

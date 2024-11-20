@@ -39,34 +39,21 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 import com.example.peraapp.components.BackButton
+import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
 @Composable
-fun DepositPage(onNavigateToRoute: (String) -> Unit){
-    val configuration = LocalConfiguration.current
-
-
-    val isTablet = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    if (isTablet) {
-        if(isLandscape){
-            DepositPageTabletLandscape(onNavigateToRoute)
-        }else{
-            DepositPageTabletPortrait(onNavigateToRoute)
-        }
-    } else {
-        if(isLandscape){
-            DepositPagePhoneLandscape(onNavigateToRoute)
-        }else{
-            DepositPagePhonePortrait(onNavigateToRoute)
-        }
-    }
-
+fun DepositScreen(onNavigateToRoute: (String) -> Unit){
+    ModularizedLayout(
+        contentPhonePortrait = { DepositScreenPhonePortrait(onNavigateToRoute) },
+        contentPhoneLandscape = { DepositScreenPhoneLandscape(onNavigateToRoute) },
+        contentTabletPortrait = { DepositScreenTabletPortrait(onNavigateToRoute) },
+        contentTabletLandscape = { DepositScreenTabletLandscape(onNavigateToRoute) }
+    )
 }
 
 @Composable
-fun DepositPageTabletLandscape(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
     var amount by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -120,7 +107,7 @@ fun DepositPageTabletLandscape(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun DepositPageTabletPortrait(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
     var amount by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -173,7 +160,7 @@ fun DepositPageTabletPortrait(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun DepositPagePhoneLandscape(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
     var amount by remember { mutableStateOf("") }
 
     Scaffold(
@@ -222,7 +209,7 @@ fun DepositPagePhoneLandscape(onNavigateToRoute: (String) -> Unit){
     }
 }
 @Composable
-fun DepositPagePhonePortrait(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
     var amount by remember { mutableStateOf("") }
 
     Scaffold(
@@ -315,9 +302,9 @@ fun DepositButton(onClick: () -> Unit) {
 
 @PreviewSizes
 @Composable
-fun DepositPagePreview() {
+fun DepositScreenPreview() {
     PeraAppTheme{
-        DepositPage{}
+        DepositScreen{}
     }
 }
 

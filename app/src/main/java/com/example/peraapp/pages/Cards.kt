@@ -32,20 +32,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.utils.ModularizedFunctions.ModularizedCardLayout
 
 
 data class card (
@@ -152,18 +148,18 @@ fun Card(bank: String,
 }
 
 @Composable
-fun CardsPage(onNavigateToRoute: (String) -> Unit) {
-    ModularizedCardLayout(
-        contentPhonePortrait = { CardsPagePhonePortrait(onNavigateToRoute) },
-        contentPhoneLandscape = { CardsPagePhoneLandscape(onNavigateToRoute) },
-        contentTabletPortrait = { CardsPageTablet(onNavigateToRoute) },
-        contentTabletLandscape = { CardsPageTablet(onNavigateToRoute)}
+fun CardsScreen(onNavigateToRoute: (String) -> Unit) {
+    ModularizedLayout(
+        contentPhonePortrait = { CardsScreenPhonePortrait(onNavigateToRoute) },
+        contentPhoneLandscape = { CardsScreenPhoneLandscape(onNavigateToRoute) },
+        contentTabletPortrait = { CardsScreenTablet(onNavigateToRoute) },
+        contentTabletLandscape = { CardsScreenTablet(onNavigateToRoute)}
     )
 }
 
 
 @Composable
-fun CardsPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(R.string.tarjetas)
         LazyColumn(
@@ -187,7 +183,7 @@ fun CardsPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun CardsPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(R.string.tarjetas, false)
         Row(
@@ -215,7 +211,7 @@ fun CardsPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
 
 
 @Composable
-fun CardsPageTablet(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit) {
     var showAddCardDialog by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
@@ -311,9 +307,9 @@ fun AddCardButton(onNavigateToRoute: (String) -> Unit) {
 
 @PreviewSizes
 @Composable
-fun cardpagepreview(){
+fun cardscreenpreview(){
     PeraAppTheme {
-        CardsPage {
+        CardsScreen {
 
         }
     }

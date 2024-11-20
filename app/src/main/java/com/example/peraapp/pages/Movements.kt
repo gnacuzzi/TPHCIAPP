@@ -26,26 +26,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 
 @Composable
-fun MovementsPage() {
-    val configuration = LocalConfiguration.current
-    val isTablet = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    if (isTablet) {
-        MovementsPageTablet()
-    } else {
-        MovementsPagePhone(isLandscape)
-    }
+fun MovementsScreen() {
+    ModularizedLayout(
+        contentPhonePortrait = { MovementsScreenPhone(false) },
+        contentPhoneLandscape = { MovementsScreenPhone(true) },
+        contentTabletPortrait = { MovementsScreenTablet() },
+        contentTabletLandscape = { MovementsScreenTablet() }
+    )
 }
 
 @Composable
-fun MovementsPagePhone(isLanscape: Boolean){
+fun MovementsScreenPhone(isLanscape: Boolean){
     Column (
         modifier = Modifier.fillMaxSize()
     ){
@@ -76,7 +74,7 @@ fun MovementsPagePhone(isLanscape: Boolean){
 }
 
 @Composable
-fun MovementsPageTablet() {
+fun MovementsScreenTablet() {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -189,7 +187,7 @@ fun LetterIcon(
 @Composable
 fun movements(){
     PeraAppTheme {
-        MovementsPage()
+        MovementsScreen()
     }
 }
 

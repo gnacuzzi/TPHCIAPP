@@ -27,17 +27,15 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.navigation.AppDestinations
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 
 
 val profileItems = listOf(
@@ -48,32 +46,23 @@ val profileItems = listOf(
 )
 
 @Composable
-fun ProfilePage(name: String,
-                surname: String,
-                mail: String,
-                onNavigateToRoute: (String) -> Unit) {
-    val configuration = LocalConfiguration.current
-    val isTablet = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    if (isTablet) {
-        if(isLandscape){
-            ProfilePageTabletLandscape(name, surname, mail, onNavigateToRoute)
-        }else{
-            ProfilePageTabletPortrait(name, surname, mail, onNavigateToRoute)
-        }
-    } else {
-        if(isLandscape){
-            ProfilePagePhoneLandscape(name, surname, mail, onNavigateToRoute)
-        }else{
-            ProfilePagePhonePortrait(name, surname, mail, onNavigateToRoute)
-
-        }
-    }
+fun ProfileScreen(
+    name: String,
+    surname: String,
+    mail: String,
+    onNavigateToRoute: (String) -> Unit
+) {
+    ModularizedLayout(
+        contentPhonePortrait = { ProfileScreenPhonePortrait(name, surname, mail, onNavigateToRoute) },
+        contentPhoneLandscape = { ProfileScreenPhoneLandscape(name, surname, mail, onNavigateToRoute) },
+        contentTabletPortrait = { ProfileScreenTabletPortrait(name, surname, mail, onNavigateToRoute) },
+        contentTabletLandscape = { ProfileScreenTabletLandscape(name, surname, mail, onNavigateToRoute) }
+    )
 }
 
+
 @Composable
-fun ProfilePagePhoneLandscape(
+fun ProfileScreenPhoneLandscape(
     name: String,
     surname: String,
     mail: String,
@@ -111,7 +100,7 @@ fun ProfilePagePhoneLandscape(
 
 
 @Composable
-fun ProfilePageTabletPortrait(
+fun ProfileScreenTabletPortrait(
     name: String,
     surname: String,
     mail: String,
@@ -177,7 +166,7 @@ fun ProfilePageTabletPortrait(
 
 
 @Composable
-fun ProfilePagePhonePortrait(
+fun ProfileScreenPhonePortrait(
     name: String,
     surname: String,
     mail: String,
@@ -203,7 +192,7 @@ fun ProfilePagePhonePortrait(
 
 
 @Composable
-fun ProfilePageTabletLandscape(name: String,
+fun ProfileScreenTabletLandscape(name: String,
                       surname: String,
                       mail: String,
                       onNavigateToRoute: (String) -> Unit) {
@@ -351,7 +340,7 @@ fun ProfileHeader(
 @Composable
 fun previewprofile(){
     PeraAppTheme {
-        ProfilePage(
+        ProfileScreen(
             name = "Samanta",
             surname = "Jones",
             mail = "sjones@gmail.com",

@@ -26,12 +26,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,35 +38,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 import kotlinx.coroutines.delay
 
 @Composable
-fun SigninPage(onNavigateToRoute: (String) -> Unit) {
-    val configuration = LocalConfiguration.current
-    val isTablet = isTablet(configuration)
-    val isLanscape = isLandscape(configuration)
-
-    if (isTablet) {
-        if (isLanscape){
-            SigninPageTabletLandscape(onNavigateToRoute)
-        }else{
-            SigninPageTabletPortrait(onNavigateToRoute)
-        }
-    } else {
-        if (isLanscape){
-            SigninPagePhoneLandscape(onNavigateToRoute)
-        }else{
-            SigninPagePhonePortrait(onNavigateToRoute)
-        }
-    }
+fun SigninScreen(onNavigateToRoute: (String) -> Unit) {
+    ModularizedLayout(
+        contentPhonePortrait = { SigninScreenPhonePortrait(onNavigateToRoute) },
+        contentPhoneLandscape = { SigninScreenPhoneLandscape(onNavigateToRoute) },
+        contentTabletPortrait = { SigninScreenTabletPortrait(onNavigateToRoute) },
+        contentTabletLandscape = { SigninScreenTabletLandscape(onNavigateToRoute) }
+    )
 }
 
+
 @Composable
-fun SigninPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -91,7 +78,7 @@ fun SigninPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun SigninPageTabletPortrait(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -279,7 +266,7 @@ fun FormActions(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun SigninPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -321,7 +308,7 @@ fun SigninPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun SigninPageTabletLandscape(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenTabletLandscape(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -346,9 +333,9 @@ fun SigninPageTabletLandscape(onNavigateToRoute: (String) -> Unit) {
 
 @PreviewSizes
 @Composable
-fun SigninPagePreview(){
+fun SigninScreenPreview(){
     PeraAppTheme {
-        SigninPage{
+        SigninScreen{
 
         }
     }

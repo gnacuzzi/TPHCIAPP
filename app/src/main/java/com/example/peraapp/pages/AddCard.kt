@@ -246,14 +246,14 @@ fun AddCardButton(toppadding: Int = 10) {
 
 @Preview(device = "spec:width=411dp,height=891dp", showBackground = true, showSystemUi = true)
 @Composable
-fun CardPagePortraitPreview() {
+fun CardScreenPortraitPreview() {
     PeraAppTheme {
         AddCard{}
     }
 }
 @Preview(device = "spec:width=891dp,height=411dp", showBackground = true, showSystemUi = true)
 @Composable
-fun CardPageLandscapePreview() {
+fun CardScreenLandscapePreview() {
     PeraAppTheme {
         AddCard{}
     }

@@ -36,34 +36,25 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 
 @Composable
-fun LoginPage(onNavigateToRoute: (String) -> Unit) {
-    val configuration = LocalConfiguration.current
-    val isTablet = isTablet(configuration)
-    val isLanscape = isLandscape(configuration)
-
-    if (isTablet) {
-        if (isLanscape){
-            LoginPageTabletLandscape(onNavigateToRoute)
-        }else{
-            LoginPageTabletPortrait(onNavigateToRoute)
-        }
-    } else {
-        if (isLanscape){
-            LoginPagePhoneLandscape(onNavigateToRoute)
-        }else{
-            LoginPagePhonePortrait(onNavigateToRoute)
-        }
-    }
+fun LoginScreen(onNavigateToRoute: (String) -> Unit) {
+    ModularizedLayout(
+        contentPhonePortrait = { LoginScreenPhonePortrait(onNavigateToRoute) },
+        contentPhoneLandscape = { LoginScreenPhoneLandscape(onNavigateToRoute) },
+        contentTabletPortrait = { LoginScreenTabletPortrait(onNavigateToRoute) },
+        contentTabletLandscape = { LoginScreenTabletLandscape(onNavigateToRoute) }
+    )
 }
 
+
 @Composable
-fun LoginPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -95,7 +86,7 @@ fun LoginPagePhoneLandscape(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun LoginPageTabletPortrait(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -121,7 +112,7 @@ fun LoginPageTabletPortrait(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun LoginPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -148,7 +139,7 @@ fun LoginPagePhonePortrait(onNavigateToRoute: (String) -> Unit) {
 
 
 @Composable
-fun LoginPageTabletLandscape(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenTabletLandscape(onNavigateToRoute: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -287,9 +278,9 @@ fun LoginButton(
 
 @PreviewSizes
 @Composable
-fun LoginPagePreview(){
+fun LoginScreenPreview(){
     PeraAppTheme {
-        LoginPage{
+        LoginScreen{
 
         }
     }

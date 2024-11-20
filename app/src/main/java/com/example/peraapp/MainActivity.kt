@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.example.peraapp.components.MovimientosSection
 import com.example.peraapp.components.SaldoSection
 import com.example.peraapp.components.TarjetasSection
-import com.example.peraapp.pages.HomePage
+import com.example.peraapp.pages.HomeScreen
 import com.example.peraapp.pages.MainScreen
 
 

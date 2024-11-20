@@ -49,3 +49,27 @@ fun BackButton(onNavigateToRoute: (String) -> Unit) {
         )
     }
 }
+
+@Composable
+fun ModularizedLayout(
+    contentPhonePortrait: @Composable () -> Unit,
+    contentPhoneLandscape: @Composable () -> Unit,
+    contentTabletPortrait: @Composable () -> Unit,
+    contentTabletLandscape: @Composable () -> Unit
+) {
+    val configuration = LocalConfiguration.current
+    when {
+        isTablet(configuration) && isLandscape(configuration) -> {
+            contentTabletLandscape()
+        }
+        isTablet(configuration) -> {
+            contentTabletPortrait()
+        }
+        isLandscape(configuration) -> {
+            contentPhoneLandscape()
+        }
+        else -> {
+            contentPhonePortrait()
+        }
+    }
+}

@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.MovimientosSection
 import com.example.peraapp.components.SaldoSection
 import com.example.peraapp.components.TarjetasSection
@@ -24,25 +25,13 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 
 
 @Composable
-fun HomePage(onNavigateToRoute: (String) -> Unit) {
-    val configuration = LocalConfiguration.current
-    val isTabletDevice = isTablet(configuration)
-    val isLandscape = isLandscape(configuration)
-
-    when {
-        isTabletDevice && isLandscape -> {
-            TabletLandscapeHome(onNavigateToRoute)
-        }
-        isTabletDevice -> {
-            TabletPortraitHome(onNavigateToRoute)
-        }
-        isLandscape -> {
-            PhoneLandscapeHome(onNavigateToRoute)
-        }
-        else -> {
-            PhonePortraitHome(onNavigateToRoute)
-        }
-    }
+fun HomeScreen(onNavigateToRoute: (String) -> Unit) {
+    ModularizedLayout(
+        contentPhonePortrait = { PhonePortraitHome(onNavigateToRoute) },
+        contentPhoneLandscape = { PhoneLandscapeHome(onNavigateToRoute) },
+        contentTabletPortrait = { TabletPortraitHome(onNavigateToRoute) },
+        contentTabletLandscape = { TabletLandscapeHome(onNavigateToRoute) }
+    )
 }
 
 @Composable

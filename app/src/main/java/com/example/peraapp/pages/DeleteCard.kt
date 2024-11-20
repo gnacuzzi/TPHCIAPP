@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,17 +31,15 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.BackButton
-import com.example.peraapp.utils.ModularizedFunctions.ModularizedCardLayout
+import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
 //hay que recibir la tarjeta por parametro
 @Composable
 fun DeleteCardScreen() {
-    ModularizedCardLayout (
+    ModularizedLayout (
         contentPhonePortrait = { DeleteCardScreenPhonePortrait() },
         contentPhoneLandscape = { DeleteCardScreenPhoneLandscape() },
         contentTabletPortrait = { DeleteCardScreenTabletPortrait() },
