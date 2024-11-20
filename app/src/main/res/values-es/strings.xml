@@ -6,13 +6,13 @@
     <string name="tarjeta">Tarjeta</string>
     <string name="cuenta">Cuenta</string>
     <string name="inicio">Inicio</string>
-    <string name="hola">¡Hola</string>
+    <string name="hola">¡Hola!</string>
     <string name="vermas">Ver más</string>
     <string name="transferir">Transferir</string>
     <string name="ingresar">Ingresar</string>
     <string name="cobrar">Cobrar</string>
     <string name="invertir">Invertir</string>
-    <string name="invertirrescate">Invertir o rescate</string>
+    <string name="invertirrescate">Invertir o rescatar</string>
     <string name="saldo">Tu saldo actual es</string>
     <string name="cerrarsesion">Cerrar sesión</string>
 
@@ -24,7 +24,7 @@
     <string name="codigo">Código de seguridad</string>
     <string name="banco">Banco</string>
     <string name="eliminartarjeta">Eliminar esta tarjeta</string>
-    <string name="deseaelimiar">¿Desea elimiar esta tarjeta</string>
+    <string name="deseaelimiar">¿Desea eliminar esta tarjeta?</string>
 
     <string name="volveratras">Volver atrás</string>
 
@@ -41,18 +41,18 @@
     <string name="rescatardinero">Rescatar dinero</string>
     <string name="rescatar">Rescatar</string>
     <string name="ingresainvertir">Ingresa el monto que deseas invertir</string>
-    <string name="deseainvertir">¿Desea invertir</string>
-    <string name="desearescatar">¿Desea rescatar</string>
+    <string name="deseainvertir">¿Desea invertir?</string>
+    <string name="desearescatar">¿Desea rescatar?</string>
     <string name="cancelar">Cancelar</string>
     <string name="confirmar">Confirmar</string>
 
-    <string name="iniciodesesion">Inicio de Sesión</string>
-    <string name="mail">Mail</string>
+    <string name="iniciodesesion">Inicio de sesión</string>
+    <string name="mail">Correo</string>
     <string name="contraseña">Contraseña</string>
     <string name="iniciarsesion">Iniciar sesión</string>
     <string name="registrarme">Registrarme</string>
 
-    <string name="comenza">Comenza en Pera</string>
+    <string name="comenza">Comenzá en Pera</string>
     <string name="name">Nombre</string>
     <string name="apellido">Apellido</string>
     <string name="dni">DNI</string>
@@ -61,26 +61,25 @@
 
     <string name="formadepago">Forma de pago</string>
     <string name="saldoencuenta">Saldo en cuenta</string>
-    <string name="deseatransaccion">¿Desea realizar esta transacción</string>
+    <string name="deseatransaccion">¿Desea realizar esta transacción?</string>
     <string name="pagoa">Pago a</string>
     <string name="con">Con</string>
 
-
-    <string name="iconocerrarsesion">icono cerrar sesion</string>
-    <string name="iconocobrar">icono de cobrar</string>
-    <string name="iconocuenta">icono de cuenta</string>
-    <string name="fotocuentatablet">imagen para pagina de cuenta en tablet</string>
-    <string name="fotoinicio">imagen para el inicio de sesion celular</string>
-    <string name="fotoiniciotablet">imagen para el inicio de sesion tablet</string>
-    <string name="iconoinicio">icono de inicio</string>
-    <string name="iconoingresar">icono de ingresar</string>
-    <string name="inconoinvertir">icono de invertir</string>
-    <string name="logo">logo con fondo pera</string>
-    <string name="logoinicio">logo con fondo blanco</string>
-    <string name="iconomovimientos">icono movimientos</string>
-    <string name="fotodeperfil">imagen de default de perfil</string>
-    <string name="iconotarjetas">icono de tarjeta</string>
-    <string name="iconotransferir">icono de transferir</string>
+    <string name="iconocerrarsesion">Ícono cerrar sesión</string>
+    <string name="iconocobrar">Ícono de cobrar</string>
+    <string name="iconocuenta">Ícono de cuenta</string>
+    <string name="fotocuentatablet">Imagen para página de cuenta en tablet</string>
+    <string name="fotoinicio">Imagen para el inicio de sesión en celular</string>
+    <string name="fotoiniciotablet">Imagen para el inicio de sesión en tablet</string>
+    <string name="iconoinicio">Ícono de inicio</string>
+    <string name="iconoingresar">Ícono de ingresar</string>
+    <string name="inconoinvertir">Ícono de invertir</string>
+    <string name="logo">Logo con fondo pera</string>
+    <string name="logoinicio">Logo con fondo blanco</string>
+    <string name="iconomovimientos">Ícono de movimientos</string>
+    <string name="fotodeperfil">Imagen por defecto de perfil</string>
+    <string name="iconotarjetas">Ícono de tarjetas</string>
+    <string name="iconotransferir">Ícono de transferir</string>
 
     <string name="estadoregistro">El registro</string>
     <string name="estadoagregartarjeta">Agregar tarjeta</string>
