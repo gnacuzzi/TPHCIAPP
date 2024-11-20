@@ -6,7 +6,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.peraapp.navigation.AppDestinations
 
@@ -31,7 +30,7 @@ fun BottomBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        painter = painterResource(id = item.iconResId),
+                        imageVector = item.icon,
                         contentDescription = stringResource(id = item.text),
                         tint = if (currentRoute == item.route) MaterialTheme.colorScheme.background
                         else MaterialTheme.colorScheme.secondary

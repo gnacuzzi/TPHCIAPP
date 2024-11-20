@@ -13,10 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
-import com.example.peraapp.pages.DeleteCardScreen
-import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
 fun isTablet(configuration: Configuration): Boolean {

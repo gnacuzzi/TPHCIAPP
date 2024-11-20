@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
@@ -86,7 +86,7 @@ fun ProfileScreenPhoneLandscape(
             Column {
                 profileItems.forEach { item ->
                     ProfileButton(
-                        iconResId = item.iconResId,
+                        icon = item.icon,
                         textResId = item.text,
                         onClick = { onNavigateToRoute(item.route) },
                         textStyle = MaterialTheme.typography.titleMedium,
@@ -133,7 +133,7 @@ fun ProfileScreenTabletPortrait(
         ){
             profileItems.forEach { item ->
                 ProfileButton(
-                    iconResId = item.iconResId,
+                    icon = item.icon,
                     textResId = item.text,
                     onClick = {
                         when (item.route) {
@@ -181,7 +181,7 @@ fun ProfileScreenPhonePortrait(
         Column {
             profileItems.forEach { item ->
                 ProfileButton(
-                    iconResId = item.iconResId,
+                    icon = item.icon,
                     textResId = item.text,
                     onClick = { onNavigateToRoute(item.route) }
                 )
@@ -228,7 +228,7 @@ fun ProfileScreenTabletLandscape(name: String,
                 ){
                     profileItems.forEach { item ->
                         ProfileButton(
-                            iconResId = item.iconResId,
+                            icon = item.icon,
                             textResId = item.text,
                             onClick = {
                                 when (item.route) {
@@ -264,7 +264,7 @@ fun ProfileScreenTabletLandscape(name: String,
 
 @Composable
 fun ProfileButton(
-    iconResId: Int,
+    icon: ImageVector,
     textResId: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -283,9 +283,8 @@ fun ProfileButton(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(start = 20.dp)
         ) {
-            val icon: Painter = painterResource(id = iconResId)
             Image(
-                painter = icon,
+                imageVector = icon,
                 contentDescription = stringResource(textResId),
                 modifier = Modifier.size(iconSize)
             )
