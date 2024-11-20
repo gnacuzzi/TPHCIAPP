@@ -86,5 +86,8 @@
     <string name="error_codigo">El código CVV debe tener 3 o 4 dígitos</string>
     <string name="error_fecha">La fecha debe estar en formato MM/YY</string>
     <string name="email_invalido">Correo no válido</string>
+    <string name="passwords_no_coinciden">Las contraseñas no coinciden</string>
+    <string name="ocultar">Ocultar</string>
+    <string name="mostrar">Mostrar</string>
 
 </resources>

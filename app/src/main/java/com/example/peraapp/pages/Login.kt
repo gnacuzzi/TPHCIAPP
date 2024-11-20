@@ -211,7 +211,7 @@ fun LoginFormSection(
         LoginTextField(
             label = stringResource(R.string.mail),
             keyboardType = KeyboardType.Email,
-            validate = { isValidEmail(it) },
+            validate = { true },
             onValueChange = { /* Manejar el valor del correo */ }
         )
 

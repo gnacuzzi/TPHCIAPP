@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -41,6 +42,9 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 import androidx.compose.runtime.*
+import androidx.compose.runtime.remember
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun SigninPage(onNavigateToRoute: (String) -> Unit) {
@@ -182,25 +186,32 @@ fun FormHeader(onNavigateToRoute: (String) -> Unit) {
 
 @Composable
 fun FormFields() {
+    var name by remember { mutableStateOf("") }
+    var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var isEmailValid by remember { mutableStateOf(true) }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var isPasswordVisible by remember { mutableStateOf(false) }
+    var isConfirmPasswordVisible by remember { mutableStateOf(false) }
+    var doPasswordsMatch by remember { mutableStateOf(true) }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.width(400.dp)
     ) {
         OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.name)) },
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Name") },
             modifier = Modifier
                 .weight(1f)
                 .height(55.dp)
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = { /* Manejar el cambio de valor */ },
-            label = { Text(stringResource(R.string.apellido)) },
+            value = surname,
+            onValueChange = { surname = it },
+            label = { Text("Surname") },
             modifier = Modifier
                 .weight(1f)
                 .height(55.dp)
@@ -213,7 +224,7 @@ fun FormFields() {
             email = it
             isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
         },
-        label = { Text(stringResource(R.string.mail)) },
+        label = { Text("Email") },
         modifier = Modifier
             .width(400.dp)
             .height(55.dp),
@@ -225,7 +236,7 @@ fun FormFields() {
 
     if (!isEmailValid) {
         Text(
-            text = stringResource(R.string.email_invalido),
+            text = "Invalid Email",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(start = 16.dp)
@@ -233,27 +244,61 @@ fun FormFields() {
     }
 
     OutlinedTextField(
-        value = "",
-        onValueChange = { /* Manejar el cambio de valor */ },
-        label = { Text(stringResource(R.string.contraseña)) },
+        value = password,
+        onValueChange = {
+            password = it
+            doPasswordsMatch = password == confirmPassword
+        },
+        label = { Text("Password") },
         modifier = Modifier
             .width(400.dp)
             .height(55.dp),
+        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password
-        )
+        ),
+        trailingIcon = {
+            IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                Icon(
+                    imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                    contentDescription = if (isPasswordVisible) "Hide" else "Show"
+                )
+            }
+        }
     )
+
     OutlinedTextField(
-        value = "",
-        onValueChange = { /* Manejar el cambio de valor */ },
-        label = { Text(stringResource(R.string.confirmarcontraseña)) },
+        value = confirmPassword,
+        onValueChange = {
+            confirmPassword = it
+            doPasswordsMatch = password == confirmPassword
+        },
+        label = { Text("Confirm Password") },
         modifier = Modifier
             .width(400.dp)
             .height(55.dp),
+        visualTransformation = if (isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password
-        )
+        ),
+        trailingIcon = {
+            IconButton(onClick = { isConfirmPasswordVisible = !isConfirmPasswordVisible }) {
+                Icon(
+                    imageVector = if (isConfirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                    contentDescription = if (isConfirmPasswordVisible) "Hide" else "Show"
+                )
+            }
+        }
     )
+
+    if (!doPasswordsMatch) {
+        Text(
+            text = "Passwords do not match",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 16.dp)
+        )
+    }
 }
 
 @Composable

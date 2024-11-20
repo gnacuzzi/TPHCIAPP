@@ -84,5 +84,10 @@
     <string name="error_numero_tarjeta">Card number must be between 16 and 19 digits</string>
     <string name="error_codigo">The code must be between 3 and 4 digits</string>
     <string name="error_fecha">Correct date format: MM/YY</string>
+    <string name="email_invalido">Invalid Mail</string>
+    <string name="passwords_no_coinciden">Passwords do not match</string>
+
+    <string name="ocultar">Hide</string>
+    <string name="mostrar">Show</string>
 
 </resources>
