@@ -81,9 +81,8 @@
     <string name="iconotarjetas">card icon</string>
     <string name="iconotransferir">transfer icon</string>
 
-    <string name="error_numero_tarjeta">El número de tarjeta debe tener entre 16 y 19 dígitos</string>
-    <string name="error_codigo">El código CVV debe tener 3 o 4 dígitos</string>
-    <string name="error_fecha">La fecha debe estar en formato MM/YY</string>
-    <string name="email_invalido">Correo no válido</string>
+    <string name="error_numero_tarjeta">Card number must be between 16 and 19 digits</string>
+    <string name="error_codigo">The code must be between 3 and 4 digits</string>
+    <string name="error_fecha">Correct date format: MM/YY</string>
 
 </resources>
