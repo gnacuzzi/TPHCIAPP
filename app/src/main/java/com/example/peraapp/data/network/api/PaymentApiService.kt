@@ -7,11 +7,12 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface PaymentApiService {
 
     @GET("payment")
-    suspend fun getPayments(): Response<List<NetworkPayment>> //necesita parametros
+    suspend fun getPayments(@Query("page") page: Int = 1, @Query("direction") direction: String = "ASC"): Response<List<NetworkPayment>>
 
     @POST("payment")
     suspend fun makeBalancePayment(@Body payment: NetworkBalancePayment) : Response<Unit>

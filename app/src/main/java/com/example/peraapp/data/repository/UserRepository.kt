@@ -14,6 +14,10 @@ class UserRepository(
     // Cache of the current user got from the network.
     private var currentUser: User? = null
 
+    suspend fun signin(user: User){
+        remoteDataSource.signin(user.asNetworkModel())
+    }
+
     suspend fun login(username: String, password: String) {
         remoteDataSource.login(username, password)
     }

@@ -9,6 +9,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UserApiService {
+
+    @POST("user")
+    suspend fun signin(@Body user: NetworkUser): Response<NetworkUser>
+
     @POST("user/login")
     suspend fun login(@Body credentials: NetworkCredentials): Response<NetworkToken>
 

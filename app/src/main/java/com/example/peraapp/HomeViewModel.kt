@@ -9,6 +9,7 @@ import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.CardPayment
 import com.example.peraapp.data.model.Error
+import com.example.peraapp.data.model.User
 import com.example.peraapp.data.repository.PaymentRepository
 import com.example.peraapp.data.repository.UserRepository
 import com.example.peraapp.data.repository.WalletRepository
@@ -42,6 +43,15 @@ class HomeViewModel(
             observePaymentStream()
         }
     }
+
+    fun signin(user: User) = runOnViewModelScope(
+        {
+            userRepository.signin(user)
+        },
+        {
+            state, _ -> state.copy()
+        }
+    )
 
     fun login(username: String, password: String) = runOnViewModelScope(
         {
