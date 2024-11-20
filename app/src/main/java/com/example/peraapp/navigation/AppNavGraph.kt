@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.peraapp.pages.AddCard
 import com.example.peraapp.pages.CardsScreen
-import com.example.peraapp.pages.ChargeScreen
 import com.example.peraapp.pages.DeleteCardScreen
 import com.example.peraapp.pages.DepositScreen
 import com.example.peraapp.pages.HomeScreen
@@ -47,9 +46,6 @@ fun AppNavGraph(navController: NavHostController,
         }
         composable(route = AppDestinations.INGRESAR.route){
             DepositScreen(onNavigateToRoute)
-        }
-        composable(route = AppDestinations.COBRAR.route) {
-            ChargeScreen(onNavigateToRoute)
         }
         composable(route = AppDestinations.AGREGARTARJETA.route){
             AddCard(onNavigateToRoute)

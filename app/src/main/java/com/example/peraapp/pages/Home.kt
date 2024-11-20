@@ -9,7 +9,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
@@ -18,8 +17,6 @@ import com.example.peraapp.components.MovimientosSection
 import com.example.peraapp.components.SaldoSection
 import com.example.peraapp.components.TarjetasSection
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 

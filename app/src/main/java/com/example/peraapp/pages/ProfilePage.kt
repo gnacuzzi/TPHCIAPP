@@ -41,7 +41,6 @@ import com.example.peraapp.navigation.AppDestinations
 val profileItems = listOf(
     AppDestinations.TRANSFERIR,
     AppDestinations.INGRESAR,
-    AppDestinations.COBRAR,
     AppDestinations.CERRARSESION
 )
 
@@ -135,12 +134,7 @@ fun ProfileScreenTabletPortrait(
                 ProfileButton(
                     icon = item.icon,
                     textResId = item.text,
-                    onClick = {
-                        when (item.route) {
-                            AppDestinations.COBRAR.route -> showCobrarDialog = true
-                            else -> onNavigateToRoute(item.route)
-                        }
-                    },
+                    onClick = {onNavigateToRoute(item.route) },
                     textStyle = MaterialTheme.typography.titleLarge,
                     iconSize = 46.dp
                 )
@@ -152,14 +146,6 @@ fun ProfileScreenTabletPortrait(
                 modifier = Modifier.size(400.dp).align(Alignment.CenterHorizontally).align(Alignment.End)
             )
         }
-    }
-
-    if (showCobrarDialog) {
-        ChargeDialog(
-            onDismissRequest = { showCobrarDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showCobrarDialog = false },
-            dialogTitle = stringResource(R.string.cobrar)
-        )
     }
 
 }
@@ -230,12 +216,7 @@ fun ProfileScreenTabletLandscape(name: String,
                         ProfileButton(
                             icon = item.icon,
                             textResId = item.text,
-                            onClick = {
-                                when (item.route) {
-                                    AppDestinations.COBRAR.route -> showCobrarDialog = true
-                                    else -> onNavigateToRoute(item.route)
-                                }
-                            },
+                            onClick = { onNavigateToRoute(item.route) },
                             textStyle = MaterialTheme.typography.titleLarge,
                             iconSize = 46.dp
                         )
@@ -251,15 +232,6 @@ fun ProfileScreenTabletLandscape(name: String,
         }
 
     }
-    //se podria modularizar esto de los dialogos
-    if (showCobrarDialog) {
-        ChargeDialog(
-            onDismissRequest = { showCobrarDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showCobrarDialog = false },
-            dialogTitle = stringResource(R.string.cobrar)
-        )
-    }
-
 }
 
 @Composable

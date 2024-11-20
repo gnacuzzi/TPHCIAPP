@@ -20,14 +20,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
-import com.example.peraapp.pages.ChargeDialog
 
 //obvio que se puede modularizar mas pero solo si tenemos tiempo
 
@@ -35,7 +32,6 @@ import com.example.peraapp.pages.ChargeDialog
 val homeItems = listOf(
     AppDestinations.TRANSFERIR,
     AppDestinations.INGRESAR,
-    AppDestinations.COBRAR
 )
 
 @Composable
@@ -167,12 +163,7 @@ fun SaldoSectionTablet(
             ) {
                 homeItems.forEach { item ->
                     Button(
-                        onClick = {
-                            when (item.route) {
-                                AppDestinations.COBRAR.route -> showCobrarDialog = true
-                                else -> onNavigateToRoute(item.route)
-                            }
-                        },
+                        onClick = { onNavigateToRoute(item.route) },
                         colors = ButtonDefaults.buttonColors(
                             contentColor = MaterialTheme.colorScheme.secondary,
                             containerColor = MaterialTheme.colorScheme.surface
@@ -200,11 +191,4 @@ fun SaldoSectionTablet(
         }
     }
 
-    if (showCobrarDialog) {
-        ChargeDialog(
-            onDismissRequest = { showCobrarDialog = false },
-            onConfirmation = { /* Lógica de confirmación */ showCobrarDialog = false },
-            dialogTitle = stringResource(R.string.cobrar)
-        )
-    }
 }

@@ -24,7 +24,6 @@ enum class AppDestinations(
     CUENTA(Icons.Outlined.Person, R.string.cuenta, "cuenta"),
     TRANSFERIR(Icons.Outlined.MoneyOff, R.string.transferir, "transferir"),
     INGRESAR(Icons.Outlined.AttachMoney, R.string.ingresar, "ingresar"),
-    COBRAR(Icons.Outlined.Link, R.string.cobrar, "cobrar"),
     AGREGARTARJETA(Icons.Outlined.CreditCard, R.string.agregartarjeta, "agregartarjeta"),
     ELIMINARTARJETA(Icons.Outlined.CreditCard, R.string.eliminartarjeta, "eliminartarjeta"), //esta deberia ser dinamica quizas
     INICIARSESION(Icons.Outlined.Person, R.string.iniciarsesion, "iniciarsesion"),

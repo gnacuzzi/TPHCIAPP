@@ -1,6 +1,5 @@
 package com.example.peraapp.pages
 
-import android.widget.Space
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,8 +37,6 @@ import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 
 @Composable
 fun LoginScreen(onNavigateToRoute: (String) -> Unit) {
