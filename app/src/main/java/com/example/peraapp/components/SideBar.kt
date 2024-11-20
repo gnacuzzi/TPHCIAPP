@@ -56,7 +56,7 @@ fun SideBar(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Icon(
-                        painter = painterResource(id = item.iconResId),
+                        imageVector = item.icon,
                         contentDescription = stringResource(id = item.text),
                         modifier = Modifier.size(32.dp),
                         tint = if (currentRoute == item.route) MaterialTheme.colorScheme.background

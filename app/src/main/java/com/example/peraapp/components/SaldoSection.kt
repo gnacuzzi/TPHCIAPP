@@ -28,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.ChargeDialog
-import com.example.peraapp.components.isLandscape
-import com.example.peraapp.components.isTablet
 
 //obvio que se puede modularizar mas pero solo si tenemos tiempo
 
@@ -107,9 +105,8 @@ fun SaldoSectionPhone(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            val icon: Painter = painterResource(id = item.iconResId)
                             Image(
-                                painter = icon,
+                                imageVector = item.icon,
                                 contentDescription = stringResource(item.text),
                                 modifier = Modifier.size(28.dp)
                             )
@@ -186,9 +183,8 @@ fun SaldoSectionTablet(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center,
                         ) {
-                            val icon: Painter = painterResource(id = item.iconResId)
                             Image(
-                                painter = icon,
+                                imageVector = item.icon,
                                 contentDescription = stringResource(item.text),
                                 modifier = Modifier.size(28.dp)
                             )
