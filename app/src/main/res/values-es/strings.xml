@@ -89,5 +89,6 @@
     <string name="passwords_no_coinciden">Las contraseñas no coinciden</string>
     <string name="ocultar">Ocultar</string>
     <string name="mostrar">Mostrar</string>
+    <string name="toggle_password_visibility">Mostrar/Ocultar contraseña</string>
 
 </resources>

@@ -42,7 +42,6 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
 import androidx.compose.runtime.*
-import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 

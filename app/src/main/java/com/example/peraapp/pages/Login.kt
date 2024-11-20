@@ -19,8 +19,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -40,6 +45,9 @@ import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.isLandscape
 import com.example.peraapp.components.isTablet
+import androidx.compose.runtime.*
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
 fun LoginPage(onNavigateToRoute: (String) -> Unit) {
@@ -197,6 +205,12 @@ fun LoginFormSection(
     modifier: Modifier = Modifier,
     onNavigateToRoute: (String) -> Unit
 ) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var showPassword by remember { mutableStateOf(false) }
+    var emailErrorMessage by remember { mutableStateOf<String?>(null) }
+    var passwordErrorMessage by remember { mutableStateOf<String?>(null) }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -208,21 +222,44 @@ fun LoginFormSection(
             color = MaterialTheme.colorScheme.onBackground
         )
 
+        // Email Field with Validation
         LoginTextField(
             label = stringResource(R.string.mail),
             keyboardType = KeyboardType.Email,
-            validate = { true },
-            onValueChange = { /* Manejar el valor del correo */ }
+            value = email,  // Aquí se pasa el valor del email
+            onValueChange = { newEmail ->
+                email = newEmail
+                emailErrorMessage = if (!isValidEmail(newEmail)) {
+                    "Correo inválido"
+                } else {
+                    null
+                }
+            },
+            errorMessage = emailErrorMessage,  // Aquí se pasa el error de email
+            validate = { it.isNotEmpty() }
         )
 
+        // Password Field with Visibility Toggle
         LoginTextField(
             label = stringResource(R.string.contraseña),
             keyboardType = KeyboardType.Password,
-            validate = { it.isNotEmpty() }, // Aquí podrías añadir más validaciones si es necesario
-            onValueChange = { /* Manejar el valor de la contraseña */ },
+            value = password,  // Aquí se pasa el valor de la contraseña
+            onValueChange = { newPassword -> password = newPassword },
+            errorMessage = passwordErrorMessage,  // Aquí se pasa el error de contraseña
+            isPassword = true,
+            validate = { it.isNotEmpty() },
             modifier = Modifier.padding(bottom = 15.dp)
         )
 
+        // Button to toggle password visibility
+        IconButton(onClick = { showPassword = !showPassword }) {
+            Icon(
+                imageVector = if (showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                contentDescription = stringResource(id = R.string.toggle_password_visibility)
+            )
+        }
+
+        // Login Button
         LoginButton(
             text = stringResource(R.string.iniciarsesion),
             onClick = { onNavigateToRoute(AppDestinations.INICIO.route) },
@@ -230,6 +267,8 @@ fun LoginFormSection(
             textColor = MaterialTheme.colorScheme.background
         )
         Spacer(modifier = Modifier.padding(10.dp))
+
+        // Register Button
         LoginButton(
             text = stringResource(R.string.registrarme),
             onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
@@ -240,23 +279,31 @@ fun LoginFormSection(
     }
 }
 
+
 @Composable
 fun LoginTextField(
     label: String,
     keyboardType: KeyboardType,
     onValueChange: (String) -> Unit,
     validate: (String) -> Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPassword: Boolean = false,
+    value: String,  // Aquí se pasa el valor del campo
+    errorMessage: String?  // Aquí se pasa el mensaje de error
 ) {
-    var errorMessage: String? = null
+    var passwordVisible by remember { mutableStateOf(false) }
 
+    // Declarar errorMessage como var para poder reasignarlo
+    var localErrorMessage by remember { mutableStateOf<String?>(null) }
+
+    // Actualiza el errorMessage localmente, no directamente
     OutlinedTextField(
-        value = "",
+        value = value,
         onValueChange = { input ->
             if (!validate(input)) {
-                errorMessage = "Correo inválido" // Mensaje de error si no pasa la validación
+                localErrorMessage = "Correo inválido" // Mensaje de error si no pasa la validación
             } else {
-                errorMessage = null
+                localErrorMessage = null
             }
             onValueChange(input)
         },
@@ -265,9 +312,23 @@ fun LoginTextField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = keyboardType
         ),
-        isError = errorMessage != null
+        isError = localErrorMessage != null,
+        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+        trailingIcon = {
+            if (isPassword) {
+                IconButton(
+                    onClick = { passwordVisible = !passwordVisible }
+                ) {
+                    Icon(
+                        imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        contentDescription = stringResource(R.string.toggle_password_visibility)
+                    )
+                }
+            }
+        }
     )
-    errorMessage?.let {
+
+    localErrorMessage?.let {
         Text(
             text = it,
             color = MaterialTheme.colorScheme.error,
@@ -275,6 +336,12 @@ fun LoginTextField(
             modifier = Modifier.padding(start = 16.dp, top = 4.dp)
         )
     }
+}
+
+
+// Function to validate email format using regular expression
+fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
 @Composable
