@@ -80,11 +80,12 @@
     <string name="iconotarjetas">Card icon</string>
     <string name="iconotransferir">Transfer icon</string>
 
-    <string name="estadoregistro">Registration status</string>
-    <string name="estadoagregartarjeta">Add card status</string>
-    <string name="estadoeliminartarjeta">Delete card status</string>
-    <string name="estadoingresar">Deposit status</string>
-    <string name="estadotransferir">Transfer status</string>
+    <string name="estadoiniciarsesion">Login</string>
+    <string name="estadoregistro">Registration</string>
+    <string name="estadoagregartarjeta">Add card</string>
+    <string name="estadoeliminartarjeta">Delete card</string>
+    <string name="estadoingresar">Deposit</string>
+    <string name="estadotransferir">Transfer</string>
     <string name="correcto">Succeeded</string>
     <string name="fallo">Failed</string>
 

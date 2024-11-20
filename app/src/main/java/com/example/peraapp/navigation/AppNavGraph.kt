@@ -17,12 +17,13 @@ import com.example.peraapp.pages.TransferScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController,
+                startDestination: String,
                 currentRoute: String?,
                 onNavigateToRoute: (String) -> Unit
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppDestinations.INICIO.route
+        startDestination = AppDestinations.INICIARSESION.route
     ){
         composable(route = AppDestinations.INICIO.route){
             HomeScreen(onNavigateToRoute)

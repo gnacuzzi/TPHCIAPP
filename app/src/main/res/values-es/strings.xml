@@ -81,6 +81,7 @@
     <string name="iconotarjetas">Ícono de tarjetas</string>
     <string name="iconotransferir">Ícono de transferir</string>
 
+    <string name="estadoiniciarsesion">Iniciar sesión</string>
     <string name="estadoregistro">El registro</string>
     <string name="estadoagregartarjeta">Agregar tarjeta</string>
     <string name="estadoeliminartarjeta">Eliminar tarjeta</string>

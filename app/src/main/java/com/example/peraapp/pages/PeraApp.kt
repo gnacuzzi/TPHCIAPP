@@ -7,12 +7,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.peraapp.HomeViewModel
+import com.example.peraapp.PeraApplication
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.components.BottomBar
 import com.example.peraapp.components.SideBar
@@ -22,12 +28,16 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
-    val configuration = LocalConfiguration.current
+fun MainScreen(
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
+) {
+    val uiState by viewModel.uiState.collectAsState()
     val navController = rememberNavController()
+    val startDestination = if (uiState.isAuthenticated) AppDestinations.INICIO.route else AppDestinations.INICIARSESION.route
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
     val routesWithoutBars = listOf(
         AppDestinations.INICIARSESION.route,
@@ -35,112 +45,84 @@ fun MainScreen() {
     )
     val showBars = currentRoute !in routesWithoutBars
 
-    if (isTablet) {
-        Surface(color = MaterialTheme.colorScheme.background) {
+    Surface(color = MaterialTheme.colorScheme.background) {
+        if (isTablet) {
             if (showBars) {
                 Row(modifier = Modifier.fillMaxSize()) {
                     SideBar(currentRoute = currentRoute) { route ->
-                        if (route == "BACK") {
-                            navController.popBackStack()
-                        } else {
-                            navController.navigate(route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
+                        navigateSafely(navController, route, uiState.isAuthenticated)
                     }
                     AppNavGraph(
                         navController = navController,
+                        startDestination = startDestination,
                         currentRoute = currentRoute
                     ) { route ->
-                        if (route == "BACK") {
-                            navController.popBackStack()
-                        } else {
-                            navController.navigate(route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
+                        navigateSafely(navController, route, uiState.isAuthenticated)
                     }
                 }
             } else {
                 AppNavGraph(
                     navController = navController,
+                    startDestination = startDestination,
                     currentRoute = currentRoute
                 ) { route ->
-                    if (route == "BACK") {
-                        navController.popBackStack()
-                    } else {
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                }
-            }
-        }
-    } else {
-        if (showBars) {
-            Scaffold(
-                bottomBar = {
-                    BottomBar(currentRoute = currentRoute) { route ->
-                        if (route == "BACK") {
-                            navController.popBackStack()
-                        } else {
-                            navController.navigate(route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    }
-                }
-            ) {
-                AppNavGraph(
-                    navController = navController,
-                    currentRoute = currentRoute
-                ) { route ->
-                    if (route == "BACK") {
-                        navController.popBackStack()
-                    } else {
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
+                    navigateSafely(navController, route, uiState.isAuthenticated)
                 }
             }
         } else {
-            AppNavGraph(
-                navController = navController,
-                currentRoute = currentRoute
-            ) { route ->
-                if (route == "BACK") {
-                    navController.popBackStack()
-                } else {
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+            if (showBars) {
+                Scaffold(
+                    bottomBar = {
+                        BottomBar(currentRoute = currentRoute) { route ->
+                            navigateSafely(navController, route, uiState.isAuthenticated)
                         }
-                        launchSingleTop = true
-                        restoreState = true
+                    }
+                ) {
+                    AppNavGraph(
+                        navController = navController,
+                        startDestination = startDestination,
+                        currentRoute = currentRoute
+                    ) { route ->
+                        navigateSafely(navController, route, uiState.isAuthenticated)
                     }
                 }
+            } else {
+                AppNavGraph(
+                    navController = navController,
+                    startDestination = startDestination,
+                    currentRoute = currentRoute
+                ) { route ->
+                    navigateSafely(navController, route, uiState.isAuthenticated)
+                }
             }
+        }
+    }
+}
+
+private fun navigateSafely(
+    navController: NavHostController,
+    route: String,
+    isAuthenticated: Boolean
+) {
+    val routesWithoutAuthentication = listOf(
+        AppDestinations.INICIARSESION.route,
+        AppDestinations.REGISTRARME.route
+    )
+
+    if (route == "BACK") {
+        navController.popBackStack()
+    } else if (isAuthenticated || route in routesWithoutAuthentication) {
+        navController.navigate(route) {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    } else {
+        // Si intenta acceder a una ruta protegida, redirigir al inicio de sesión
+        navController.navigate(AppDestinations.INICIARSESION.route) {
+            popUpTo(0) { inclusive = true }
         }
     }
 }

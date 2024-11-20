@@ -45,6 +45,9 @@ import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.Dialog
+import kotlinx.coroutines.delay
 
 @Composable
 fun LoginScreen(onNavigateToRoute: (String) -> Unit) {
@@ -354,6 +357,49 @@ fun LoginScreenPreview(){
     PeraAppTheme {
         LoginScreen{
 
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginDialogPreview() {
+    PeraAppTheme {
+        LoginDialog(
+            onDismissRequest = { /* seria volver al inicio */ },
+            dialogTitle = stringResource(R.string.estadoiniciarsesion)
+        )
+    }
+}
+
+@Composable
+fun LoginDialog(
+    onDismissRequest: () -> Unit,
+    dialogTitle: String,
+    dismissAfterMillis: Long = 3000,
+    state: Boolean = false
+) {
+    var addText = stringResource(R.string.correcto)
+    if (!state){
+        addText = stringResource(R.string.fallo)
+    }
+    LaunchedEffect(Unit) {
+        delay(dismissAfterMillis)
+        onDismissRequest()
+    }
+
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Text(
+                text = "$dialogTitle $addText",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }
