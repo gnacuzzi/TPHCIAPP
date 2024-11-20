@@ -194,7 +194,6 @@ fun LoginFormSection(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showPassword by remember { mutableStateOf(false) }
     var emailErrorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
@@ -232,14 +231,6 @@ fun LoginFormSection(
             validate = { it.isNotEmpty() },
             modifier = Modifier.padding(bottom = 15.dp)
         )
-
-        // Button to toggle password visibility
-        IconButton(onClick = { showPassword = !showPassword }) {
-            Icon(
-                imageVector = if (showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                contentDescription = stringResource(id = R.string.toggle_password_visibility)
-            )
-        }
 
         // Login Button
         LoginButton(

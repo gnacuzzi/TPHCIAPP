@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Pera</string>
-    <string name="movimientos">Movements</string>
+    <string name="movimientos">Transactions</string>
     <string name="tarjetas">Cards</string>
     <string name="tarjeta">Card</string>
     <string name="cuenta">Profile</string>
@@ -75,7 +75,7 @@
     <string name="inconoinvertir">Invest icon</string>
     <string name="logo">Pera background logo</string>
     <string name="logoinicio">White background logo</string>
-    <string name="iconomovimientos">Movements icon</string>
+    <string name="iconomovimientos">Transactions icon</string>
     <string name="fotodeperfil">Default profile image</string>
     <string name="iconotarjetas">Card icon</string>
     <string name="iconotransferir">Transfer icon</string>
