@@ -17,7 +17,7 @@
 
     <string name="agregartarjeta">Add card</string>
     <string name="agregarnuevatarjeta">Add a new card</string>
-    <string name="nombretitular">Cardholder's name</string>
+    <string name="nombretitular">Cardholder´s name</string>
     <string name="numerotarjeta">Card number</string>
     <string name="fechadeven">Expiration date</string>
     <string name="codigo">Security code</string>
