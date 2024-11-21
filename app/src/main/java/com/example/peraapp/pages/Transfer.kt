@@ -19,9 +19,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
@@ -45,18 +44,22 @@ fun TransferScreen(onNavigateToRoute: (String) -> Unit,
                    viewModel: HomeViewModel
 ) {
     ModularizedLayout(
-        contentPhonePortrait = { TransferScreenPhonePortrait(onNavigateToRoute) },
-        contentPhoneLandscape = { TransferScreenPhoneLandscape(onNavigateToRoute) },
-        contentTabletPortrait = { TransferScreenTabletPortrait(onNavigateToRoute) },
-        contentTabletLandscape = { TransferScreenTabletLandscape(onNavigateToRoute) }
+        contentPhonePortrait = { TransferScreenPhonePortrait(onNavigateToRoute, viewModel) },
+        contentPhoneLandscape = { TransferScreenPhoneLandscape(onNavigateToRoute, viewModel) },
+        contentTabletPortrait = { TransferScreenTabletPortrait(onNavigateToRoute, viewModel) },
+        contentTabletLandscape = { TransferScreenTabletLandscape(onNavigateToRoute, viewModel) }
     )
 }
 
 
 @Composable
-fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
+    val uiState by viewModel.uiState.collectAsState()
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -105,8 +108,15 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
                 )
 
                 LazyRow {//foreach
-                    item { CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
-                    item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    items(cards.size) { index ->
+                        val card = cards[index]
+                        CardTablet(
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
+                    }
                 }
 
                 TransferButton {  }
@@ -116,9 +126,12 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -167,8 +180,15 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
                 )
 
                 LazyRow {//foreach
-                    item { CardTablet(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
-                    item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    items(cards.size) { index ->
+                        val card = cards[index]
+                        CardTablet(
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
+                    }
                 }
 
                 TransferButton {  }
@@ -178,9 +198,12 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
 
     Scaffold(
         topBar = { TopBar(R.string.transferir, false) }
@@ -216,21 +239,14 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
                     )
                 }
                 LazyColumn{//foreach
-                    item {
+                    items(cards.size) { index ->
+                        val card = cards[index]
                         CardHome(
-                            name = stringResource(R.string.saldoencuenta),
-                            bank = "Pera",
-                            number = "0",
-                            date = ""
-                        ) { }
-                    }
-                    item {
-                        CardHome(
-                            name = "Samanta Jones",
-                            bank = "Santander",
-                            number = "1234 1111 5678 2212",
-                            date = "12/28"
-                        ) { }
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
                     }
                 }
                 TransferButton(
@@ -241,9 +257,12 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
     }
 }
 @Composable
-fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
+fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
 
     Scaffold(
         topBar = { TopBar(R.string.transferir) }
@@ -274,8 +293,15 @@ fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
                 )
 
                 LazyRow{//foreach
-                    item { Card(name = stringResource(R.string.saldoencuenta), bank = "Pera", number = "0", date = "") { } }
-                    item { Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    items(cards.size) { index ->
+                        val card = cards[index]
+                        Card(
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
+                    }
                 }
 
 
@@ -382,7 +408,10 @@ fun TransferDialogPreview() {
         TransferDialog(
             onDismissRequest = { },
             onConfirmation = { },
-            dialogTitle = "${stringResource(R.string.deseatransaccion)}?"
+            dialogTitle = "${stringResource(R.string.deseatransaccion)}?",
+            recipientEmail = "Fer",
+            amount = "200",
+            method = "Balance"
             //habria que pasar la tarjeta pero actualmente es una funcion no una clase
         )
     }
@@ -392,7 +421,10 @@ fun TransferDialogPreview() {
 fun TransferDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    dialogTitle: String
+    dialogTitle: String,
+    recipientEmail: String,
+    amount: String,
+    method: String
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
@@ -412,10 +444,9 @@ fun TransferDialog(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
-                //habria que hacer una transaccion y mandarla como parametro
-                Text("${stringResource(R.string.pagoa)}: Jane Doe")
-                Text("${stringResource(R.string.monto)}: $200")
-                Text("${stringResource(R.string.con)}: Saldo en cuenta")
+                Text("${stringResource(R.string.pagoa)}: $recipientEmail")
+                Text("${stringResource(R.string.monto)}: $amount")
+                Text("${stringResource(R.string.con)}: $method")
 
                 Row(
                     modifier = Modifier
@@ -423,23 +454,18 @@ fun TransferDialog(
                         .padding(top = 16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    TextButton(onClick = { onDismissRequest() }) {
-                        Text(
-                            text = stringResource(R.string.cancelar),
-                            color = MaterialTheme.colorScheme.secondary
-                        )
+                    Button(onClick = { onDismissRequest() }) {
+                        Text(text = stringResource(R.string.cancelar))
                     }
-                    TextButton(onClick = { onConfirmation() }) {
-                        Text(
-                            text = stringResource(R.string.confirmar),
-                            color = MaterialTheme.colorScheme.secondary
-                        )
+                    Button(onClick = { onConfirmation() }) {
+                        Text(text = stringResource(R.string.confirmar))
                     }
                 }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
