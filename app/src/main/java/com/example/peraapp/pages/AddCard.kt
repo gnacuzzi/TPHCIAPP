@@ -27,13 +27,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.components.isLandscape
 import kotlinx.coroutines.delay
+import com.example.peraapp.HomeViewModel
+import com.example.peraapp.PeraApplication
+import com.example.peraapp.data.model.Card
+import com.example.peraapp.data.model.CardType
+import java.util.Date
 
 data class CardValues(
     val cardNumber: String = "",
@@ -70,7 +77,7 @@ fun AddCard(onNavigateToRoute: (String) -> Unit) {
 fun AddCardLandscape(
     onNavigateToRoute: (String) -> Unit,
     cardValues: CardValues,
-    onValueChange: (CardValues) -> Unit
+    onValueChange: (CardValues) -> Unit,
 ) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta, false) }
@@ -108,19 +115,17 @@ fun AddCardLandscape(
                         }
                     }
                 }
-                AddCardButton()
+                AddCardButton(60, cardValues)
             }
         }
     }
 }
 
-
-
 @Composable
 fun AddCardPortrait(
     onNavigateToRoute: (String) -> Unit,
     cardValues: CardValues,
-    onValueChange: (CardValues) -> Unit
+    onValueChange: (CardValues) -> Unit,
 ) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta) }
@@ -130,10 +135,11 @@ fun AddCardPortrait(
                 .fillMaxWidth()
                 .padding(innerPadding),
         ) {
-            Column (
+            Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
+                // Campos de entrada del formulario
                 CardNumberField(value = cardValues.cardNumber) { newValue ->
                     onValueChange(cardValues.copy(cardNumber = newValue))
                 }
@@ -149,7 +155,8 @@ fun AddCardPortrait(
                 BankField(value = cardValues.bank) { newValue ->
                     onValueChange(cardValues.copy(bank = newValue))
                 }
-                AddCardButton(60)
+                // Botón para agregar la tarjeta
+                AddCardButton(10, cardValues)
             }
         }
     }
@@ -311,9 +318,23 @@ fun BankField(value: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun AddCardButton(toppadding: Int = 10) {
+fun AddCardButton(toppadding: Int = 10,
+                  cardValues: CardValues,
+                  viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
+
+) {
+    val newCard = Card(
+        id = null, // Si el ID es generado automáticamente
+        number = cardValues.cardNumber,
+        expirationDate = cardValues.expiryDate,
+        fullName = cardValues.cardHolder,
+        cvv = cardValues.cvv,
+        type = CardType.DEBIT, // O utiliza lógica para seleccionar DEBIT o CREDIT
+        createdAt = Date(),
+        updatedAt = Date()
+    )
     Button(
-        onClick = { /* Acción para agregar tarjeta */ },
+        onClick = { viewModel.addCard(newCard) },
         modifier = Modifier
             .padding(top = toppadding.dp)
             .width(270.dp),
