@@ -43,10 +43,14 @@ import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.peraapp.HomeViewModel
+import com.example.peraapp.PeraApplication
 import kotlinx.coroutines.delay
 
 @Composable
@@ -193,8 +197,10 @@ fun TopImageSection(
 @Composable
 fun LoginFormSection(
     modifier: Modifier = Modifier,
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var emailErrorMessage by remember { mutableStateOf<String?>(null) }
@@ -238,7 +244,12 @@ fun LoginFormSection(
         // Login Button
         LoginButton(
             text = stringResource(R.string.iniciarsesion),
-            onClick = { onNavigateToRoute(AppDestinations.INICIO.route) },
+            onClick =
+            {
+                //viewModel.login("eve.morissette27@ethereal.email", "1234567890")
+                viewModel.login(email, password)
+                onNavigateToRoute(AppDestinations.INICIO.route)
+            },
             backgroundColor = MaterialTheme.colorScheme.secondary,
             textColor = MaterialTheme.colorScheme.background
         )
