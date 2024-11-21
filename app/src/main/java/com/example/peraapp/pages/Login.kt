@@ -275,19 +275,17 @@ fun LoginTextField(
     validate: (String) -> Boolean,
     modifier: Modifier = Modifier,
     isPassword: Boolean = false,
-    value: String,  // Aquí se pasa el valor del campo
+    value: String,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
-    // Declarar errorMessage como var para poder reasignarlo
     var localErrorMessage by remember { mutableStateOf<String?>(null) }
 
-    // Actualiza el errorMessage localmente, no directamente
     OutlinedTextField(
         value = value,
         onValueChange = { input ->
             localErrorMessage = if (!validate(input)) {
-                "Correo inválido" // Mensaje de error si no pasa la validación
+                "Correo inválido"
             } else {
                 null
             }
@@ -325,7 +323,6 @@ fun LoginTextField(
 }
 
 
-// Function to validate email format using regular expression
 fun isValidEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }

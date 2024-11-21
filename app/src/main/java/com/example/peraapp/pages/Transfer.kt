@@ -292,10 +292,9 @@ fun TransferInputField(
     keyboardType: KeyboardType,
     modifier: Modifier = Modifier,
     width: Int = 270,
-    showError: Boolean = false // Nuevo parámetro para controlar la visualización del error
+    showError: Boolean = false
 ) {
-    var error by remember { mutableStateOf(false) } // Estado de error
-
+    var error by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
     ) {
@@ -306,24 +305,22 @@ fun TransferInputField(
         )
 
         OutlinedTextField(
-            value = value, // Usa el valor directamente del parámetro
+            value = value,
             onValueChange = {
-                // Validamos solo si el tipo de teclado es para correo electrónico
                 if (keyboardType == KeyboardType.Email) {
                     error = if (isValidEmail(it)) {
-                        false // Si el correo es válido, restablecemos el error
+                        false
                     } else {
-                        true // Si el correo es inválido, establecemos el error
+                        true
                     }
                 } else if (keyboardType == KeyboardType.Number) {
-                    // Validamos que solo se ingresen números
                     error = if (it.isEmpty() || it.matches("\\d*".toRegex())) {
-                        false // Restablecemos el error si la entrada es válida
+                        false
                     } else {
-                        true // Establecemos el error si la entrada no es numérica
+                        true
                     }
                 }
-                onValueChange(it) // Actualizamos el valor en el parent composable
+                onValueChange(it)
             },
             label = { Text(labelText) },
             modifier = Modifier
@@ -332,7 +329,7 @@ fun TransferInputField(
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = keyboardType
             ),
-            isError = showError || error, // Si hay un error, lo mostramos
+            isError = showError || error,
             supportingText = {
                 if (showError || error) {
                     if (keyboardType == KeyboardType.Email) {

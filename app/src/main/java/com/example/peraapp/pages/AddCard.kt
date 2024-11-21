@@ -324,12 +324,12 @@ fun AddCardButton(toppadding: Int = 10,
 
 ) {
     val newCard = Card(
-        id = null, // Si el ID es generado automáticamente
+        id = null,
         number = cardValues.cardNumber,
         expirationDate = cardValues.expiryDate,
         fullName = cardValues.cardHolder,
         cvv = cardValues.cvv,
-        type = CardType.DEBIT, // O utiliza lógica para seleccionar DEBIT o CREDIT
+        type = CardType.DEBIT,
         createdAt = Date(),
         updatedAt = Date()
     )
