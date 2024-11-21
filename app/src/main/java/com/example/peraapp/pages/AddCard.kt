@@ -21,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,7 @@ import com.example.peraapp.HomeViewModel
 import com.example.peraapp.PeraApplication
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.CardType
+import com.example.peraapp.navigation.AppDestinations
 import java.util.Date
 
 data class CardValues(
@@ -52,7 +54,8 @@ data class CardValues(
 
 
 @Composable
-fun AddCard(onNavigateToRoute: (String) -> Unit) {
+fun AddCard(onNavigateToRoute: (String) -> Unit,
+            viewModel: HomeViewModel) {
     val configuration = LocalConfiguration.current
     val isLandscape = isLandscape(configuration)
     var cardValues by remember { mutableStateOf(CardValues()) }
@@ -323,6 +326,7 @@ fun AddCardButton(toppadding: Int = 10,
                   viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
 
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     val newCard = Card(
         id = null,
         number = cardValues.cardNumber,
@@ -334,7 +338,10 @@ fun AddCardButton(toppadding: Int = 10,
         updatedAt = Date()
     )
     Button(
-        onClick = { viewModel.addCard(newCard) },
+        onClick =
+        {
+            viewModel.addCard(newCard)
+        },
         modifier = Modifier
             .padding(top = toppadding.dp)
             .width(270.dp),
@@ -348,38 +355,19 @@ fun AddCardButton(toppadding: Int = 10,
     }
 }
 
-
-
-@Preview(device = "spec:width=411dp,height=891dp", showBackground = true, showSystemUi = true)
-@Composable
-fun CardScreenPortraitPreview() {
-    PeraAppTheme {
-        AddCard{}
-    }
-}
-@Preview(device = "spec:width=891dp,height=411dp", showBackground = true, showSystemUi = true)
-@Composable
-fun CardScreenLandscapePreview() {
-    PeraAppTheme {
-        AddCard{}
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun AddCardDialogStatePreview() {
     PeraAppTheme {
         AddCardDialogState(
-            onDismissRequest = { /* seria eliminarse nomas */ },
-            dialogTitle = stringResource(R.string.estadoagregartarjeta)
         )
     }
 }
 
 @Composable
 fun AddCardDialogState(
-    onDismissRequest: () -> Unit,
-    dialogTitle: String,
+    onDismissRequest: () -> Unit = {},
+    dialogTitle: String = stringResource(R.string.estadoagregartarjeta),
     dismissAfterMillis: Long = 3000,
     state: Boolean = true
 ) {

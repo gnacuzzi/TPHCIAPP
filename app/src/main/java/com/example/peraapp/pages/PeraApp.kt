@@ -55,7 +55,8 @@ fun MainScreen(
                     AppNavGraph(
                         navController = navController,
                         startDestination = startDestination,
-                        currentRoute = currentRoute
+                        currentRoute = currentRoute,
+                        viewModel = viewModel,
                     ) { route ->
                         navigateSafely(navController, route, uiState.isAuthenticated)
                     }
@@ -64,7 +65,8 @@ fun MainScreen(
                 AppNavGraph(
                     navController = navController,
                     startDestination = startDestination,
-                    currentRoute = currentRoute
+                    currentRoute = currentRoute,
+                    viewModel = viewModel,
                 ) { route ->
                     navigateSafely(navController, route, uiState.isAuthenticated)
                 }
@@ -81,7 +83,8 @@ fun MainScreen(
                     AppNavGraph(
                         navController = navController,
                         startDestination = startDestination,
-                        currentRoute = currentRoute
+                        currentRoute = currentRoute,
+                        viewModel = viewModel,
                     ) { route ->
                         navigateSafely(navController, route, uiState.isAuthenticated)
                     }
@@ -90,7 +93,8 @@ fun MainScreen(
                 AppNavGraph(
                     navController = navController,
                     startDestination = startDestination,
-                    currentRoute = currentRoute
+                    currentRoute = currentRoute,
+                    viewModel = viewModel,
                 ) { route ->
                     navigateSafely(navController, route, uiState.isAuthenticated)
                 }

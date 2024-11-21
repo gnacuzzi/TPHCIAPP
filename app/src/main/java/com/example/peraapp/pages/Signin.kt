@@ -55,18 +55,20 @@ import com.example.peraapp.data.model.User
 import java.util.Date
 
 @Composable
-fun SigninScreen(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreen(onNavigateToRoute: (String) -> Unit,
+                 viewModel: HomeViewModel) {
     ModularizedLayout(
-        contentPhonePortrait = { SigninScreenPhonePortrait(onNavigateToRoute) },
-        contentPhoneLandscape = { SigninScreenPhoneLandscape(onNavigateToRoute) },
-        contentTabletPortrait = { SigninScreenTabletPortrait(onNavigateToRoute) },
-        contentTabletLandscape = { SigninScreenTabletLandscape(onNavigateToRoute) }
+        contentPhonePortrait = { SigninScreenPhonePortrait(onNavigateToRoute, viewModel) },
+        contentPhoneLandscape = { SigninScreenPhoneLandscape(onNavigateToRoute, viewModel) },
+        contentTabletPortrait = { SigninScreenTabletPortrait(onNavigateToRoute, viewModel) },
+        contentTabletLandscape = { SigninScreenTabletLandscape(onNavigateToRoute, viewModel) }
     )
 }
 
 
 @Composable
-fun SigninScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit,
+                               viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -82,14 +84,16 @@ fun SigninScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
             )
             FormContainer(
                 onNavigateToRoute = onNavigateToRoute,
-                modifier = Modifier.size(width = 600.dp, height = 480.dp)
+                modifier = Modifier.size(width = 600.dp, height = 480.dp),
+                viewModel = viewModel
             )
         }
     }
 }
 
 @Composable
-fun SigninScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenTabletPortrait(onNavigateToRoute: (String) -> Unit,
+                               viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -121,7 +125,7 @@ fun SigninScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
                 FormHeader(onNavigateToRoute)
             }
             item {
-                FormFields(onNavigateToRoute)
+                FormFields(onNavigateToRoute, viewModel)
             }
 
         }
@@ -138,7 +142,7 @@ fun TopSectionImage(imageResId: Int, contentDescription: String, modifier: Modif
 }
 
 @Composable
-fun FormContainer(onNavigateToRoute: (String) -> Unit, modifier: Modifier) {
+fun FormContainer(onNavigateToRoute: (String) -> Unit, modifier: Modifier, viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(20.dp),
@@ -150,7 +154,7 @@ fun FormContainer(onNavigateToRoute: (String) -> Unit, modifier: Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FormHeader(onNavigateToRoute)
-            FormFields(onNavigateToRoute)
+            FormFields(onNavigateToRoute, viewModel)
         }
     }
 }
@@ -180,7 +184,7 @@ fun FormHeader(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun FormFields(onNavigateToRoute: (String) -> Unit) {
+fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -298,7 +302,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit) {
             )
         }
 
-        FormActions(onNavigateToRoute, name, surname, email, password)
+        FormActions(onNavigateToRoute, name, surname, email, password, viewModel)
     }
 
 }
@@ -310,9 +314,9 @@ fun FormActions(
     surname: String,
     email: String,
     password: String,
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
+    viewModel: HomeViewModel
 
-    ) {
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Button(
@@ -345,7 +349,7 @@ fun FormActions(
 }
 
 @Composable
-fun SigninScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -377,14 +381,14 @@ fun SigninScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
                 FormHeader(onNavigateToRoute)
             }
             item {
-                FormFields(onNavigateToRoute)
+                FormFields(onNavigateToRoute, viewModel)
             }
         }
     }
 }
 
 @Composable
-fun SigninScreenTabletLandscape(onNavigateToRoute: (String) -> Unit) {
+fun SigninScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -401,21 +405,13 @@ fun SigninScreenTabletLandscape(onNavigateToRoute: (String) -> Unit) {
 
             FormContainer(
                 onNavigateToRoute = onNavigateToRoute,
-                modifier = Modifier.size(width = 600.dp, height = 480.dp)
+                modifier = Modifier.size(width = 600.dp, height = 480.dp),
+                viewModel = viewModel
             )
         }
     }
 }
 
-@PreviewSizes
-@Composable
-fun SigninScreenPreview(){
-    PeraAppTheme {
-        SigninScreen{
-
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

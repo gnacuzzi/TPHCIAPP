@@ -44,9 +44,7 @@ import com.example.peraapp.data.model.CardType
 
 //hay que recibir la tarjeta por parametro
 @Composable
-fun DeleteCardScreen(    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(
-    LocalContext.current.applicationContext as PeraApplication
-))
+fun DeleteCardScreen(viewModel: HomeViewModel
 ){
     val uiState by viewModel.uiState.collectAsState()
     val card = uiState.currentCard
@@ -309,14 +307,6 @@ fun DeleteCardDialogHandler(
     }
 }
 
-
-@PreviewSizes
-@Composable
-fun Previewcard(){
-    PeraAppTheme {
-        DeleteCardScreen()
-    }
-}
 
 @Composable
 fun DeleteCardDialogPreview(card: Card?) {

@@ -54,18 +54,19 @@ import com.example.peraapp.PeraApplication
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoginScreen(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreen(onNavigateToRoute: (String) -> Unit,
+                viewModel: HomeViewModel ) {
     ModularizedLayout(
-        contentPhonePortrait = { LoginScreenPhonePortrait(onNavigateToRoute) },
-        contentPhoneLandscape = { LoginScreenPhoneLandscape(onNavigateToRoute) },
-        contentTabletPortrait = { LoginScreenTabletPortrait(onNavigateToRoute) },
-        contentTabletLandscape = { LoginScreenTabletLandscape(onNavigateToRoute) }
+        contentPhonePortrait = { LoginScreenPhonePortrait(onNavigateToRoute, viewModel) },
+        contentPhoneLandscape = { LoginScreenPhoneLandscape(onNavigateToRoute, viewModel) },
+        contentTabletPortrait = { LoginScreenTabletPortrait(onNavigateToRoute, viewModel) },
+        contentTabletLandscape = { LoginScreenTabletLandscape(onNavigateToRoute, viewModel) }
     )
 }
 
 
 @Composable
-fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -89,7 +90,8 @@ fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    onNavigateToRoute = onNavigateToRoute
+                    onNavigateToRoute = onNavigateToRoute,
+                    viewModel = viewModel
                 )
             }
         }
@@ -97,7 +99,7 @@ fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun LoginScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -117,13 +119,14 @@ fun LoginScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            onNavigateToRoute = onNavigateToRoute
+            onNavigateToRoute = onNavigateToRoute,
+            viewModel = viewModel
         )
     }
 }
 
 @Composable
-fun LoginScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -143,14 +146,15 @@ fun LoginScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            onNavigateToRoute = onNavigateToRoute
+            onNavigateToRoute = onNavigateToRoute,
+            viewModel = viewModel
         )
     }
 }
 
 
 @Composable
-fun LoginScreenTabletLandscape(onNavigateToRoute: (String) -> Unit) {
+fun LoginScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -174,7 +178,8 @@ fun LoginScreenTabletLandscape(onNavigateToRoute: (String) -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    onNavigateToRoute = onNavigateToRoute
+                    onNavigateToRoute = onNavigateToRoute,
+                    viewModel = viewModel
                 )
             }
         }
@@ -198,7 +203,7 @@ fun TopImageSection(
 fun LoginFormSection(
     modifier: Modifier = Modifier,
     onNavigateToRoute: (String) -> Unit,
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
+    viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var email by remember { mutableStateOf("") }
@@ -246,8 +251,8 @@ fun LoginFormSection(
             text = stringResource(R.string.iniciarsesion),
             onClick =
             {
-                //viewModel.login("eve.morissette27@ethereal.email", "1234567890")
-                viewModel.login(email, password)
+                viewModel.login("eve.morissette27@ethereal.email", "1234567890")
+                //viewModel.login(email, password)
                 onNavigateToRoute(AppDestinations.INICIO.route)
             },
             backgroundColor = MaterialTheme.colorScheme.secondary,
@@ -357,17 +362,6 @@ fun LoginButton(
     }
 }
 
-
-
-@PreviewSizes
-@Composable
-fun LoginScreenPreview(){
-    PeraAppTheme {
-        LoginScreen{
-
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

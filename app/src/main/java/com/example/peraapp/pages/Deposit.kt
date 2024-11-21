@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.HomeViewModel
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
@@ -39,7 +40,9 @@ import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
 @Composable
-fun DepositScreen(onNavigateToRoute: (String) -> Unit){
+fun DepositScreen(onNavigateToRoute: (String) -> Unit,
+                  viewModel: HomeViewModel
+){
     ModularizedLayout(
         contentPhonePortrait = { DepositScreenPhonePortrait(onNavigateToRoute) },
         contentPhoneLandscape = { DepositScreenPhoneLandscape(onNavigateToRoute) },
@@ -291,14 +294,6 @@ fun DepositButton(onClick: () -> Unit) {
     }
 }
 
-
-@PreviewSizes
-@Composable
-fun DepositScreenPreview() {
-    PeraAppTheme{
-        DepositScreen{}
-    }
-}
 
 @Preview(showBackground = true)
 @Composable

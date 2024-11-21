@@ -37,7 +37,7 @@ val homeItems = listOf(
 @Composable
 fun SaldoSection(
     name: String,
-    saldo: Number,
+    saldo: Double,
     onNavigateToRoute: (String) -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -54,7 +54,7 @@ fun SaldoSection(
 @Composable
 fun SaldoSectionPhone(
     name:String,
-    saldo: Number,
+    saldo: Double,
     onNavigateToRoute: (String) -> Unit
 ) {
     Surface (
@@ -122,7 +122,7 @@ fun SaldoSectionPhone(
 @Composable
 fun SaldoSectionTablet(
     name: String,
-    saldo: Number,
+    saldo: Double,
     onNavigateToRoute: (String) -> Unit
 ) {
     var showCobrarDialog by remember { mutableStateOf(false) }

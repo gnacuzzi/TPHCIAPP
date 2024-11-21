@@ -30,7 +30,7 @@ class NetworkPayment(
             linkUuid = linkUuid,
             createdAt = createdAt?.let { dateFormat.format(createdAt!!) },
             updatedAt = updatedAt?.let { dateFormat.format(updatedAt!!) },
-            card = card!!.asModel()
+            card = card?.asModel()
         )
     }
 }

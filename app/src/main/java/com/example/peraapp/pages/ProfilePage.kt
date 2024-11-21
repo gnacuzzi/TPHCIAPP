@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.peraapp.HomeViewModel
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
@@ -49,6 +50,7 @@ fun ProfileScreen(
     name: String,
     surname: String,
     mail: String,
+    viewModel: HomeViewModel,
     onNavigateToRoute: (String) -> Unit
 ) {
     ModularizedLayout(
@@ -306,15 +308,3 @@ fun ProfileHeader(
     }
 }
 
-
-@PreviewSizes
-@Composable
-fun previewprofile(){
-    PeraAppTheme {
-        ProfileScreen(
-            name = "Samanta",
-            surname = "Jones",
-            mail = "sjones@gmail.com",
-        ) { }
-    }
-}

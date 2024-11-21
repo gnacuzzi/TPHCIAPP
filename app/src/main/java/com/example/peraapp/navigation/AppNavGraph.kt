@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.peraapp.HomeViewModel
 import com.example.peraapp.pages.AddCard
 import com.example.peraapp.pages.CardsScreen
 import com.example.peraapp.pages.DeleteCardScreen
@@ -19,46 +20,48 @@ import com.example.peraapp.pages.TransferScreen
 fun AppNavGraph(navController: NavHostController,
                 startDestination: String,
                 currentRoute: String?,
-                onNavigateToRoute: (String) -> Unit
+                viewModel: HomeViewModel,
+                onNavigateToRoute: (String) -> Unit,
 ) {
     NavHost(
         navController = navController,
         startDestination = AppDestinations.INICIARSESION.route
     ){
         composable(route = AppDestinations.INICIO.route){
-            HomeScreen(onNavigateToRoute)
+            HomeScreen(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.MOVIMIENTOS.route){
-            MovementsScreen()
+            MovementsScreen(viewModel)
         }
         composable(route = AppDestinations.TARJETAS.route){
-            CardsScreen(onNavigateToRoute)
+            CardsScreen(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.CUENTA.route){
             ProfileScreen(//tiene que ser dinamico
                     name = "Samanta",
                     surname = "Jones",
                     mail = "sjones@gmail.com",
-                    onNavigateToRoute = onNavigateToRoute
+                    onNavigateToRoute = onNavigateToRoute,
+                    viewModel = viewModel
             )
         }
         composable(route = AppDestinations.TRANSFERIR.route){
-            TransferScreen(onNavigateToRoute)
+            TransferScreen(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.INGRESAR.route){
-            DepositScreen(onNavigateToRoute)
+            DepositScreen(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.AGREGARTARJETA.route){
-            AddCard(onNavigateToRoute)
+            AddCard(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.ELIMINARTARJETA.route){
-            DeleteCardScreen()//falta esta porque tiene que ser dinamica segun la tarjeta apretada
+            DeleteCardScreen(viewModel)//falta esta porque tiene que ser dinamica segun la tarjeta apretada
         }
         composable(route = AppDestinations.INICIARSESION.route){
-            LoginScreen(onNavigateToRoute)
+            LoginScreen(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.REGISTRARME.route){
-            SigninScreen(onNavigateToRoute)
+            SigninScreen(onNavigateToRoute, viewModel)
         }
     }
 }

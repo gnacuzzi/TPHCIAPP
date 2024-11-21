@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.HomeViewModel
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
@@ -138,7 +139,9 @@ fun Card(bank: String,
 }
 
 @Composable
-fun CardsScreen(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreen(onNavigateToRoute: (String) -> Unit,
+                viewModel: HomeViewModel
+) {
     ModularizedLayout(
         contentPhonePortrait = { CardsScreenPhonePortrait(onNavigateToRoute) },
         contentPhoneLandscape = { CardsScreenPhoneLandscape(onNavigateToRoute) },
@@ -292,16 +295,6 @@ fun AddCardButton(onNavigateToRoute: (String) -> Unit) {
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
-    }
-}
-
-@PreviewSizes
-@Composable
-fun Cardscreenpreview(){
-    PeraAppTheme {
-        CardsScreen {
-
-        }
     }
 }
 

@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
+import com.example.peraapp.data.model.Card
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.AddCardTabletDialog
 import com.example.peraapp.pages.CardHome
@@ -34,21 +35,23 @@ import com.example.peraapp.pages.CardHomeTablet
 
 @Composable
 fun TarjetasSection(
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    cards: List<Card>
 ) {
     val configuration = LocalConfiguration.current
     val isTablet = isTablet(configuration)
 
     if (isTablet) {
-        TarjetasSectionTablet(onNavigateToRoute)
+        TarjetasSectionTablet(onNavigateToRoute, cards)
     } else {
-        TarjetasSectionPhone(onNavigateToRoute)
+        TarjetasSectionPhone(onNavigateToRoute, cards)
     }
 }
 
 @Composable
 fun TarjetasSectionPhone(
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    cards: List<Card>
 ) {
     Column(
         modifier = Modifier
@@ -64,13 +67,16 @@ fun TarjetasSectionPhone(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            item {
+            items(cards.size) { index ->
+                val card = cards[index]
                 CardHome(
-                    bank = "Santander",
-                    number = "1234 5678 9101 1121",
-                    name = "Samanta Jones",
-                    date = "12/28"
-                ){onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
+                    bank = card.type.name,
+                    number = card.number,
+                    name = card.fullName,
+                    date = card.expirationDate
+                ) {
+                    onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                }
             }
             item {
                 IconButton(
@@ -90,7 +96,8 @@ fun TarjetasSectionPhone(
 
 @Composable
 fun TarjetasSectionTablet(
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    cards: List<Card>
 ) {
     var showAddCardDialog by remember { mutableStateOf(false) }
     Surface(
@@ -115,21 +122,16 @@ fun TarjetasSectionTablet(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                item {
-                    CardHomeTablet(
-                        bank = "Santander",
-                        number = "1234 5678 9101 1121",
-                        name = "Samanta Jones",
-                        date = "12/28"
-                    ){}
-                }
-                item {
-                    CardHomeTablet(
-                        bank = "BBVA",
-                        number = "4321 8765 1011 2233",
-                        name = "Juan Pérez",
-                        date = "01/25"
-                    ){onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
+                items(cards.size) { index ->
+                    val card = cards[index]
+                    CardHome(
+                        bank = card.type.name,
+                        number = card.number,
+                        name = card.fullName,
+                        date = card.expirationDate
+                    ) {
+                        onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                    }
                 }
                 item {
                     IconButton(

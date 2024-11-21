@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.peraapp.HomeViewModel
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
@@ -40,7 +41,9 @@ import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
 @Composable
-fun TransferScreen(onNavigateToRoute: (String) -> Unit) {
+fun TransferScreen(onNavigateToRoute: (String) -> Unit,
+                   viewModel: HomeViewModel
+) {
     ModularizedLayout(
         contentPhonePortrait = { TransferScreenPhonePortrait(onNavigateToRoute) },
         contentPhoneLandscape = { TransferScreenPhoneLandscape(onNavigateToRoute) },
@@ -370,14 +373,6 @@ fun TransferButton(onClick: () -> Unit) {
     }
 }
 
-
-@PreviewSizes
-@Composable
-fun TransferScreenPreview() {
-    PeraAppTheme{
-        TransferScreen{}
-    }
-}
 
 
 @Preview(showBackground = true)
