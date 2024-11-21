@@ -98,5 +98,6 @@
     <string name="ocultar">Ocultar</string>
     <string name="mostrar">Mostrar</string>
     <string name="toggle_password_visibility">Mostrar/Ocultar contraseña</string>
+    <string name="transferencia">Transferencia</string>
 
 </resources>

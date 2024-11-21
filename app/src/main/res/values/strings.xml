@@ -98,4 +98,5 @@
     <string name="ocultar">Hide</string>
     <string name="mostrar">Show</string>
     <string name="toggle_password_visibility">Show/Hide password</string>
+    <string name="transferencia">Transaction</string>
 </resources>

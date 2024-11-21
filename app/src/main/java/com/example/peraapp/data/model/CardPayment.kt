@@ -2,8 +2,8 @@ package com.example.peraapp.data.model
 
 import com.example.peraapp.data.network.model.NetworkCardPayment
 
-class CardPayment (
-    var amount: Int,
+class CardPayment(
+    var amount: String,
     var description: String,
     var type: String = "CARD",
     var cardId: Int,
