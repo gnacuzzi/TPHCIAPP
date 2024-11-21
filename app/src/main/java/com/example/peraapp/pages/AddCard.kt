@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -64,13 +69,15 @@ fun AddCard(onNavigateToRoute: (String) -> Unit,
         AddCardLandscape(
             onNavigateToRoute = onNavigateToRoute,
             cardValues = cardValues,
-            onValueChange = { cardValues = it }
+            onValueChange = { cardValues = it },
+            viewModel = viewModel
         )
     } else {
         AddCardPortrait(
             onNavigateToRoute = onNavigateToRoute,
             cardValues = cardValues,
-            onValueChange = { cardValues = it }
+            onValueChange = { cardValues = it },
+            viewModel = viewModel
         )
     }
 }
@@ -81,6 +88,7 @@ fun AddCardLandscape(
     onNavigateToRoute: (String) -> Unit,
     cardValues: CardValues,
     onValueChange: (CardValues) -> Unit,
+    viewModel: HomeViewModel
 ) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta, false) }
@@ -118,7 +126,7 @@ fun AddCardLandscape(
                         }
                     }
                 }
-                AddCardButton(60, cardValues)
+                AddCardButton(60, cardValues, viewModel)
             }
         }
     }
@@ -129,6 +137,7 @@ fun AddCardPortrait(
     onNavigateToRoute: (String) -> Unit,
     cardValues: CardValues,
     onValueChange: (CardValues) -> Unit,
+    viewModel: HomeViewModel
 ) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta) }
@@ -159,7 +168,7 @@ fun AddCardPortrait(
                     onValueChange(cardValues.copy(bank = newValue))
                 }
                 // Botón para agregar la tarjeta
-                AddCardButton(10, cardValues)
+                AddCardButton(10, cardValues, viewModel)
             }
         }
     }
@@ -323,8 +332,7 @@ fun BankField(value: String, onValueChange: (String) -> Unit) {
 @Composable
 fun AddCardButton(toppadding: Int = 10,
                   cardValues: CardValues,
-                  viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
-
+                  viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val newCard = Card(
@@ -359,8 +367,7 @@ fun AddCardButton(toppadding: Int = 10,
 @Composable
 fun AddCardDialogStatePreview() {
     PeraAppTheme {
-        AddCardDialogState(
-        )
+        AddCardDialogState()
     }
 }
 
@@ -396,4 +403,57 @@ fun AddCardDialogState(
     }
 }
 
+@Composable
+fun AddCardTabletDialog(
+    onDismissRequest: () -> Unit,
+    viewModel: HomeViewModel
+) {
+    var cardValues by remember { mutableStateOf(CardValues()) }
 
+    fun updateCardValues(newValues: CardValues) {
+        cardValues = newValues
+    }
+
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = { onDismissRequest() },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.volveratras),
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.size(100.dp)
+                    )
+                }
+
+                CardNumberField(value = cardValues.cardNumber) { newValue ->
+                    updateCardValues(cardValues.copy(cardNumber = newValue))
+                }
+                CardHolderField(value = cardValues.cardHolder) { newValue ->
+                    updateCardValues(cardValues.copy(cardHolder = newValue))
+                }
+                ExpiryDateField(value = cardValues.expiryDate) { newValue ->
+                    updateCardValues(cardValues.copy(expiryDate = newValue))
+                }
+                CVVField(value = cardValues.cvv) { newValue ->
+                    updateCardValues(cardValues.copy(cvv = newValue))
+                }
+                BankField(value = cardValues.bank) { newValue ->
+                    updateCardValues(cardValues.copy(bank = newValue))
+                }
+                AddCardButton(10, cardValues, viewModel)
+            }
+        }
+    }
+}

@@ -21,23 +21,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import com.example.peraapp.R
+import com.example.peraapp.data.model.Payment
 import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.pages.CardHome
 import com.example.peraapp.pages.MovimientoItem
 
 @Composable
-fun MovimientosSection(onNavigateToRoute: (String) -> Unit) {
+fun MovimientosSection(onNavigateToRoute: (String) -> Unit,
+                       payments: List<Payment>) {
     val configuration = LocalConfiguration.current
     val isTablet = isTablet(configuration)
 
     if (isTablet) {
-        MovimientosSectionTablet(onNavigateToRoute)
+        MovimientosSectionTablet(onNavigateToRoute, payments)
     } else {
-        MovimientosSectionPhone(onNavigateToRoute)
+        MovimientosSectionPhone(onNavigateToRoute, payments)
     }
 }
 
 @Composable
-fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit) {
+fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit,
+                            payments: List<Payment>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,17 +70,29 @@ fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit) {
                 )
             }
         }
-        MovimientoItem(
-            name = "Steam",
-            date = "ayer 16:20",
-            amount = "-$120.69",
-            color = Color.Red
-        )
+        LazyColumn {
+            items(payments.size) { index ->
+                val payment = payments[index]
+                var color = Color.Green
+                if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
+                    color = Color.Red
+                }
+                payment.updatedAt?.let {
+                    MovimientoItem(
+                        name = payment.type,
+                        date = it,
+                        amount = payment.amount.toString(),
+                        color = color,
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun MovimientosSectionTablet(onNavigateToRoute: (String) -> Unit) {
+fun MovimientosSectionTablet(onNavigateToRoute: (String) -> Unit,
+                             payments: List<Payment>) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(20.dp),
@@ -118,14 +134,21 @@ fun MovimientosSectionTablet(onNavigateToRoute: (String) -> Unit) {
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                item {//en realidad aca es la lista
-                    MovimientoItem(
-                        name = "Steam",
-                        date = "ayer 16:20",
-                        amount = "-$120.69",
-                        color = Color.Red,
-                        iconSize = 70
-                    )
+                items(payments.size) { index ->
+                    val payment = payments[index]
+                    var color = Color.Green
+                    if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
+                        color = Color.Red
+                    }
+                    payment.updatedAt?.let {
+                        MovimientoItem(
+                            name = payment.type,
+                            date = it,
+                            amount = payment.amount.toString(),
+                            color = color,
+                            iconSize = 70
+                        )
+                    }
                 }
             }
         }

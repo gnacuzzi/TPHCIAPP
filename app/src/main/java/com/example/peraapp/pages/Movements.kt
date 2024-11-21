@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,22 +29,27 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.data.model.Payment
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
 fun MovementsScreen(
     viewModel: HomeViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val payments = uiState.payments ?: emptyList()
+
     ModularizedLayout(
-        contentPhonePortrait = { MovementsScreenPhone(false) },
-        contentPhoneLandscape = { MovementsScreenPhone(true) },
-        contentTabletPortrait = { MovementsScreenTablet() },
-        contentTabletLandscape = { MovementsScreenTablet() }
+        contentPhonePortrait = { MovementsScreenPhone(false, payments) },
+        contentPhoneLandscape = { MovementsScreenPhone(true, payments) },
+        contentTabletPortrait = { MovementsScreenTablet(payments) },
+        contentTabletLandscape = { MovementsScreenTablet(payments) }
     )
 }
 
 @Composable
-fun MovementsScreenPhone(isLanscape: Boolean){
+fun MovementsScreenPhone(isLanscape: Boolean,
+                         payments: List<Payment>){
     Column (
         modifier = Modifier.fillMaxSize()
     ){
@@ -51,29 +58,28 @@ fun MovementsScreenPhone(isLanscape: Boolean){
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-        ) {//foreach
-            item {
-                MovimientoItem(
-                    name = "Steam",
-                    date = "ayer 16:20",
-                    amount = "-$120.69",
+        ) {
+            items(payments.size) { index ->
+                val payment = payments[index]
+                var color = Color.Green
+                if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
                     color = Color.Red
-                )
-            }
-            item {
-                MovimientoItem(
-                    name = "Andrew",
-                    date = "ayer 16:20",
-                    amount = "$300",
-                    color = Color.Green
-                )
+                }
+                payment.updatedAt?.let {
+                    MovimientoItem(
+                        name = payment.type,
+                        date = it,
+                        amount = payment.amount.toString(),
+                        color = color,
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun MovementsScreenTablet() {
+fun MovementsScreenTablet(payments: List<Payment>) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -94,22 +100,21 @@ fun MovementsScreenTablet() {
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
-                //aca iria un foreach con movimientos, agregar la linea gris abajo
-                item {
-                    MovimientoItem(
-                        name = "Steam",
-                        date = "ayer 16:20",
-                        amount = "-$120.69",
+                items(payments.size) { index ->
+                    val payment = payments[index]
+                    var color = Color.Green
+                    if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
                         color = Color.Red
-                    )
-                }
-                item {
-                    MovimientoItem(
-                        name = "Andrew",
-                        date = "ayer 16:20",
-                        amount = "$300",
-                        color = Color.Green
-                    )
+                    }
+                    payment.updatedAt?.let {
+                        MovimientoItem(
+                            name = payment.type,
+                            date = it,
+                            amount = payment.amount.toString(),
+                            color = color,
+                            iconSize = 70
+                        )
+                    }
                 }
             }
         }

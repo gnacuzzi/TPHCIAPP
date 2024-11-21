@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,23 +27,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.peraapp.HomeViewModel
 import com.example.peraapp.R
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.pages.AddCardTabletDialog
 import com.example.peraapp.pages.CardHome
-import com.example.peraapp.pages.CardHomeTablet
 
 @Composable
 fun TarjetasSection(
     onNavigateToRoute: (String) -> Unit,
-    cards: List<Card>
+    cards: List<Card>,
+    viewModel: HomeViewModel?
 ) {
     val configuration = LocalConfiguration.current
     val isTablet = isTablet(configuration)
 
     if (isTablet) {
-        TarjetasSectionTablet(onNavigateToRoute, cards)
+        if (viewModel != null) {
+            TarjetasSectionTablet(onNavigateToRoute, cards, viewModel)
+        }
     } else {
         TarjetasSectionPhone(onNavigateToRoute, cards)
     }
@@ -97,8 +101,11 @@ fun TarjetasSectionPhone(
 @Composable
 fun TarjetasSectionTablet(
     onNavigateToRoute: (String) -> Unit,
-    cards: List<Card>
+    cards: List<Card>,
+    viewModel: HomeViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     var showAddCardDialog by remember { mutableStateOf(false) }
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -152,10 +159,7 @@ fun TarjetasSectionTablet(
     if (showAddCardDialog) {
         AddCardTabletDialog(
             onDismissRequest = { showAddCardDialog = false },
-            onConfirmation = {
-                showAddCardDialog = false
-                // Agrega la lógica para confirmar
-            }
+            viewModel = viewModel
         )
     }
 }

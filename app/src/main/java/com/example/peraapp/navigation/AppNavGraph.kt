@@ -37,10 +37,7 @@ fun AppNavGraph(navController: NavHostController,
             CardsScreen(onNavigateToRoute, viewModel)
         }
         composable(route = AppDestinations.CUENTA.route){
-            ProfileScreen(//tiene que ser dinamico
-                    name = "Samanta",
-                    surname = "Jones",
-                    mail = "sjones@gmail.com",
+            ProfileScreen(
                     onNavigateToRoute = onNavigateToRoute,
                     viewModel = viewModel
             )

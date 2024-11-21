@@ -20,6 +20,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,16 +45,21 @@ fun DepositScreen(onNavigateToRoute: (String) -> Unit,
                   viewModel: HomeViewModel
 ){
     ModularizedLayout(
-        contentPhonePortrait = { DepositScreenPhonePortrait(onNavigateToRoute) },
-        contentPhoneLandscape = { DepositScreenPhoneLandscape(onNavigateToRoute) },
-        contentTabletPortrait = { DepositScreenTabletPortrait(onNavigateToRoute) },
-        contentTabletLandscape = { DepositScreenTabletLandscape(onNavigateToRoute) }
+        contentPhonePortrait = { DepositScreenPhonePortrait(onNavigateToRoute, viewModel) },
+        contentPhoneLandscape = { DepositScreenPhoneLandscape(onNavigateToRoute, viewModel) },
+        contentTabletPortrait = { DepositScreenTabletPortrait(onNavigateToRoute, viewModel) },
+        contentTabletLandscape = { DepositScreenTabletLandscape(onNavigateToRoute, viewModel) }
     )
 }
 
 @Composable
-fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
+    val uiState by viewModel.uiState.collectAsState()
+    var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,7 +101,15 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
                 )
 
                 LazyRow {//foreach
-                    item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    items(cards.size) { index ->
+                        val card = cards[index]
+                        CardTablet(
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
+                    }
                 }
 
                 DepositButton {  }
@@ -105,8 +119,13 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
+    var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -147,7 +166,15 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
                 )
 
                 LazyRow {//foreach
-                    item { CardTablet(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    items(cards.size) { index ->
+                        val card = cards[index]
+                        CardTablet(
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
+                    }
                 }
 
                 DepositButton {  }
@@ -157,8 +184,12 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
 }
 
 @Composable
-fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
+    var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar, false) }
@@ -188,13 +219,14 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
                     )
                 }
                 LazyColumn{//foreach
-                    item {
+                    items(cards.size) { index ->
+                        val card = cards[index]
                         CardHome(
-                            name = "Samanta Jones",
-                            bank = "Santander",
-                            number = "1234 1111 5678 2212",
-                            date = "12/28"
-                        ) { }
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
                     }
                 }
                 DepositButton(
@@ -205,8 +237,12 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
     }
 }
 @Composable
-fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
+fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
+    var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+    var method = R.string.saldoencuenta
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar) }
@@ -231,7 +267,15 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
                 )
 
                 LazyRow{//foreach
-                    item { Card(name = "Samanta Jones", bank = "Santander", number = "1234 1111 5678 2212", date = "12/28") { } }
+                    items(cards.size) { index ->
+                        val card = cards[index]
+                        Card(
+                            bank = card.type.name,
+                            number = card.number,
+                            name = card.fullName,
+                            date = card.expirationDate
+                        ) {  method = R.string.tarjeta }
+                    }
                 }
 
 
