@@ -99,4 +99,5 @@
     <string name="mostrar">Mostrar</string>
     <string name="toggle_password_visibility">Mostrar/Ocultar contraseña</string>
 
+    <string name="desconocido">Desconocido</string>
 </resources>

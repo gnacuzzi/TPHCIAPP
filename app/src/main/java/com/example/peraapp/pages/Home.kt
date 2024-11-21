@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
@@ -24,6 +25,7 @@ import com.example.peraapp.components.SaldoSection
 import com.example.peraapp.components.TarjetasSection
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.data.model.Card
+import com.example.peraapp.data.model.Payment
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 
@@ -40,18 +42,20 @@ fun HomeScreen(onNavigateToRoute: (String) -> Unit,
         balance = uiState.walletDetail!!.balance
     }
 
-    var name = "Unkown"
+    var name = stringResource(R.string.desconocido)
     if (uiState.currentUser != null){
         name = uiState.currentUser!!.firstName
     }
 
     val cards = uiState.cards ?: emptyList()
 
+    val payments = uiState.payments ?: emptyList()
+
     ModularizedLayout(
-        contentPhonePortrait = { PhonePortraitHome(onNavigateToRoute, balance, name, cards) },
-        contentPhoneLandscape = { PhoneLandscapeHome(onNavigateToRoute, balance, name, cards) },
-        contentTabletPortrait = { TabletPortraitHome(onNavigateToRoute, balance, name, cards) },
-        contentTabletLandscape = { TabletLandscapeHome(onNavigateToRoute, balance, name, cards) }
+        contentPhonePortrait = { PhonePortraitHome(onNavigateToRoute, balance, name, cards, payments) },
+        contentPhoneLandscape = { PhoneLandscapeHome(onNavigateToRoute, balance, name, cards, payments) },
+        contentTabletPortrait = { TabletPortraitHome(onNavigateToRoute, balance, name, cards, payments) },
+        contentTabletLandscape = { TabletLandscapeHome(onNavigateToRoute, balance, name, cards, payments) }
     )
 }
 
@@ -59,7 +63,8 @@ fun HomeScreen(onNavigateToRoute: (String) -> Unit,
 fun PhonePortraitHome(onNavigateToRoute: (String) -> Unit,
                       saldo: Double,
                       name: String,
-                      cards: List<Card>) {
+                      cards: List<Card>,
+                      payments: List<Payment>) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -72,10 +77,9 @@ fun PhonePortraitHome(onNavigateToRoute: (String) -> Unit,
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
         ) {
             TarjetasSection(onNavigateToRoute, cards)
-            MovimientosSection(onNavigateToRoute)
+            MovimientosSection(onNavigateToRoute, payments)
         }
     }
 }
@@ -84,7 +88,8 @@ fun PhonePortraitHome(onNavigateToRoute: (String) -> Unit,
 fun PhoneLandscapeHome(onNavigateToRoute: (String) -> Unit,
                        saldo: Double,
                        name: String,
-                       cards: List<Card>) {
+                       cards: List<Card>,
+                       payments: List<Payment>) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -102,7 +107,7 @@ fun PhoneLandscapeHome(onNavigateToRoute: (String) -> Unit,
         Column(
             modifier = Modifier.weight(0.5f)
         ) {
-            MovimientosSection(onNavigateToRoute)
+            MovimientosSection(onNavigateToRoute, payments)
         }
     }
 }
@@ -110,7 +115,8 @@ fun PhoneLandscapeHome(onNavigateToRoute: (String) -> Unit,
 fun TabletPortraitHome(onNavigateToRoute: (String) -> Unit,
                        saldo: Double,
                        name: String,
-                       cards: List<Card>) {
+                       cards: List<Card>,
+                       payments: List<Payment>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -129,7 +135,7 @@ fun TabletPortraitHome(onNavigateToRoute: (String) -> Unit,
         Column(
             modifier = Modifier.weight(0.4f)
         ) {
-            MovimientosSection(onNavigateToRoute)
+            MovimientosSection(onNavigateToRoute, payments)
         }
     }
 }
@@ -138,7 +144,8 @@ fun TabletPortraitHome(onNavigateToRoute: (String) -> Unit,
 fun TabletLandscapeHome(onNavigateToRoute: (String) -> Unit,
                         saldo: Double,
                         name: String,
-                        cards: List<Card>) {
+                        cards: List<Card>,
+                        payments: List<Payment>) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -154,7 +161,7 @@ fun TabletLandscapeHome(onNavigateToRoute: (String) -> Unit,
                 saldo = saldo,
                 onNavigateToRoute = onNavigateToRoute
             )
-            MovimientosSection(onNavigateToRoute)
+            MovimientosSection(onNavigateToRoute, payments)
         }
         Column(
             modifier = Modifier.weight(0.4f)

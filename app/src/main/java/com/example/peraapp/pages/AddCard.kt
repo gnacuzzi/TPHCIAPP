@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import com.example.peraapp.ui.theme.PeraAppTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -395,5 +400,106 @@ fun AddCardDialogState(
         }
     }
 }
+
+@Composable
+fun AddCardTabletDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                IconButton(
+                    onClick = { onDismissRequest() },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.volveratras),
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.size(100.dp)
+                    )
+                }
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.numerotarjeta)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.nombretitular)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.fechadeven)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.codigo)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number
+                    )
+                )
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { /* Manejar el cambio de valor */ },
+                    label = { Text(stringResource(R.string.banco)) },
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text
+                    )
+                )
+
+                Button(
+                    onClick = { onConfirmation() },
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .width(270.dp)
+                        .align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Text(stringResource(R.string.agregarnuevatarjeta), style = MaterialTheme.typography.titleMedium)
+                }
+
+            }
+        }
+    }
+}
+
 
 

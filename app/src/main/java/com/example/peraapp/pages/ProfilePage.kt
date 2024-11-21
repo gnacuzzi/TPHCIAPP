@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,12 +48,26 @@ val profileItems = listOf(
 
 @Composable
 fun ProfileScreen(
-    name: String,
-    surname: String,
-    mail: String,
     viewModel: HomeViewModel,
     onNavigateToRoute: (String) -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    var name = stringResource(R.string.desconocido)
+    if (uiState.currentUser != null){
+        name = uiState.currentUser!!.firstName
+    }
+
+    var surname = stringResource(R.string.desconocido)
+    if (uiState.currentUser != null){
+        surname = uiState.currentUser!!.lastName
+    }
+
+    var mail = stringResource(R.string.desconocido)
+    if (uiState.currentUser != null){
+        mail = uiState.currentUser!!.email
+    }
+
     ModularizedLayout(
         contentPhonePortrait = { ProfileScreenPhonePortrait(name, surname, mail, onNavigateToRoute) },
         contentPhoneLandscape = { ProfileScreenPhoneLandscape(name, surname, mail, onNavigateToRoute) },
@@ -84,7 +99,9 @@ fun ProfileScreenPhoneLandscape(
                 textStyleMail = MaterialTheme.typography.titleMedium
             )
 
-            Column {
+            Column (
+                modifier = Modifier.weight(0.5f)
+            ){
                 profileItems.forEach { item ->
                     ProfileButton(
                         icon = item.icon,
@@ -307,4 +324,3 @@ fun ProfileHeader(
         }
     }
 }
-

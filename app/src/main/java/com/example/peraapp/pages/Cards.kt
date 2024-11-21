@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,12 +42,10 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
+import com.example.peraapp.data.model.Card
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
-//habria que mandar tambien el textstyle pero que lo haga otro
-//hay que hacer que el cardclick sea ir a la de eliminar tarjeta
-//esa hay que hacerla dinamica pero vamos a tener que mandarle el id de la tarjeta
-//para eso necesitamos la api para definir bien que ponemos como id
+
 @Composable
 fun CardHome(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
     Card(
@@ -142,31 +141,37 @@ fun Card(bank: String,
 fun CardsScreen(onNavigateToRoute: (String) -> Unit,
                 viewModel: HomeViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val cards = uiState.cards ?: emptyList()
+
     ModularizedLayout(
-        contentPhonePortrait = { CardsScreenPhonePortrait(onNavigateToRoute) },
-        contentPhoneLandscape = { CardsScreenPhoneLandscape(onNavigateToRoute) },
-        contentTabletPortrait = { CardsScreenTablet(onNavigateToRoute) },
-        contentTabletLandscape = { CardsScreenTablet(onNavigateToRoute)}
+        contentPhonePortrait = { CardsScreenPhonePortrait(onNavigateToRoute, cards) },
+        contentPhoneLandscape = { CardsScreenPhoneLandscape(onNavigateToRoute, cards) },
+        contentTabletPortrait = { CardsScreenTablet(onNavigateToRoute, cards) },
+        contentTabletLandscape = { CardsScreenTablet(onNavigateToRoute, cards)}
     )
 }
 
 
 @Composable
-fun CardsScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreenPhonePortrait(onNavigateToRoute: (String) -> Unit,
+                             cards: List<Card>) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(R.string.tarjetas)
         LazyColumn(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            item {
-                Card(//esto deberia ser un foreach
-                    bank = "Santander",
-                    number = "1234 5678 9101 1121",
-                    name = "Samanta Jones",
-                    date = "12/28",
-                )
-                {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
+            items(cards.size) { index ->
+                val card = cards[index]
+                Card(
+                    bank = card.type.name,
+                    number = card.number,
+                    name = card.fullName,
+                    date = card.expirationDate
+                ) {
+                    onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                }
             }
             item {
                 AddCardButton(onNavigateToRoute)
@@ -176,7 +181,8 @@ fun CardsScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit,
+                              cards: List<Card>) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(R.string.tarjetas, false)
         Row(
@@ -188,14 +194,17 @@ fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                item {
-                    Card(//esto deberia ser un foreach
-                        bank = "Santander",
-                        number = "1234 5678 9101 1121",
-                        name = "Samanta Jones",
-                        date = "12/28",
-                    )
-                    {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}                }
+                items(cards.size) { index ->
+                    val card = cards[index]
+                    Card(
+                        bank = card.type.name,
+                        number = card.number,
+                        name = card.fullName,
+                        date = card.expirationDate
+                    ) {
+                        onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                    }
+                }
             }
             AddCardButton(onNavigateToRoute)
         }
@@ -204,7 +213,8 @@ fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit) {
 
 
 @Composable
-fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit) {
+fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit,
+                      cards: List<Card>) {
     var showAddCardDialog by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
@@ -223,14 +233,16 @@ fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit) {
                 modifier = Modifier.padding(bottom = 20.dp).align(Alignment.Start)
             )
             LazyColumn {
-                // Esto podría ser un foreach
-                item {
+                items(cards.size) { index ->
+                    val card = cards[index]
                     CardTablet(
-                        bank = "Galicia",
-                        number = "1234 1111 9101 1121",
-                        name = "Samanta Jones",
-                        date = "12/26"
-                    ) {onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)}
+                        bank = card.type.name,
+                        number = card.number,
+                        name = card.fullName,
+                        date = card.expirationDate
+                    ) {
+                        onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                    }
                 }
             }
         }
@@ -295,106 +307,5 @@ fun AddCardButton(onNavigateToRoute: (String) -> Unit) {
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
-    }
-}
-
-
-@Composable
-fun AddCardTabletDialog(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        Surface(
-            shape = RoundedCornerShape(12.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 8.dp,
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                IconButton(
-                    onClick = { onDismissRequest() },
-                    modifier = Modifier.padding(bottom = 16.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.volveratras),
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.size(100.dp)
-                    )
-                }
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.numerotarjeta)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.nombretitular)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text
-                    )
-                )
-
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.fechadeven)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.codigo)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.banco)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text
-                    )
-                )
-
-                Button(
-                    onClick = { onConfirmation() },
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .width(270.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(stringResource(R.string.agregarnuevatarjeta), style = MaterialTheme.typography.titleMedium)
-                }
-
-            }
-        }
     }
 }
