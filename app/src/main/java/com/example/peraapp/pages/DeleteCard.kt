@@ -18,79 +18,85 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.peraapp.HomeViewModel
+import com.example.peraapp.PeraApplication
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
+import com.example.peraapp.data.model.Card
+import com.example.peraapp.data.model.CardType
 
 //hay que recibir la tarjeta por parametro
 @Composable
-fun DeleteCardScreen() {
-    ModularizedLayout (
-        contentPhonePortrait = { DeleteCardScreenPhonePortrait() },
-        contentPhoneLandscape = { DeleteCardScreenPhoneLandscape() },
-        contentTabletPortrait = { DeleteCardScreenTabletPortrait() },
-        contentTabletLandscape = { DeleteCardScreenTabletLandscape() }
+fun DeleteCardScreen(    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(
+    LocalContext.current.applicationContext as PeraApplication
+))
+){
+    val uiState by viewModel.uiState.collectAsState()
+    val card = uiState.currentCard
+
+    ModularizedLayout(
+        contentPhonePortrait = { DeleteCardScreenPhonePortrait(card) },
+        contentPhoneLandscape = { DeleteCardScreenPhoneLandscape(card) },
+        contentTabletPortrait = { DeleteCardScreenTabletPortrait(card) },
+        contentTabletLandscape = { DeleteCardScreenTabletLandscape(card) }
     )
 }
+
 @Composable
-fun DeleteCardScreenPhonePortrait() {
-    val card = Card(
-        name = "Samanta Jones",
-        bank = "Santander",
-        number = "1234 5678 9101 1121",
-        date = "12/28",
-        code = 111
-    )
+fun DeleteCardScreenPhonePortrait(card: Card?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
     ) {
         TopBar(R.string.tarjeta)
-        Column (
+        Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Card(
-                bank = card.bank,
-                number = card.number,
-                name = card.name,
-                date = card.date
-            ) {}
-            DeleteCardDialogHandler(
-                card = card,
-                dialogTitle = stringResource(R.string.deseaelimiar),
-                onDeleteConfirmed = {
-                    //para eliminar la tarjeta
-                    println("Tarjeta eliminada")
-                }
-            )
+        ) {
+            card?.number?.let {
+                Card(
+                    number = card.number,
+                    fullName = card.fullName,
+                    expirationDate = card.expirationDate,
+                    id = card.id,
+                    cvv = card.cvv,
+                    type = CardType.DEBIT,
+                    createdAt = card.createdAt
+                )
+            }
+            if (card != null) {
+                DeleteCardDialogHandler(
+                    card = card,
+                    dialogTitle = stringResource(R.string.deseaelimiar),
+                    onDeleteConfirmed = {
+                        println("Tarjeta eliminada")
+                    }
+                )
+            }
         }
-
     }
 }
+
 @Composable
-fun DeleteCardScreenPhoneLandscape() {
-    val card = Card(
-        name = "Samanta Jones",
-        bank = "Santander",
-        number = "1234 5678 9101 1121",
-        date = "12/28",
-        code = 111
-    )
+fun DeleteCardScreenPhoneLandscape(card: Card?) {
     Column {
         TopBar(R.string.tarjeta, false)
         Row(
@@ -106,12 +112,17 @@ fun DeleteCardScreenPhoneLandscape() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Card(
-                    bank = card.bank,
-                    number = card.number,
-                    name = card.name,
-                    date = card.date
-                ) {}
+                card?.number?.let {
+                    Card(
+                        number = card.number,
+                        fullName = card.fullName,
+                        expirationDate = card.expirationDate,
+                        id = card.id,
+                        cvv = card.cvv,
+                        type = CardType.DEBIT,
+                        createdAt = card.createdAt
+                    )
+                }
             }
 
             Column(
@@ -121,28 +132,22 @@ fun DeleteCardScreenPhoneLandscape() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                DeleteCardDialogHandler(
-                    card = card,
-                    dialogTitle = stringResource(R.string.deseaelimiar),
-                    onDeleteConfirmed = {
-                        // Lógica para eliminar la tarjeta
-                        println("Tarjeta eliminada")
-                    }
-                )
+                if (card != null) {
+                    DeleteCardDialogHandler(
+                        card = card,
+                        dialogTitle = stringResource(R.string.deseaelimiar),
+                        onDeleteConfirmed = {
+                            println("Tarjeta eliminada")
+                        }
+                    )
+                }
             }
         }
     }
-
 }
+
 @Composable
-fun DeleteCardScreenTabletLandscape() {
-    val card = Card(
-        name = "Samanta Jones",
-        bank = "Santander",
-        number = "1234 5678 9101 1121",
-        date = "12/28",
-        code = 111
-    )
+fun DeleteCardScreenTabletLandscape(card: Card?) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -165,12 +170,17 @@ fun DeleteCardScreenTabletLandscape() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                CardTablet(
-                    bank = card.bank,
-                    number = card.number,
-                    name = card.name,
-                    date = card.date
-                ) {}
+                card?.number?.let {
+                    Card(
+                        number = card.number,
+                        fullName = card.fullName,
+                        expirationDate = card.expirationDate,
+                        id = card.id,
+                        cvv = card.cvv,
+                        type = CardType.DEBIT,
+                        createdAt = card.createdAt
+                    )
+                }
             }
         }
 
@@ -181,27 +191,22 @@ fun DeleteCardScreenTabletLandscape() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            DeleteCardDialogHandler(
-                card = card,
-                dialogTitle = stringResource(R.string.deseaelimiar),
-                onDeleteConfirmed = {
-                    // Lógica para eliminar la tarjeta
-                    println("Tarjeta eliminada")
-                }
-            )
+            if (card != null) {
+                DeleteCardDialogHandler(
+                    card = card,
+                    dialogTitle = stringResource(R.string.deseaelimiar),
+                    onDeleteConfirmed = {
+                        // Lógica para eliminar la tarjeta
+                        println("Tarjeta eliminada")
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun DeleteCardScreenTabletPortrait() {
-    val card = Card(
-        name = "Samanta Jones",
-        bank = "Santander",
-        number = "1234 5678 9101 1121",
-        date = "12/28",
-        code = 111
-    )
+fun DeleteCardScreenTabletPortrait(card: Card?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -224,12 +229,17 @@ fun DeleteCardScreenTabletPortrait() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                CardTablet(
-                    bank = card.bank,
-                    number = card.number,
-                    name = card.name,
-                    date = card.date
-                ) {}
+                card?.number?.let {
+                    Card(
+                        number = card.number,
+                        fullName = card.fullName,
+                        expirationDate = card.expirationDate,
+                        id = card.id,
+                        cvv = card.cvv,
+                        type = CardType.DEBIT,
+                        createdAt = card.createdAt
+                    )
+                }
             }
         }
 
@@ -240,14 +250,16 @@ fun DeleteCardScreenTabletPortrait() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            DeleteCardDialogHandler(
-                card = card,
-                dialogTitle = stringResource(R.string.deseaelimiar),
-                onDeleteConfirmed = {
-                    // Lógica para eliminar la tarjeta
-                    println("Tarjeta eliminada")
-                }
-            )
+            if (card != null) {
+                DeleteCardDialogHandler(
+                    card = card,
+                    dialogTitle = stringResource(R.string.deseaelimiar),
+                    onDeleteConfirmed = {
+                        // Lógica para eliminar la tarjeta
+                        println("Tarjeta eliminada")
+                    }
+                )
+            }
         }
     }
 }
@@ -306,23 +318,18 @@ fun Previewcard(){
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DeleteCardDialogPreview() {
+fun DeleteCardDialogPreview(card: Card?) {
     PeraAppTheme {
-        DeleteCardDialog(
-            Card(//esto esta como ejemplo pero no se deberia construir ahi
-                name = "Samanta Jones",
-                bank = "Santander",
-                number = "1234 1111 5678 2212",
-                date = "12/28",
-                code = 111
-            ),
-            onDismissRequest = { },
-            onConfirmation = { },
-            dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
-            //habria que pasar la tarjeta pero actualmente es una funcion no una clase
-        )
+        if (card != null) {
+            DeleteCardDialog(
+                card = card,
+                onDismissRequest = { },
+                onConfirmation = { },
+                dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
+                //habria que pasar la tarjeta pero actualmente es una funcion no una clase
+            )
+        }
     }
 }
 
@@ -352,7 +359,7 @@ fun DeleteCardDialog(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 //habria que mandarla como parametro
-                CardHome(card.bank, card.number, card.name, card.date) {}
+                CardHome(card.type.name, card.number, card.fullName, card.expirationDate) {}
 
                 Row(
                     modifier = Modifier

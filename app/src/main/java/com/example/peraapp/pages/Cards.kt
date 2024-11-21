@@ -42,16 +42,6 @@ import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
-
-
-data class Card (
-    val bank: String,
-    val number: String,
-    val name: String,
-    val date: String,
-    val code: Int
-)
-
 //habria que mandar tambien el textstyle pero que lo haga otro
 //hay que hacer que el cardclick sea ir a la de eliminar tarjeta
 //esa hay que hacerla dinamica pero vamos a tener que mandarle el id de la tarjeta
