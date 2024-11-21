@@ -1,16 +1,18 @@
 package com.example.peraapp.data.network.model
 
 import com.example.peraapp.data.model.Payment
+import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@Serializable
 class NetworkPayment(
     var id: Int?,
     var type: String,
     var amount: Int?,
     var balanceBefore: Int?,
     var balanceAfter: Int?,
-    var pending: String,
+    var pending: Boolean,
     var linkUuid: String?,
     var createdAt: String?,
     var updatedAt: String?,

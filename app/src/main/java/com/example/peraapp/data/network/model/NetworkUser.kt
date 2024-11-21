@@ -22,7 +22,7 @@ class NetworkUser(
             firstName = firstName,
             lastName = lastName,
             email = email,
-            birthDate = dateFormat.parse(birthDate)!!
+            birthDate = dateFormat.parse(birthDate!!)
         )
     }
 }

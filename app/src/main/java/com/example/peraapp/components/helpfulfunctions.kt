@@ -28,26 +28,6 @@ fun isLandscape(configuration: Configuration): Boolean {
 }
 
 @Composable
-fun BackButton(onNavigateToRoute: (String) -> Unit) {
-    val configuration = LocalConfiguration.current
-    var size = 30
-    if (isTablet(configuration)){
-        size = 60
-    }
-    IconButton(
-        onClick = { onNavigateToRoute("BACK") },
-        modifier = Modifier.padding(bottom = 16.dp, start = 16.dp).size(size.dp)
-    ) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = stringResource(R.string.volveratras),
-            tint = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.size(size.dp)
-        )
-    }
-}
-
-@Composable
 fun ModularizedLayout(
     contentPhonePortrait: @Composable () -> Unit,
     contentPhoneLandscape: @Composable () -> Unit,

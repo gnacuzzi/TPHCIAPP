@@ -32,7 +32,6 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.components.BackButton
 import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
@@ -61,7 +60,6 @@ fun DeleteCardScreenPhonePortrait() {
             .padding(16.dp),
     ) {
         TopBar(R.string.tarjeta)
-        BackButton {  }
         Column (
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -95,7 +93,6 @@ fun DeleteCardScreenPhoneLandscape() {
     )
     Column {
         TopBar(R.string.tarjeta, false)
-        BackButton {  } //todavia no esta terminada esta parte
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -163,7 +160,6 @@ fun DeleteCardScreenTabletLandscape() {
                     .padding(bottom = 20.dp)
                     .align(Alignment.Start)
             )
-            BackButton {  } //todavia no esta terminada esta parte
             Column (
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -223,7 +219,6 @@ fun DeleteCardScreenTabletPortrait() {
                     .padding(bottom = 20.dp)
                     .align(Alignment.Start)
             )
-            BackButton {  } //todavia no esta terminada esta parte
             Column (
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,

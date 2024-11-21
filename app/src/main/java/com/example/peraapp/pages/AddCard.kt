@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.R
-import com.example.peraapp.components.BackButton
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.components.isLandscape
 import kotlinx.coroutines.delay
@@ -81,7 +80,6 @@ fun AddCardLandscape(
                 .padding(innerPadding)
                 .fillMaxWidth(),
         ) {
-            BackButton(onNavigateToRoute)
             Row(
                 modifier = Modifier.fillMaxWidth().padding(10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -132,7 +130,6 @@ fun AddCardPortrait(
                 .fillMaxWidth()
                 .padding(innerPadding),
         ) {
-            BackButton(onNavigateToRoute)
             Column (
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally

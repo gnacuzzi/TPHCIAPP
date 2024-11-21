@@ -35,7 +35,6 @@ import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.components.BackButton
 import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
@@ -67,7 +66,6 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            BackButton(onNavigateToRoute)
 
             Row (
                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -121,7 +119,6 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            BackButton(onNavigateToRoute)
 
             Column (
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -168,7 +165,6 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            BackButton(onNavigateToRoute)
             Row (
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -217,7 +213,6 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            BackButton(onNavigateToRoute)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -10,7 +10,7 @@ class Payment (
     var amount: Int?,
     var balanceBefore: Int?,
     var balanceAfter: Int?,
-    var pending: String,
+    var pending: Boolean,
     var linkUuid: String?,
     var createdAt: String?,
     var updatedAt: String?,

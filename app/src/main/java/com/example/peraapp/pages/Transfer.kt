@@ -36,7 +36,6 @@ import androidx.compose.ui.window.Dialog
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
-import com.example.peraapp.components.BackButton
 import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 
@@ -70,7 +69,6 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit){
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            BackButton(onNavigateToRoute)
 
             Row (
                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -133,7 +131,6 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit){
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            BackButton(onNavigateToRoute)
 
             Column (
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -194,7 +191,6 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit){
                 modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                BackButton(onNavigateToRoute)
                 Column(
                     modifier = Modifier
                         .padding(16.dp),
@@ -254,7 +250,6 @@ fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit){
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            BackButton(onNavigateToRoute)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

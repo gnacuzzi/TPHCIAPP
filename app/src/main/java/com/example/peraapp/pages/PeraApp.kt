@@ -109,23 +109,23 @@ private fun navigateSafely(
         AppDestinations.REGISTRARME.route
     )
 
-    if (route == "BACK") {
-        navController.popBackStack()
-    } else if (isAuthenticated || route in routesWithoutAuthentication) {
-        navController.navigate(route) {
-            popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
+    if (isAuthenticated || route in routesWithoutAuthentication) {
+        if (navController.currentDestination?.route != route) {
+            navController.navigate(route) {
+                launchSingleTop = true
+                restoreState = true
+                if (route == AppDestinations.INICIARSESION.route || route == AppDestinations.INICIO.route) {
+                    popUpTo(AppDestinations.INICIARSESION.route) { inclusive = true }
+                }
             }
-            launchSingleTop = true
-            restoreState = true
         }
     } else {
-        // Si intenta acceder a una ruta protegida, redirigir al inicio de sesión
         navController.navigate(AppDestinations.INICIARSESION.route) {
-            popUpTo(0) { inclusive = true }
+            popUpTo(AppDestinations.INICIARSESION.route) { inclusive = true }
         }
     }
 }
+
 
 
 @PreviewSizes
