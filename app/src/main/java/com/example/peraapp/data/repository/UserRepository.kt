@@ -1,5 +1,6 @@
 package com.example.peraapp.data.repository
 
+import com.example.peraapp.data.model.RegisterUser
 import com.example.peraapp.data.model.User
 import com.example.peraapp.data.network.UserRemoteDataSource
 import kotlinx.coroutines.sync.Mutex
@@ -14,7 +15,7 @@ class UserRepository(
     // Cache of the current user got from the network.
     private var currentUser: User? = null
 
-    suspend fun signin(user: User){
+    suspend fun signin(user: RegisterUser){
         remoteDataSource.signin(user.asNetworkModel())
     }
 

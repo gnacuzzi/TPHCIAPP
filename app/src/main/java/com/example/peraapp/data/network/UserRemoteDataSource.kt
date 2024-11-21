@@ -5,13 +5,14 @@ import com.example.peraapp.data.network.model.NetworkCredentials
 import com.example.peraapp.data.network.model.NetworkUser
 import com.example.peraapp.SessionManager
 import com.example.peraapp.data.model.User
+import com.example.peraapp.data.network.model.NetworkRegisterUser
 
 class UserRemoteDataSource(
     private val sessionManager: SessionManager,
     private val userApiService: UserApiService
 ) : RemoteDataSource() {
 
-    suspend fun signin(user: NetworkUser){
+    suspend fun signin(user: NetworkRegisterUser){
         handleApiResponse {
             userApiService.signin(user)
         }

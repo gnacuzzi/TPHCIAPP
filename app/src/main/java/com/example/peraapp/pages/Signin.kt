@@ -44,8 +44,15 @@ import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.peraapp.HomeViewModel
+import com.example.peraapp.PeraApplication
+import com.example.peraapp.data.model.RegisterUser
+import com.example.peraapp.data.model.User
+import java.util.Date
 
 @Composable
 fun SigninScreen(onNavigateToRoute: (String) -> Unit) {
@@ -114,11 +121,9 @@ fun SigninScreenTabletPortrait(onNavigateToRoute: (String) -> Unit) {
                 FormHeader(onNavigateToRoute)
             }
             item {
-                FormFields()
+                FormFields(onNavigateToRoute)
             }
-            item {
-                FormActions(onNavigateToRoute)
-            }
+
         }
     }
 }
@@ -145,8 +150,7 @@ fun FormContainer(onNavigateToRoute: (String) -> Unit, modifier: Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             FormHeader(onNavigateToRoute)
-            FormFields()
-            FormActions(onNavigateToRoute)
+            FormFields(onNavigateToRoute)
         }
     }
 }
@@ -176,7 +180,7 @@ fun FormHeader(onNavigateToRoute: (String) -> Unit) {
 }
 
 @Composable
-fun FormFields() {
+fun FormFields(onNavigateToRoute: (String) -> Unit) {
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -187,115 +191,146 @@ fun FormFields() {
     var isConfirmPasswordVisible by remember { mutableStateOf(false) }
     var doPasswordsMatch by remember { mutableStateOf(true) }
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.width(400.dp)
-    ) {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Name") },
-            modifier = Modifier
-                .weight(1f)
-                .height(55.dp)
-        )
-        OutlinedTextField(
-            value = surname,
-            onValueChange = { surname = it },
-            label = { Text("Surname") },
-            modifier = Modifier
-                .weight(1f)
-                .height(55.dp)
-        )
-    }
-
-    OutlinedTextField(
-        value = email,
-        onValueChange = {
-            email = it
-            isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        },
-        label = { Text("Email") },
-        modifier = Modifier
-            .width(400.dp)
-            .height(55.dp),
-        isError = !isEmailValid,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Email
-        )
-    )
-
-    if (!isEmailValid) {
-        Text(
-            text = "Invalid Email",
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(start = 16.dp)
-        )
-    }
-
-    OutlinedTextField(
-        value = password,
-        onValueChange = {
-            password = it
-            doPasswordsMatch = password == confirmPassword
-        },
-        label = { Text("Password") },
-        modifier = Modifier
-            .width(400.dp)
-            .height(55.dp),
-        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Password
-        ),
-        trailingIcon = {
-            IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                Icon(
-                    imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                    contentDescription = if (isPasswordVisible) "Hide" else "Show"
-                )
-            }
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.width(400.dp)
+        ) {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Name") },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(55.dp)
+            )
+            OutlinedTextField(
+                value = surname,
+                onValueChange = { surname = it },
+                label = { Text("Surname") },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(55.dp)
+            )
         }
-    )
 
-    OutlinedTextField(
-        value = confirmPassword,
-        onValueChange = {
-            confirmPassword = it
-            doPasswordsMatch = password == confirmPassword
-        },
-        label = { Text("Confirm Password") },
-        modifier = Modifier
-            .width(400.dp)
-            .height(55.dp),
-        visualTransformation = if (isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Password
-        ),
-        trailingIcon = {
-            IconButton(onClick = { isConfirmPasswordVisible = !isConfirmPasswordVisible }) {
-                Icon(
-                    imageVector = if (isConfirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                    contentDescription = if (isConfirmPasswordVisible) "Hide" else "Show"
-                )
-            }
-        }
-    )
-
-    if (!doPasswordsMatch) {
-        Text(
-            text = "Passwords do not match",
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(start = 16.dp)
+        OutlinedTextField(
+            value = email,
+            onValueChange = {
+                email = it
+                isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            },
+            label = { Text("Email") },
+            modifier = Modifier
+                .width(400.dp)
+                .height(55.dp),
+            isError = !isEmailValid,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Email
+            )
         )
+
+        if (!isEmailValid) {
+            Text(
+                text = "Invalid Email",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = {
+                password = it
+                doPasswordsMatch = password == confirmPassword
+            },
+            label = { Text("Password") },
+            modifier = Modifier
+                .width(400.dp)
+                .height(55.dp),
+            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Password
+            ),
+            trailingIcon = {
+                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        contentDescription = if (isPasswordVisible) "Hide" else "Show"
+                    )
+                }
+            }
+        )
+
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = {
+                confirmPassword = it
+                doPasswordsMatch = password == confirmPassword
+            },
+            label = { Text("Confirm Password") },
+            modifier = Modifier
+                .width(400.dp)
+                .height(55.dp),
+            visualTransformation = if (isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Password
+            ),
+            trailingIcon = {
+                IconButton(onClick = { isConfirmPasswordVisible = !isConfirmPasswordVisible }) {
+                    Icon(
+                        imageVector = if (isConfirmPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        contentDescription = if (isConfirmPasswordVisible) "Hide" else "Show"
+                    )
+                }
+            }
+        )
+
+        if (!doPasswordsMatch) {
+            Text(
+                text = "Passwords do not match",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
+
+        FormActions(onNavigateToRoute, name, surname, email, password)
     }
+
 }
 
 @Composable
-fun FormActions(onNavigateToRoute: (String) -> Unit) {
+fun FormActions(
+    onNavigateToRoute: (String) -> Unit,
+    name: String,
+    surname: String,
+    email: String,
+    password: String,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
+
+    ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Button(
-        onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
+        onClick =
+        {
+            viewModel.signin(RegisterUser(
+                firstName = name,
+                lastName = surname,
+                birthDate = "2000-05-12",
+                email = email,
+                password = password
+            ))
+            if(uiState.error?.code != null){
+                onNavigateToRoute(AppDestinations.INICIARSESION.route)
+                //mostrar dialogo de correcto
+            }
+            //else mostrar dialogo fail
+        },
         modifier = Modifier
             .width(180.dp)
             .padding(vertical = 16.dp),
@@ -342,10 +377,7 @@ fun SigninScreenPhonePortrait(onNavigateToRoute: (String) -> Unit) {
                 FormHeader(onNavigateToRoute)
             }
             item {
-                FormFields()
-            }
-            item {
-                FormActions(onNavigateToRoute)
+                FormFields(onNavigateToRoute)
             }
         }
     }

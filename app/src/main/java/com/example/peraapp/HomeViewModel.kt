@@ -9,6 +9,7 @@ import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.CardPayment
 import com.example.peraapp.data.model.Error
+import com.example.peraapp.data.model.RegisterUser
 import com.example.peraapp.data.model.User
 import com.example.peraapp.data.repository.PaymentRepository
 import com.example.peraapp.data.repository.UserRepository
@@ -44,7 +45,7 @@ class HomeViewModel(
         }
     }
 
-    fun signin(user: User) = runOnViewModelScope(
+    fun signin(user: RegisterUser) = runOnViewModelScope(
         {
             userRepository.signin(user)
         },
