@@ -5,18 +5,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PeraApplication
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
@@ -54,8 +49,8 @@ fun HomeScreen(onNavigateToRoute: (String) -> Unit,
     ModularizedLayout(
         contentPhonePortrait = { PhonePortraitHome(onNavigateToRoute, balance, name, cards, payments) },
         contentPhoneLandscape = { PhoneLandscapeHome(onNavigateToRoute, balance, name, cards, payments) },
-        contentTabletPortrait = { TabletPortraitHome(onNavigateToRoute, balance, name, cards, payments) },
-        contentTabletLandscape = { TabletLandscapeHome(onNavigateToRoute, balance, name, cards, payments) }
+        contentTabletPortrait = { TabletPortraitHome(onNavigateToRoute, balance, name, cards, payments, viewModel) },
+        contentTabletLandscape = { TabletLandscapeHome(onNavigateToRoute, balance, name, cards, payments, viewModel) }
     )
 }
 
@@ -78,7 +73,7 @@ fun PhonePortraitHome(onNavigateToRoute: (String) -> Unit,
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            TarjetasSection(onNavigateToRoute, cards)
+            TarjetasSection(onNavigateToRoute, cards, null)
             MovimientosSection(onNavigateToRoute, payments)
         }
     }
@@ -116,7 +111,8 @@ fun TabletPortraitHome(onNavigateToRoute: (String) -> Unit,
                        saldo: Double,
                        name: String,
                        cards: List<Card>,
-                       payments: List<Payment>) {
+                       payments: List<Payment>,
+                       viewModel: HomeViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -130,7 +126,7 @@ fun TabletPortraitHome(onNavigateToRoute: (String) -> Unit,
                 saldo = saldo,
                 onNavigateToRoute = onNavigateToRoute
             )
-            TarjetasSection(onNavigateToRoute, cards)
+            TarjetasSection(onNavigateToRoute, cards, viewModel)
         }
         Column(
             modifier = Modifier.weight(0.4f)
@@ -145,7 +141,8 @@ fun TabletLandscapeHome(onNavigateToRoute: (String) -> Unit,
                         saldo: Double,
                         name: String,
                         cards: List<Card>,
-                        payments: List<Payment>) {
+                        payments: List<Payment>,
+                        viewModel: HomeViewModel) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -166,7 +163,7 @@ fun TabletLandscapeHome(onNavigateToRoute: (String) -> Unit,
         Column(
             modifier = Modifier.weight(0.4f)
         ) {
-            TarjetasSection(onNavigateToRoute, cards)
+            TarjetasSection(onNavigateToRoute, cards, viewModel)
         }
     }
 }

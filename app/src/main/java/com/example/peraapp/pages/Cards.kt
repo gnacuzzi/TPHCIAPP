@@ -147,8 +147,8 @@ fun CardsScreen(onNavigateToRoute: (String) -> Unit,
     ModularizedLayout(
         contentPhonePortrait = { CardsScreenPhonePortrait(onNavigateToRoute, cards) },
         contentPhoneLandscape = { CardsScreenPhoneLandscape(onNavigateToRoute, cards) },
-        contentTabletPortrait = { CardsScreenTablet(onNavigateToRoute, cards) },
-        contentTabletLandscape = { CardsScreenTablet(onNavigateToRoute, cards)}
+        contentTabletPortrait = { CardsScreenTablet(onNavigateToRoute, cards, viewModel) },
+        contentTabletLandscape = { CardsScreenTablet(onNavigateToRoute, cards, viewModel)}
     )
 }
 
@@ -214,7 +214,8 @@ fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit,
 
 @Composable
 fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit,
-                      cards: List<Card>) {
+                      cards: List<Card>,
+                      viewModel: HomeViewModel) {
     var showAddCardDialog by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
@@ -278,10 +279,7 @@ fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit,
     if (showAddCardDialog) {
         AddCardTabletDialog(
             onDismissRequest = { showAddCardDialog = false },
-            onConfirmation = {
-                showAddCardDialog = false
-                // Agrega la lógica para confirmar
-            }
+            viewModel = viewModel
         )
     }
 }

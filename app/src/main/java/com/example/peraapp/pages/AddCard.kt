@@ -69,13 +69,15 @@ fun AddCard(onNavigateToRoute: (String) -> Unit,
         AddCardLandscape(
             onNavigateToRoute = onNavigateToRoute,
             cardValues = cardValues,
-            onValueChange = { cardValues = it }
+            onValueChange = { cardValues = it },
+            viewModel = viewModel
         )
     } else {
         AddCardPortrait(
             onNavigateToRoute = onNavigateToRoute,
             cardValues = cardValues,
-            onValueChange = { cardValues = it }
+            onValueChange = { cardValues = it },
+            viewModel = viewModel
         )
     }
 }
@@ -86,6 +88,7 @@ fun AddCardLandscape(
     onNavigateToRoute: (String) -> Unit,
     cardValues: CardValues,
     onValueChange: (CardValues) -> Unit,
+    viewModel: HomeViewModel
 ) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta, false) }
@@ -123,7 +126,7 @@ fun AddCardLandscape(
                         }
                     }
                 }
-                AddCardButton(60, cardValues)
+                AddCardButton(60, cardValues, viewModel)
             }
         }
     }
@@ -134,6 +137,7 @@ fun AddCardPortrait(
     onNavigateToRoute: (String) -> Unit,
     cardValues: CardValues,
     onValueChange: (CardValues) -> Unit,
+    viewModel: HomeViewModel
 ) {
     Scaffold(
         topBar = { TopBar(R.string.agregartarjeta) }
@@ -164,7 +168,7 @@ fun AddCardPortrait(
                     onValueChange(cardValues.copy(bank = newValue))
                 }
                 // Botón para agregar la tarjeta
-                AddCardButton(10, cardValues)
+                AddCardButton(10, cardValues, viewModel)
             }
         }
     }
@@ -328,8 +332,7 @@ fun BankField(value: String, onValueChange: (String) -> Unit) {
 @Composable
 fun AddCardButton(toppadding: Int = 10,
                   cardValues: CardValues,
-                  viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
-
+                  viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val newCard = Card(
@@ -364,8 +367,7 @@ fun AddCardButton(toppadding: Int = 10,
 @Composable
 fun AddCardDialogStatePreview() {
     PeraAppTheme {
-        AddCardDialogState(
-        )
+        AddCardDialogState()
     }
 }
 
@@ -404,8 +406,14 @@ fun AddCardDialogState(
 @Composable
 fun AddCardTabletDialog(
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
+    viewModel: HomeViewModel
 ) {
+    var cardValues by remember { mutableStateOf(CardValues()) }
+
+    fun updateCardValues(newValues: CardValues) {
+        cardValues = newValues
+    }
+
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -429,77 +437,23 @@ fun AddCardTabletDialog(
                     )
                 }
 
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.numerotarjeta)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.nombretitular)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text
-                    )
-                )
-
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.fechadeven)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.codigo)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    )
-                )
-
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Manejar el cambio de valor */ },
-                    label = { Text(stringResource(R.string.banco)) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text
-                    )
-                )
-
-                Button(
-                    onClick = { onConfirmation() },
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .width(270.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(stringResource(R.string.agregarnuevatarjeta), style = MaterialTheme.typography.titleMedium)
+                CardNumberField(value = cardValues.cardNumber) { newValue ->
+                    updateCardValues(cardValues.copy(cardNumber = newValue))
                 }
-
+                CardHolderField(value = cardValues.cardHolder) { newValue ->
+                    updateCardValues(cardValues.copy(cardHolder = newValue))
+                }
+                ExpiryDateField(value = cardValues.expiryDate) { newValue ->
+                    updateCardValues(cardValues.copy(expiryDate = newValue))
+                }
+                CVVField(value = cardValues.cvv) { newValue ->
+                    updateCardValues(cardValues.copy(cvv = newValue))
+                }
+                BankField(value = cardValues.bank) { newValue ->
+                    updateCardValues(cardValues.copy(bank = newValue))
+                }
+                AddCardButton(10, cardValues, viewModel)
             }
         }
     }
 }
-
-
-
