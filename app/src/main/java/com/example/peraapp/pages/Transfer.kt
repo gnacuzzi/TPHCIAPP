@@ -89,7 +89,7 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                 modifier = Modifier.fillMaxWidth()
             ) {
                 TransferInputField(
-                    labelText = stringResource(R.string.mail),
+                    labelText = stringResource(R.string.mailpera),
                     value = mail,
                     onValueChange = { mail = it },
                     keyboardType = KeyboardType.Email,
@@ -198,7 +198,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                 modifier = Modifier.fillMaxWidth()
             ) {
                 TransferInputField(
-                    labelText = stringResource(R.string.mail),
+                    labelText = stringResource(R.string.mailpera),
                     value = mail,
                     onValueChange = { mail = it },
                     keyboardType = KeyboardType.Email,
@@ -303,7 +303,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TransferInputField(
-                        labelText = stringResource(R.string.mail),
+                        labelText = stringResource(R.string.mailpera),
                         value = mail,
                         onValueChange = { mail = it },
                         keyboardType = KeyboardType.Email,
@@ -395,7 +395,7 @@ fun TransferScreenPhonePortrait(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TransferInputField(
-                    labelText = stringResource(R.string.mail),
+                    labelText = stringResource(R.string.mailpera),
                     value = mail,
                     onValueChange = { mail = it },
                     keyboardType = KeyboardType.Email

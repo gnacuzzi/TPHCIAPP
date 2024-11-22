@@ -47,6 +47,7 @@
 
     <string name="iniciodesesion">Log in</string>
     <string name="mail">Email</string>
+    <string name="mailpera">Pera account email</string>
     <string name="contraseña">Password</string>
     <string name="iniciarsesion">Log in</string>
     <string name="registrarme">Sign up</string>

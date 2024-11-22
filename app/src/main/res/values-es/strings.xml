@@ -48,6 +48,7 @@
 
     <string name="iniciodesesion">Inicio de sesión</string>
     <string name="mail">Correo</string>
+    <string name="mailpera">Correo con cuenta en Pera</string>
     <string name="contraseña">Contraseña</string>
     <string name="iniciarsesion">Iniciar sesión</string>
     <string name="registrarme">Registrarme</string>
