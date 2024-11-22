@@ -3,7 +3,9 @@ package com.example.peraapp.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.peraapp.HomeViewModel
 import com.example.peraapp.pages.AddCard
 import com.example.peraapp.pages.CardsScreen
@@ -23,6 +25,10 @@ fun AppNavGraph(navController: NavHostController,
                 viewModel: HomeViewModel,
                 onNavigateToRoute: (String) -> Unit,
 ) {
+    fun eliminarTarjetaRoute(cardId: Int): String {
+        return "eliminarTarjeta/$cardId" // Generador de rutas con ID
+    }
+
     NavHost(
         navController = navController,
         startDestination = AppDestinations.INICIARSESION.route
@@ -51,8 +57,12 @@ fun AppNavGraph(navController: NavHostController,
         composable(route = AppDestinations.AGREGARTARJETA.route){
             AddCard(onNavigateToRoute, viewModel)
         }
-        composable(route = AppDestinations.ELIMINARTARJETA.route){
-            DeleteCardScreen(viewModel)//falta esta porque tiene que ser dinamica segun la tarjeta apretada
+        composable(
+            route = AppDestinations.ELIMINARTARJETA.route,
+            arguments = listOf(navArgument("cardId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val cardId = backStackEntry.arguments?.getInt("cardId")
+            DeleteCardScreen(viewModel, cardId, onNavigateToRoute)
         }
         composable(route = AppDestinations.INICIARSESION.route){
             LoginScreen(onNavigateToRoute, viewModel)

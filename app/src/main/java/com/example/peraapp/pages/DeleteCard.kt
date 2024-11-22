@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,24 +42,28 @@ import com.example.peraapp.components.ModularizedLayout
 import kotlinx.coroutines.delay
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.CardType
+import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.navigation.AppDestinationsHelper
 
-//hay que recibir la tarjeta por parametro
 @Composable
-fun DeleteCardScreen(viewModel: HomeViewModel
-){
+fun DeleteCardScreen(viewModel: HomeViewModel, cardId: Int?, onNavigateToRoute: (String) -> Unit){
     val uiState by viewModel.uiState.collectAsState()
-    val card = uiState.currentCard
+    val card = uiState.cards?.find { it.id == cardId }
 
-    ModularizedLayout(
-        contentPhonePortrait = { DeleteCardScreenPhonePortrait(card) },
-        contentPhoneLandscape = { DeleteCardScreenPhoneLandscape(card) },
-        contentTabletPortrait = { DeleteCardScreenTabletPortrait(card) },
-        contentTabletLandscape = { DeleteCardScreenTabletLandscape(card) }
-    )
+    if (card == null) {
+        onNavigateToRoute(AppDestinations.TARJETAS.route)
+    } else {
+        ModularizedLayout(
+            contentPhonePortrait = { DeleteCardScreenPhonePortrait(card, viewModel, onNavigateToRoute) },
+            contentPhoneLandscape = { DeleteCardScreenPhoneLandscape(card, viewModel, onNavigateToRoute) },
+            contentTabletPortrait = { DeleteCardScreenTabletPortrait(card, viewModel, onNavigateToRoute) },
+            contentTabletLandscape = { DeleteCardScreenTabletLandscape(card, viewModel, onNavigateToRoute) }
+        )
+    }
 }
 
 @Composable
-fun DeleteCardScreenPhonePortrait(card: Card?) {
+fun DeleteCardScreenPhonePortrait(card: Card?, viewModel: HomeViewModel, onNavigateToRoute: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,24 +74,23 @@ fun DeleteCardScreenPhonePortrait(card: Card?) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            card?.number?.let {
+            if (card != null) {
                 Card(
+                    bank = card.type.name,
                     number = card.number,
-                    fullName = card.fullName,
-                    expirationDate = card.expirationDate,
-                    id = card.id,
-                    cvv = card.cvv,
-                    type = CardType.DEBIT,
-                    createdAt = card.createdAt
-                )
+                    name = card.fullName,
+                    date = card.expirationDate
+                ) {}
             }
             if (card != null) {
                 DeleteCardDialogHandler(
                     card = card,
                     dialogTitle = stringResource(R.string.deseaelimiar),
                     onDeleteConfirmed = {
+                        card.id?.let { viewModel.deleteCard(it) }
                         println("Tarjeta eliminada")
-                    }
+                    },
+                    onNavigateToRoute = onNavigateToRoute
                 )
             }
         }
@@ -94,7 +98,7 @@ fun DeleteCardScreenPhonePortrait(card: Card?) {
 }
 
 @Composable
-fun DeleteCardScreenPhoneLandscape(card: Card?) {
+fun DeleteCardScreenPhoneLandscape(card: Card?, viewModel: HomeViewModel, onNavigateToRoute: (String) -> Unit) {
     Column {
         TopBar(R.string.tarjeta, false)
         Row(
@@ -110,16 +114,13 @@ fun DeleteCardScreenPhoneLandscape(card: Card?) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                card?.number?.let {
+                if (card != null) {
                     Card(
+                        bank = card.type.name,
                         number = card.number,
-                        fullName = card.fullName,
-                        expirationDate = card.expirationDate,
-                        id = card.id,
-                        cvv = card.cvv,
-                        type = CardType.DEBIT,
-                        createdAt = card.createdAt
-                    )
+                        name = card.fullName,
+                        date = card.expirationDate
+                    ) {}
                 }
             }
 
@@ -135,8 +136,10 @@ fun DeleteCardScreenPhoneLandscape(card: Card?) {
                         card = card,
                         dialogTitle = stringResource(R.string.deseaelimiar),
                         onDeleteConfirmed = {
+                            card.id?.let { viewModel.deleteCard(it) }
                             println("Tarjeta eliminada")
-                        }
+                        },
+                        onNavigateToRoute = onNavigateToRoute
                     )
                 }
             }
@@ -145,7 +148,7 @@ fun DeleteCardScreenPhoneLandscape(card: Card?) {
 }
 
 @Composable
-fun DeleteCardScreenTabletLandscape(card: Card?) {
+fun DeleteCardScreenTabletLandscape(card: Card?, viewModel: HomeViewModel, onNavigateToRoute: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -168,16 +171,13 @@ fun DeleteCardScreenTabletLandscape(card: Card?) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                card?.number?.let {
-                    Card(
+                if (card != null) {
+                    CardTablet(
+                        bank = card.type.name,
                         number = card.number,
-                        fullName = card.fullName,
-                        expirationDate = card.expirationDate,
-                        id = card.id,
-                        cvv = card.cvv,
-                        type = CardType.DEBIT,
-                        createdAt = card.createdAt
-                    )
+                        name = card.fullName,
+                        date = card.expirationDate
+                    ) {}
                 }
             }
         }
@@ -194,9 +194,10 @@ fun DeleteCardScreenTabletLandscape(card: Card?) {
                     card = card,
                     dialogTitle = stringResource(R.string.deseaelimiar),
                     onDeleteConfirmed = {
-                        // Lógica para eliminar la tarjeta
+                        card.id?.let { viewModel.deleteCard(it) }
                         println("Tarjeta eliminada")
-                    }
+                    },
+                    onNavigateToRoute = onNavigateToRoute
                 )
             }
         }
@@ -204,7 +205,7 @@ fun DeleteCardScreenTabletLandscape(card: Card?) {
 }
 
 @Composable
-fun DeleteCardScreenTabletPortrait(card: Card?) {
+fun DeleteCardScreenTabletPortrait(card: Card?, viewModel: HomeViewModel, onNavigateToRoute: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -227,16 +228,13 @@ fun DeleteCardScreenTabletPortrait(card: Card?) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                card?.number?.let {
-                    Card(
+                if (card != null) {
+                    CardTablet(
+                        bank = card.type.name,
                         number = card.number,
-                        fullName = card.fullName,
-                        expirationDate = card.expirationDate,
-                        id = card.id,
-                        cvv = card.cvv,
-                        type = CardType.DEBIT,
-                        createdAt = card.createdAt
-                    )
+                        name = card.fullName,
+                        date = card.expirationDate
+                    ) {}
                 }
             }
         }
@@ -253,9 +251,10 @@ fun DeleteCardScreenTabletPortrait(card: Card?) {
                     card = card,
                     dialogTitle = stringResource(R.string.deseaelimiar),
                     onDeleteConfirmed = {
-                        // Lógica para eliminar la tarjeta
+                        card.id?.let { viewModel.deleteCard(it) }
                         println("Tarjeta eliminada")
-                    }
+                    },
+                    onNavigateToRoute = onNavigateToRoute
                 )
             }
         }
@@ -268,7 +267,8 @@ fun DeleteCardDialogHandler(
     card: Card,
     dialogTitle: String,
     onDeleteConfirmed: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateToRoute: (String) -> Unit
 ) {
     // Estado del diálogo
     var showDialog by remember { mutableStateOf(false) }
@@ -297,7 +297,10 @@ fun DeleteCardDialogHandler(
     if (showDialog) {
         DeleteCardDialog(
             card = card,
-            onDismissRequest = { showDialog = false },
+            onDismissRequest =
+            {
+                showDialog = false
+            },
             onConfirmation = {
                 onDeleteConfirmed()
                 showDialog = false
@@ -317,7 +320,6 @@ fun DeleteCardDialogPreview(card: Card?) {
                 onDismissRequest = { },
                 onConfirmation = { },
                 dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
-                //habria que pasar la tarjeta pero actualmente es una funcion no una clase
             )
         }
     }
@@ -348,7 +350,7 @@ fun DeleteCardDialog(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
-                //habria que mandarla como parametro
+
                 CardHome(card.type.name, card.number, card.fullName, card.expirationDate) {}
 
                 Row(

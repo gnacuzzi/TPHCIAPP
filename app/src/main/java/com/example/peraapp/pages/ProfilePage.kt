@@ -43,7 +43,7 @@ import com.example.peraapp.navigation.AppDestinations
 val profileItems = listOf(
     AppDestinations.TRANSFERIR,
     AppDestinations.INGRESAR,
-    AppDestinations.CERRARSESION
+    AppDestinations.CERRARSESION //tengo que usar logout
 )
 
 @Composable

@@ -251,7 +251,7 @@ fun LoginFormSection(
             text = stringResource(R.string.iniciarsesion),
             onClick =
             {
-                viewModel.login("eve.morissette27@ethereal.email", "1234567890")
+                viewModel.login("arely.nicolas@ethereal.email", "1234567890")
                 //viewModel.login(email, password)
                 onNavigateToRoute(AppDestinations.INICIO.route)
             },
