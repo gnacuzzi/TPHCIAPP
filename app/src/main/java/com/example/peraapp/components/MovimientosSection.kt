@@ -28,20 +28,22 @@ import com.example.peraapp.pages.MovimientoItem
 
 @Composable
 fun MovimientosSection(onNavigateToRoute: (String) -> Unit,
-                       payments: List<Payment>) {
+                       payments: List<Payment>,
+                       name: String) {
     val configuration = LocalConfiguration.current
     val isTablet = isTablet(configuration)
 
     if (isTablet) {
-        MovimientosSectionTablet(onNavigateToRoute, payments)
+        MovimientosSectionTablet(onNavigateToRoute, payments, name)
     } else {
-        MovimientosSectionPhone(onNavigateToRoute, payments)
+        MovimientosSectionPhone(onNavigateToRoute, payments, name)
     }
 }
 
 @Composable
 fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit,
-                            payments: List<Payment>) {
+                            payments: List<Payment>,
+                            name: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,12 +76,12 @@ fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit,
             items(payments.size) { index ->
                 val payment = payments[index]
                 var color = Color.Green
-                if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
+                if (payment.receiver.firstName != name) {
                     color = Color.Red
                 }
                 payment.updatedAt?.let {
                     MovimientoItem(
-                        name = payment.type,
+                        name = payment.receiver.firstName,
                         date = it,
                         amount = payment.amount.toString(),
                         color = color,
@@ -92,7 +94,8 @@ fun MovimientosSectionPhone(onNavigateToRoute: (String) -> Unit,
 
 @Composable
 fun MovimientosSectionTablet(onNavigateToRoute: (String) -> Unit,
-                             payments: List<Payment>) {
+                             payments: List<Payment>,
+                             name: String) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(20.dp),
@@ -137,12 +140,12 @@ fun MovimientosSectionTablet(onNavigateToRoute: (String) -> Unit,
                 items(payments.size) { index ->
                     val payment = payments[index]
                     var color = Color.Green
-                    if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
+                    if (payment.receiver.firstName != name) {
                         color = Color.Red
                     }
                     payment.updatedAt?.let {
                         MovimientoItem(
-                            name = payment.type,
+                            name = payment.receiver.firstName,
                             date = it,
                             amount = payment.amount.toString(),
                             color = color,

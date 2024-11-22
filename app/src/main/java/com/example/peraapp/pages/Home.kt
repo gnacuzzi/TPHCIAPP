@@ -48,7 +48,7 @@ fun HomeScreen(onNavigateToRoute: (String) -> Unit,
 
     ModularizedLayout(
         contentPhonePortrait = { PhonePortraitHome(onNavigateToRoute, balance, name, cards, payments) },
-        contentPhoneLandscape = { PhoneLandscapeHome(onNavigateToRoute, balance, name, cards, payments) },
+        contentPhoneLandscape = { PhoneLandscapeHome(onNavigateToRoute, balance, name, payments) },
         contentTabletPortrait = { TabletPortraitHome(onNavigateToRoute, balance, name, cards, payments, viewModel) },
         contentTabletLandscape = { TabletLandscapeHome(onNavigateToRoute, balance, name, cards, payments, viewModel) }
     )
@@ -74,7 +74,7 @@ fun PhonePortraitHome(onNavigateToRoute: (String) -> Unit,
                 .fillMaxSize()
         ) {
             TarjetasSection(onNavigateToRoute, cards, null)
-            MovimientosSection(onNavigateToRoute, payments)
+            MovimientosSection(onNavigateToRoute, payments, name)
         }
     }
 }
@@ -83,7 +83,6 @@ fun PhonePortraitHome(onNavigateToRoute: (String) -> Unit,
 fun PhoneLandscapeHome(onNavigateToRoute: (String) -> Unit,
                        saldo: Double,
                        name: String,
-                       cards: List<Card>,
                        payments: List<Payment>) {
     Row(
         modifier = Modifier
@@ -102,7 +101,7 @@ fun PhoneLandscapeHome(onNavigateToRoute: (String) -> Unit,
         Column(
             modifier = Modifier.weight(0.5f)
         ) {
-            MovimientosSection(onNavigateToRoute, payments)
+            MovimientosSection(onNavigateToRoute, payments, name)
         }
     }
 }
@@ -131,7 +130,7 @@ fun TabletPortraitHome(onNavigateToRoute: (String) -> Unit,
         Column(
             modifier = Modifier.weight(0.4f)
         ) {
-            MovimientosSection(onNavigateToRoute, payments)
+            MovimientosSection(onNavigateToRoute, payments, name)
         }
     }
 }
@@ -158,7 +157,7 @@ fun TabletLandscapeHome(onNavigateToRoute: (String) -> Unit,
                 saldo = saldo,
                 onNavigateToRoute = onNavigateToRoute
             )
-            MovimientosSection(onNavigateToRoute, payments)
+            MovimientosSection(onNavigateToRoute, payments, name)
         }
         Column(
             modifier = Modifier.weight(0.4f)

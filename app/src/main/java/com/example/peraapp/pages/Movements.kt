@@ -38,18 +38,23 @@ fun MovementsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val payments = uiState.payments ?: emptyList()
+    var name = stringResource(R.string.desconocido)
+    if (uiState.currentUser != null){
+        name = uiState.currentUser!!.firstName
+    }
 
     ModularizedLayout(
-        contentPhonePortrait = { MovementsScreenPhone(false, payments) },
-        contentPhoneLandscape = { MovementsScreenPhone(true, payments) },
-        contentTabletPortrait = { MovementsScreenTablet(payments) },
-        contentTabletLandscape = { MovementsScreenTablet(payments) }
+        contentPhonePortrait = { MovementsScreenPhone(false, payments, name) },
+        contentPhoneLandscape = { MovementsScreenPhone(true, payments, name) },
+        contentTabletPortrait = { MovementsScreenTablet(payments, name) },
+        contentTabletLandscape = { MovementsScreenTablet(payments, name) }
     )
 }
 
 @Composable
 fun MovementsScreenPhone(isLanscape: Boolean,
-                         payments: List<Payment>){
+                         payments: List<Payment>,
+                         name: String){
     Column (
         modifier = Modifier.fillMaxSize()
     ){
@@ -62,24 +67,26 @@ fun MovementsScreenPhone(isLanscape: Boolean,
             items(payments.size) { index ->
                 val payment = payments[index]
                 var color = Color.Green
-                if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
+                if (payment.receiver.firstName != name) {
                     color = Color.Red
                 }
                 payment.updatedAt?.let {
                     MovimientoItem(
-                        name = payment.type,
+                        name = payment.receiver.firstName,
                         date = it,
                         amount = payment.amount.toString(),
                         color = color,
                     )
                 }
+
             }
         }
     }
 }
 
 @Composable
-fun MovementsScreenTablet(payments: List<Payment>) {
+fun MovementsScreenTablet(payments: List<Payment>,
+                          name: String) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -103,12 +110,12 @@ fun MovementsScreenTablet(payments: List<Payment>) {
                 items(payments.size) { index ->
                     val payment = payments[index]
                     var color = Color.Green
-                    if ((payment.balanceAfter?.minus(payment.balanceBefore!!))!! < 0) {
+                    if (payment.receiver.firstName != name) {
                         color = Color.Red
                     }
                     payment.updatedAt?.let {
                         MovimientoItem(
-                            name = payment.type,
+                            name = payment.receiver.firstName,
                             date = it,
                             amount = payment.amount.toString(),
                             color = color,
@@ -151,9 +158,12 @@ fun MovimientoItem(name: String, date: String, amount: String, color: Color, ico
                 )
             }
         }
-
+        var sign = "+"
+        if (color == Color.Red){
+            sign = "-"
+        }
         Text(
-            text = amount,
+            text = "$sign$$amount",
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             color = color

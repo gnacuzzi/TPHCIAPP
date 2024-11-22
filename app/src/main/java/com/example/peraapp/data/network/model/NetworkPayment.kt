@@ -12,25 +12,33 @@ class NetworkPayment(
     var amount: Int?,
     var balanceBefore: Int?,
     var balanceAfter: Int?,
+    var receiverBalanceBefore: Int?,
+    var receiverBalanceAfter: Int?,
     var pending: Boolean,
     var linkUuid: String?,
     var createdAt: String?,
     var updatedAt: String?,
-    var card: NetworkCard?,
+    var card: NetworkPaymentCard?,
+    var payer: NetworkUser,
+    var receiver: NetworkUser
+
 ) {
     fun asModel() : Payment {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault(Locale.Category.FORMAT))
         return Payment(
             id = id,
             type = type,
             amount = amount,
             balanceBefore = balanceBefore,
             balanceAfter = balanceAfter,
+            receiverBalanceBefore = receiverBalanceBefore,
+            receiverBalanceAfter = receiverBalanceAfter,
             pending = pending,
             linkUuid = linkUuid,
-            createdAt = createdAt?.let { dateFormat.format(createdAt!!) },
-            updatedAt = updatedAt?.let { dateFormat.format(updatedAt!!) },
-            card = card?.asModel()
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            card = card?.asModel(),
+            payer = payer.asModel(),
+            receiver = receiver.asModel()
         )
     }
 }

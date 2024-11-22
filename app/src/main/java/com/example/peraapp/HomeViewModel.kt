@@ -35,7 +35,6 @@ class HomeViewModel(
 
     private var walletDetailStreamJob: Job? = null
     private var creditCardsStreamJob: Job? = null
-    private var paymentStreamJob: Job? = null
     private val _uiState = MutableStateFlow(HomeUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
     private val _shouldNavigate = MutableStateFlow<String?>(null)
@@ -45,7 +44,6 @@ class HomeViewModel(
         if (uiState.value.isAuthenticated) {
             observeWalletDetailStream()
             observeCreditCardsStream()
-            observePaymentStream()
         }
     }
 
@@ -63,7 +61,6 @@ class HomeViewModel(
             userRepository.login(username, password)
             observeWalletDetailStream()
             observeCreditCardsStream()
-            observePaymentStream()
         },
         { state, _ -> _shouldNavigate.value = AppDestinations.INICIO.route
             state.copy(isAuthenticated = true) }
@@ -77,7 +74,6 @@ class HomeViewModel(
         {
             walletDetailStreamJob?.cancel()
             creditCardsStreamJob?.cancel()
-            paymentStreamJob?.cancel()
             userRepository.logout()
         },
         { state, _ ->
@@ -113,6 +109,11 @@ class HomeViewModel(
                 cards = null
             )
         }
+    )
+
+    fun getPayments() = runOnViewModelScope(
+        { paymentRepository.getPayments() },
+        { state, response -> state.copy(payments = response) }
     )
 
     fun deleteCard(cardId: Int) = runOnViewModelScope(
@@ -154,12 +155,6 @@ class HomeViewModel(
         creditCardsStreamJob = collectOnViewModelScope(
             walletRepository.getCardsStream
         ) { state, response -> state.copy(cards = response) }
-    }
-
-    private fun observePaymentStream() {
-        paymentStreamJob = collectOnViewModelScope(
-            paymentRepository.paymentDetailStream
-        ) { state, response -> state.copy(payments = response) }
     }
 
     private fun <T> collectOnViewModelScope(

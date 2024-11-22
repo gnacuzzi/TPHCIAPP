@@ -32,6 +32,7 @@ fun MainScreen(
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.provideFactory(LocalContext.current.applicationContext as PeraApplication))
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    viewModel.getPayments()
     val navController = rememberNavController()
     val startDestination = if (uiState.isAuthenticated) AppDestinations.INICIO.route else AppDestinations.INICIARSESION.route
     val navBackStackEntry by navController.currentBackStackEntryAsState()

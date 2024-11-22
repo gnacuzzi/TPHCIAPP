@@ -13,13 +13,9 @@ class PaymentRemoteDataSource (
     private val paymentApiService: PaymentApiService
 ) : RemoteDataSource(){
 
-    val getPaymentsStream: Flow<NetworkPaymentList> = flow {
-        while (true){
-            val payments = handleApiResponse {
-                paymentApiService.getPayments()
-            }
-            emit(payments)
-            delay(DELAY)
+    suspend fun getPayments(): NetworkPaymentList {
+        return handleApiResponse {
+            paymentApiService.getPayments()
         }
     }
 
@@ -34,9 +30,4 @@ class PaymentRemoteDataSource (
             paymentApiService.makeCardPayment(payment)
         }
     }
-
-    companion object {
-        const val DELAY: Long = 1000
-    }
-
 }

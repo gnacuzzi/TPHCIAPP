@@ -11,11 +11,10 @@ import kotlinx.coroutines.flow.map
 class PaymentRepository (
     private val remoteDataSource: PaymentRemoteDataSource
 ){
-    val paymentDetailStream: Flow<List<Payment>> =
-        remoteDataSource.getPaymentsStream
-            .map { networkPaymentList ->
-            networkPaymentList.asModel()
-        }
+    suspend fun getPayments(): List<Payment> {
+        val result = remoteDataSource.getPayments()
+        return result.asModel()
+    }
 
     suspend fun makeBalancePayment(balancePayment: BalancePayment) {
         remoteDataSource.makeBalancePayment(balancePayment.asNetWorkModel())
