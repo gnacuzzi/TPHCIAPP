@@ -219,7 +219,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
 
                 method?.let {
                     TransferButton(
-                        onClick = { /* Agregar lógica si es necesario */ },
+                        onClick = { },
                         email = mail,
                         amount = amount,
                         method = it,
@@ -459,14 +459,14 @@ fun TransferButton(
         onClick = {
             if (method == R.string.saldoencuenta) {
                 val balance = BalancePayment(
-                    amount = amount,
+                    amount = amount.toInt(),
                     description = description,
                     receiverEmail = email
                 )
                 viewModel.makeBalancePayment(balance)
             } else if (method == R.string.tarjeta) {
                 val card = CardPayment(
-                    amount = amount,
+                    amount = amount.toInt(),
                     description = description,
                     cardId = cardId,
                     receiverEmail = email
