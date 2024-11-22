@@ -285,8 +285,8 @@ fun LoginFormSection(
 
         if(showDialog){
             LoginDialog(
-                onDismissRequest = {},
-                dialogTitle = "title",
+                onDismissRequest = {showDialog = false},
+                dialogTitle = stringResource(R.string.ingresar),
                 state = state
             )
         }
@@ -323,7 +323,7 @@ fun LoginTextField(
         value = value,
         onValueChange = { input ->
             localErrorMessage = if (!validate(input)) {
-                "Correo inválido"
+                R.string.email_invalido.toString()
             } else {
                 null
             }
