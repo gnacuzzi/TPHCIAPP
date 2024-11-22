@@ -114,7 +114,7 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                     }
                 }
 
-                TransferButton(
+                DepositButton(
                     onClick = { /* Agregar lógica si es necesario */ },
                     email = mail,
                     amount = amount,
@@ -187,7 +187,7 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                     }
                 }
 
-                TransferButton(
+                DepositButton(
                     onClick = { /* Agregar lógica si es necesario */ },
                     email = mail,
                     amount = amount,

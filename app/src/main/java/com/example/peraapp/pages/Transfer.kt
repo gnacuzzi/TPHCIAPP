@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
@@ -469,24 +470,6 @@ fun TransferButton(
 }
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun TransferDialogPreview() {
-    PeraAppTheme {
-        TransferDialog(
-            onDismissRequest = { },
-            onConfirmation = { },
-            dialogTitle = "${stringResource(R.string.deseatransaccion)}?",
-            recipientEmail = "Fer",
-            amount = 200,
-            method = 2,
-            viewModel = TODO(),
-            cardId = TODO()
-        )
-    }
-}
-
 @Composable
 fun TransferDialog(
     onDismissRequest: () -> Unit,
@@ -560,7 +543,7 @@ fun TransferDialog(
                     if(showDialog) {
                         TransferDialogState(
                             onDismissRequest = { },
-                            dialogTitle = stringResource(R.string.deseatransaccion),
+                            dialogTitle = stringResource(R.string.transferir),
                             state = state
                         )
                     }
@@ -571,21 +554,10 @@ fun TransferDialog(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun TransferDialogStatePreview() {
-    PeraAppTheme {
-        TransferDialogState(
-            onDismissRequest = { /* seria eliminarse nomas */ },
-            dialogTitle = stringResource(R.string.estadotransferir)
-        )
-    }
-}
-
 @Composable
 fun TransferDialogState(
     onDismissRequest: () -> Unit,
-    dialogTitle: String = "title",
+    dialogTitle: String = stringResource(R.string.deseatransaccion),
     dismissAfterMillis: Long = 3000,
     state: Boolean = true
 ) {
