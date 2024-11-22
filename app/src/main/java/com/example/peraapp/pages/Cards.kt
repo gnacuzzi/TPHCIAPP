@@ -1,5 +1,6 @@
 package com.example.peraapp.pages
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -48,7 +50,7 @@ import com.example.peraapp.navigation.AppDestinationsHelper
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
-fun CardHome(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
+fun CardHome(bank: String, number: String, name: String, date: String,  isSelected: Boolean = false, onCardClick: () -> Unit){
     Card(
         bank = bank,
         number = number,
@@ -56,7 +58,8 @@ fun CardHome(bank: String, number: String, name: String, date: String, onCardCli
         date = date,
         width = 250,
         height = 160,
-        horizontalNumberPadding = 10
+        horizontalNumberPadding = 10,
+        isSelected = isSelected
     ) { onCardClick() }
 }
 
@@ -75,7 +78,7 @@ fun CardHomeTablet(bank: String, number: String, name: String, date: String, onC
 }
 
 @Composable
-fun CardTablet(bank: String, number: String, name: String, date: String, onCardClick: () -> Unit){
+fun CardTablet(bank: String, number: String, name: String, date: String,  isSelected: Boolean = false,onCardClick: () -> Unit ){
     Card(
         bank = bank,
         number = number,
@@ -84,7 +87,8 @@ fun CardTablet(bank: String, number: String, name: String, date: String, onCardC
         width = 420,
         height = 260,
         horizontalNumberPadding = 25,
-        normalPadding = 15
+        normalPadding = 15,
+        isSelected = isSelected
     ) { onCardClick() }
 }
 
@@ -94,6 +98,7 @@ fun Card(
     number: String,
     name: String,
     date: String,
+    isSelected: Boolean = false,
     roundedCorner: Int = 16,
     paddingSurface: Int = 10,
     width: Int = 320,
@@ -102,12 +107,16 @@ fun Card(
     horizontalNumberPadding: Int = 20,
     onCardClick: () -> Unit
 ) {
+    val backgroundColor = MaterialTheme.colorScheme.tertiary
+    val borderColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
+
     Surface(
-        color = MaterialTheme.colorScheme.tertiary,
+        color = backgroundColor,
         shape = RoundedCornerShape(roundedCorner.dp),
+        border = BorderStroke(2.dp, borderColor),
         modifier = Modifier
             .padding(paddingSurface.dp)
-            .clickable(onClick = onCardClick) // Ejecuta la acción de clic
+            .clickable(onClick = onCardClick)
     ) {
         Column(
             modifier = Modifier

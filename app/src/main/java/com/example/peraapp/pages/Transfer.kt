@@ -30,13 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.CardPayment
@@ -61,10 +58,11 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method by remember { mutableStateOf<String?>(null) }
-    var cardId by remember { mutableStateOf(0) }
+    val method by remember { mutableStateOf<String?>(null) }
+    val cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
 
     Column(
         modifier = Modifier
@@ -116,16 +114,15 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                 )
 
                 LazyRow {
-
-                    item{
+                    item {
                         Card(
                             bank = "Pera",
-                            number = uiState.walletDetail?.balance.toString(),
-                            name = stringResource(R.string.saldoencuenta),
+                            number = "1234",
+                            name = "Saldo en cuenta",
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
-                                method = "BALANCE"
-                                state = true
+                                selectedCardId = null
                                 showDialog = true
                             }
                         )
@@ -138,10 +135,9 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
-                                method = "CARD"
-                                cardId = card.id!!
-                                state = true
+                                selectedCardId = card.id
                                 showDialog = true
                             }
                         )
@@ -174,6 +170,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
 
     Column(
         modifier = Modifier
@@ -227,16 +224,15 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                 )
 
                 LazyRow {
-
-                    item{
+                    item {
                         Card(
                             bank = "Pera",
-                            number = uiState.walletDetail?.balance.toString(),
-                            name = stringResource(R.string.saldoencuenta),
+                            number = "1234",
+                            name = "Saldo en cuenta",
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
-                                method = "BALANCE"
-                                state = true
+                                selectedCardId = null
                                 showDialog = true
                             }
                         )
@@ -249,10 +245,9 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
-                                method = "CARD"
-                                cardId = card.id!!
-                                state = true
+                                selectedCardId = card.id
                                 showDialog = true
                             }
                         )
@@ -284,6 +279,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
 
     Scaffold(
         topBar = { TopBar(R.string.transferir, false) }
@@ -316,16 +312,15 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                     )
                 }
                 LazyColumn {
-
-                    item{
+                    item {
                         CardHome(
                             bank = "Pera",
-                            number = uiState.walletDetail?.balance.toString(),
-                            name = stringResource(R.string.saldoencuenta),
+                            number = "1234",
+                            name = "Saldo en cuenta",
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
-                                method = "BALANCE"
-                                state = true
+                                selectedCardId = null
                                 showDialog = true
                             }
                         )
@@ -338,10 +333,9 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
-                                method = "CARD"
-                                cardId = card.id!!
-                                state = true
+                                selectedCardId = card.id
                                 showDialog = true
                             }
                         )
@@ -376,6 +370,7 @@ fun TransferScreenPhonePortrait(
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
 
     Scaffold(
         topBar = { TopBar(R.string.transferir) }
@@ -406,15 +401,15 @@ fun TransferScreenPhonePortrait(
                 )
 
                 LazyRow {
-                    item{
+                    item {
                         Card(
                             bank = "Pera",
-                            number = uiState.walletDetail?.balance.toString(),
-                            name = stringResource(R.string.saldoencuenta),
+                            number = "1234",
+                            name = "Saldo en cuenta",
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
-                                method = "BALANCE"
-                                state = true
+                                selectedCardId = null
                                 showDialog = true
                             }
                         )
@@ -427,10 +422,9 @@ fun TransferScreenPhonePortrait(
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
-                                method = "CARD"
-                                cardId = card.id!!
-                                state = true
+                                selectedCardId = card.id
                                 showDialog = true
                             }
                         )
@@ -476,17 +470,9 @@ fun TransferInputField(
             value = value,
             onValueChange = {
                 if (keyboardType == KeyboardType.Email) {
-                    error = if (isValidEmail(it)) {
-                        false
-                    } else {
-                        true
-                    }
+                    error = !isValidEmail(it)
                 } else if (keyboardType == KeyboardType.Number) {
-                    error = if (it.isEmpty() || it.matches("\\d*".toRegex())) {
-                        false
-                    } else {
-                        true
-                    }
+                    error = !(it.isEmpty() || it.matches("\\d*".toRegex()))
                 }
                 onValueChange(it)
             },
