@@ -268,16 +268,18 @@ fun LoginFormSection(
             text = stringResource(R.string.iniciarsesion),
             onClick =
             {
-                viewModel.login("arely.nicolas@ethereal.email", "1234567890")
+                viewModel.login("dulce.frami@ethereal.email", "hola123")
                 //viewModel.login(email, password)
+                /*
                 if( uiState.error != null){
                     showDialog = true
                     state = false
                 } else {
-                    showDialog = true
-                    state = true
+                    onNavigateToRoute(AppDestinations.INICIO.route)
                 }
+                 */
                 onNavigateToRoute(AppDestinations.INICIO.route)
+
             },
             backgroundColor = MaterialTheme.colorScheme.secondary,
             textColor = MaterialTheme.colorScheme.background
@@ -286,7 +288,7 @@ fun LoginFormSection(
         if(showDialog){
             LoginDialog(
                 onDismissRequest = {showDialog = false},
-                dialogTitle = stringResource(R.string.ingresar),
+                dialogTitle = stringResource(R.string.iniciarsesion),
                 state = state
             )
         }

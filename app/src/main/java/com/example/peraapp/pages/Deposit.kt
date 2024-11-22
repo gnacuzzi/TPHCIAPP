@@ -57,11 +57,12 @@ fun DepositScreen(onNavigateToRoute: (String) -> Unit,
 @Composable
 fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
     val uiState by viewModel.uiState.collectAsState()
-    var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    val cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -110,14 +111,19 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {  method = R.string.tarjeta }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = "CARD"
+                                state = true
+                                cardId = card.id!!
+                                showDialog = true
+                            }
+                        )
                     }
                 }
 
                 DepositButton(
                     onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
                     amount = amount,
                     method = method,
                     cardId = cardId,
@@ -130,12 +136,13 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
 
 @Composable
 fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
-    var mail by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
+    var amount by remember { mutableStateOf("") }
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    val cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -183,14 +190,19 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {  method = R.string.tarjeta }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = "CARD"
+                                state = true
+                                cardId = card.id!!
+                                showDialog = true
+                            }
+                        )
                     }
                 }
 
                 DepositButton(
                     onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
                     amount = amount,
                     method = method,
                     cardId = cardId,
@@ -203,12 +215,13 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
 
 @Composable
 fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
-    var mail by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
+    var amount by remember { mutableStateOf("") }
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    val cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar, false) }
@@ -244,13 +257,18 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {  method = R.string.tarjeta }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = "CARD"
+                                state = true
+                                cardId = card.id!!
+                                showDialog = true
+                            }
+                        )
                     }
                 }
                 DepositButton(
                     onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
                     amount = amount,
                     method = method,
                     cardId = cardId,
@@ -262,12 +280,13 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
 }
 @Composable
 fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
-    var mail by remember { mutableStateOf("") }
-    var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
+    var amount by remember { mutableStateOf("") }
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    val cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar) }
@@ -298,15 +317,20 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {  method = R.string.tarjeta }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = "CARD"
+                                state = true
+                                cardId = card.id!!
+                                showDialog = true
+                            }
+                        )
                     }
                 }
 
 
                 DepositButton(
                     onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
                     amount = amount,
                     method = method,
                     cardId = cardId,
@@ -352,8 +376,8 @@ fun DepositInputField(
 
 
 @Composable
-fun DepositButton(onClick: () -> Unit, email: String,
-  amount: String, method: Int?, cardId:Int , viewModel: HomeViewModel) {
+fun DepositButton(onClick: () -> Unit,
+  amount: String, method: String?, cardId:Int , viewModel: HomeViewModel) {
 
     val description = stringResource(R.string.ingresar)
 
@@ -363,8 +387,7 @@ fun DepositButton(onClick: () -> Unit, email: String,
         DepositDialog(
             onDismissRequest = { showDialog = false },
             onConfirmation = {},
-            dialogTitle = "title",
-            recipientEmail = email,
+            dialogTitle = stringResource(R.string.ingresar),
             amount = amount.toInt(),
             method = method,
             viewModel = viewModel,
@@ -392,12 +415,12 @@ fun DepositDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
-    recipientEmail: String,
     amount: Int,
-    method: Int?,
+    method: String?,
     cardId: Int,
     viewModel: HomeViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -416,7 +439,6 @@ fun DepositDialog(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
-                Text("${stringResource(R.string.pagoa)}: $recipientEmail") // Siempre va a ser el email del usuario
                 Text("${stringResource(R.string.monto)}: $amount")
                 Text("${stringResource(R.string.con)}: $method")
 
@@ -434,14 +456,19 @@ fun DepositDialog(
                     var state = false
 
                     Button(onClick = {
-                        if (method == R.string.tarjeta) {
-                            val card = CardPayment(
-                                amount = amount,
-                                description = R.string.ingresarmonto.toString(),
-                                cardId = cardId,
-                                receiverEmail = recipientEmail
-                            )
-                            viewModel.makeCardPayment(card)
+                        if (method == "CARD") {
+                            val card = uiState.currentUser?.let {
+                                CardPayment(
+                                    amount = amount,
+                                    description = R.string.ingresarmonto.toString(),
+                                    cardId = cardId,
+                                    receiverEmail = it.email,
+                                    type = "CARD"
+                                )
+                            }
+                            if (card != null) {
+                                viewModel.makeCardPayment(card)
+                            }
                             state = true
                         }
                         showDialog = true

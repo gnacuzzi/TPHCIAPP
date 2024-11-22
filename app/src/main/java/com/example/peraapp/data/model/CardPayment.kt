@@ -5,7 +5,7 @@ import com.example.peraapp.data.network.model.NetworkCardPayment
 class CardPayment(
     var amount: Int,
     var description: String,
-    var type: String = "CARD",
+    var type: String,
     var cardId: Int,
     var receiverEmail: String
 ){

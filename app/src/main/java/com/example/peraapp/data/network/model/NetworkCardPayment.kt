@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 class NetworkCardPayment (
     var amount: Int,
     var description: String,
-    var type: String = "CARD",
+    var type: String,
     var cardId: Int,
     var receiverEmail: String
 ){

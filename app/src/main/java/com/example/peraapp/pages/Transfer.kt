@@ -538,7 +538,7 @@ fun TransferButton(
             TransferDialog(
                 onDismissRequest = { showDialog = false },
                 onConfirmation = {},
-                dialogTitle = "title",
+                dialogTitle = stringResource(R.string.transferir),
                 recipientEmail = email,
                 amount = amount.toInt(),
                 method = method,
