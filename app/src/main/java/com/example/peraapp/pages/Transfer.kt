@@ -63,6 +63,8 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
     val cards = uiState.cards ?: emptyList()
     var method: Int? = null
     var cardId: Int = 0
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -113,29 +115,49 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                     modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
                 )
 
-                LazyRow {//foreach
+                LazyRow {
+
+                    item{
+                        Card(
+                            bank = "Pera",
+                            number = uiState.walletDetail?.balance.toString(),
+                            name = stringResource(R.string.saldoencuenta),
+                            date = "",
+                            onCardClick = {
+                                method = R.string.saldoencuenta
+                                state = true
+                                showDialog = true
+                            }
+                        )
+                    }
+
                     items(cards.size) { index ->
                         val card = cards[index]
-                        CardTablet(
+                        Card(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {
-                            method = R.string.tarjeta
-                            cardId = card.id!!
-                        }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = R.string.tarjeta
+                                cardId = card.id!!
+                                state = true
+                                showDialog = true
+                            }
+                        )
                     }
                 }
 
-                TransferButton(
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+                if(showDialog) {
+                    TransferButton(
+                        onClick = { /* Lógica para transferir */ },
+                        email = mail,
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
 
             }
         }
@@ -150,6 +172,8 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
     val cards = uiState.cards ?: emptyList()
     var method: Int? = null
     var cardId: Int = 0
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -202,29 +226,49 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                     modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
                 )
 
-                LazyRow {//foreach
+                LazyRow {
+
+                    item{
+                        Card(
+                            bank = "Pera",
+                            number = uiState.walletDetail?.balance.toString(),
+                            name = stringResource(R.string.saldoencuenta),
+                            date = "",
+                            onCardClick = {
+                                method = R.string.saldoencuenta
+                                state = true
+                                showDialog = true
+                            }
+                        )
+                    }
+
                     items(cards.size) { index ->
                         val card = cards[index]
-                        CardTablet(
+                        Card(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {
-                            method = R.string.tarjeta
-                            cardId = card.id!!
-                        }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = R.string.tarjeta
+                                cardId = card.id!!
+                                state = true
+                                showDialog = true
+                            }
+                        )
                     }
                 }
 
-                TransferButton(
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+                if(showDialog) {
+                    TransferButton(
+                        onClick = { /* Lógica para transferir */ },
+                        email = mail,
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }
@@ -238,6 +282,8 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
     val cards = uiState.cards ?: emptyList()
     var method: Int? = null
     var cardId: Int = 0
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopBar(R.string.transferir, false) }
@@ -272,40 +318,67 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                         width = 200
                     )
                 }
-                LazyColumn{//foreach
+                LazyRow {
+
+                    item{
+                        Card(
+                            bank = "Pera",
+                            number = uiState.walletDetail?.balance.toString(),
+                            name = stringResource(R.string.saldoencuenta),
+                            date = "",
+                            onCardClick = {
+                                method = R.string.saldoencuenta
+                                state = true
+                                showDialog = true
+                            }
+                        )
+                    }
+
                     items(cards.size) { index ->
                         val card = cards[index]
-                        CardHome(
+                        Card(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {
-                            method = R.string.tarjeta
-                            cardId = card.id!!
-                        }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = R.string.tarjeta
+                                cardId = card.id!!
+                                state = true
+                                showDialog = true
+                            }
+                        )
                     }
                 }
-                TransferButton(
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+
+                if(showDialog) {
+                    TransferButton(
+                        onClick = { /* Lógica para transferir */ },
+                        email = mail,
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }
 }
+
 @Composable
-fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
+fun TransferScreenPhonePortrait(
+    onNavigateToRoute: (String) -> Unit,
+    viewModel: HomeViewModel
+) {
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    var cardId: Int = 0
+    var method by remember { mutableStateOf<Int?>(null) }
+    var cardId by remember { mutableStateOf(0) }
+    var state by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { TopBar(R.string.transferir) }
@@ -335,30 +408,49 @@ fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                     keyboardType = KeyboardType.Number
                 )
 
-                LazyRow{//foreach
+                LazyRow {
+
+                    item{
+                        Card(
+                            bank = "Pera",
+                            number = uiState.walletDetail?.balance.toString(),
+                            name = stringResource(R.string.saldoencuenta),
+                            date = "",
+                            onCardClick = {
+                                method = R.string.saldoencuenta
+                                state = true
+                                showDialog = true
+                            }
+                        )
+                    }
+
                     items(cards.size) { index ->
                         val card = cards[index]
                         Card(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
-                            date = card.expirationDate
-                        ) {
-                            method = R.string.tarjeta
-                            cardId = card.id!!
-                        }
+                            date = card.expirationDate,
+                            onCardClick = {
+                                method = R.string.tarjeta
+                                cardId = card.id!!
+                                state = true
+                                showDialog = true
+                            }
+                        )
                     }
                 }
 
-                TransferButton(
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    email = mail,
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
-
+                if(showDialog) {
+                    TransferButton(
+                        onClick = { /* Lógica para transferir */ },
+                        email = mail,
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }

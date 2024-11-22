@@ -89,48 +89,61 @@ fun CardTablet(bank: String, number: String, name: String, date: String, onCardC
 }
 
 @Composable
-fun Card(bank: String,
-         number: String,
-         name: String,
-         date: String,
-         roundedCorner: Int = 16,
-         paddingSurface: Int = 10,
-         width: Int = 320,
-         height: Int = 200,
-         normalPadding: Int = 10,
-         horizontalNumberPadding: Int = 20,
-         onCardClick: () -> Unit){
+fun Card(
+    bank: String,
+    number: String,
+    name: String,
+    date: String,
+    roundedCorner: Int = 16,
+    paddingSurface: Int = 10,
+    width: Int = 320,
+    height: Int = 200,
+    normalPadding: Int = 10,
+    horizontalNumberPadding: Int = 20,
+    onCardClick: () -> Unit
+) {
     Surface(
         color = MaterialTheme.colorScheme.tertiary,
         shape = RoundedCornerShape(roundedCorner.dp),
         modifier = Modifier
             .padding(paddingSurface.dp)
-            .padding(bottom = paddingSurface.dp)
-            .clickable(onClick = onCardClick) // no puse la cruz, veamos si podemos agregar otra pantalla
-    ){
-        Column (
-            modifier = Modifier.size(width = width.dp, height = height.dp),
-            verticalArrangement = Arrangement.SpaceAround){
+            .clickable(onClick = onCardClick) // Ejecuta la acción de clic
+    ) {
+        Column(
+            modifier = Modifier
+                .size(width = width.dp, height = height.dp)
+                .padding(normalPadding.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            // Banco
             Text(
                 text = bank,
-                modifier = Modifier.align(Alignment.End).padding(horizontal = normalPadding.dp),
+                modifier = Modifier.align(Alignment.End),
                 style = MaterialTheme.typography.titleMedium
             )
+
+            // Número de tarjeta
             Text(
-                text = number,
-                modifier = Modifier.align(Alignment.Start).padding(horizontal = horizontalNumberPadding.dp),
+                text = "**** **** **** ${number.takeLast(4)}", // Mostrar solo los últimos 4 dígitos
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(horizontal = horizontalNumberPadding.dp),
                 style = MaterialTheme.typography.titleLarge
             )
-            Row (modifier = Modifier.fillMaxWidth().padding(start = normalPadding.dp, end = normalPadding.dp),
-                horizontalArrangement = Arrangement.SpaceBetween) {
+
+            // Información de la tarjeta (Nombre y Fecha)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = normalPadding.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = name,
-                    modifier = Modifier.padding(horizontal = normalPadding.dp),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = date,
-                    modifier = Modifier.padding(horizontal = normalPadding.dp),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
