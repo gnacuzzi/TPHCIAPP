@@ -38,6 +38,7 @@ import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
+import com.example.peraapp.data.model.CardPayment
 import kotlinx.coroutines.delay
 
 @Composable
@@ -58,7 +59,8 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     val cards = uiState.cards ?: emptyList()
-    var method = R.string.saldoencuenta
+    var method: Int? = null
+    val cardId: Int = 0
 
     Column(
         modifier = Modifier
@@ -112,7 +114,14 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                     }
                 }
 
-                DepositButton {  }
+                TransferButton(
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -124,7 +133,8 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method = R.string.saldoencuenta
+    var method: Int? = null
+    val cardId: Int = 0
 
     Column(
         modifier = Modifier
@@ -177,7 +187,14 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                     }
                 }
 
-                DepositButton {  }
+                TransferButton(
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -189,7 +206,8 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method = R.string.saldoencuenta
+    var method: Int? = null
+    val cardId: Int = 0
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar, false) }
@@ -230,7 +248,12 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
                     }
                 }
                 DepositButton(
-                    onClick = { /* Acción para transferir */ }
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
                 )
             }
         }
@@ -242,7 +265,8 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method = R.string.saldoencuenta
+    var method: Int? = null
+    val cardId: Int = 0
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar) }
@@ -280,7 +304,12 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
 
 
                 DepositButton(
-                    onClick = { /* Acción para transferir */ }
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
                 )
             }
         }
@@ -322,9 +351,36 @@ fun DepositInputField(
 
 
 @Composable
-fun DepositButton(onClick: () -> Unit) {
+fun DepositButton(onClick: () -> Unit, email: String,
+  amount: String, method: Int?, cardId:Int , viewModel: HomeViewModel) {
+
+    val description = stringResource(R.string.transferencia)
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        DepositDialogState(
+            onDismissRequest = { showDialog = false },
+            dialogTitle = stringResource(R.string.deseatransaccion),
+            state = false
+        )
+    }
     Button(
-        onClick = onClick,
+        onClick = {
+            if (method == R.string.tarjeta) {
+                val card = CardPayment(
+                    amount = amount.toInt(),
+                    description = description,
+                    cardId = cardId,
+                    receiverEmail = email
+                )
+                viewModel.makeCardPayment(card)
+            } else {
+                showDialog = true
+            }
+        },
+
+
         modifier = Modifier
             .padding(top = 20.dp)
             .width(200.dp),
