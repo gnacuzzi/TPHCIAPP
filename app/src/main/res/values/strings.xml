@@ -90,7 +90,7 @@
     <string name="correcto">Succeeded</string>
     <string name="fallo">Failed</string>
 
-    <string name="error_numero_tarjeta">Card number must be between 16 and 19 digits</string>
+    <string name="error_numero_tarjeta">Card number must be 15, 16 or 19 digits</string>
     <string name="error_codigo">The code must be between 3 and 4 digits</string>
     <string name="error_fecha">Correct date format: MM/YY</string>
     <string name="email_invalido">Invalid email</string>

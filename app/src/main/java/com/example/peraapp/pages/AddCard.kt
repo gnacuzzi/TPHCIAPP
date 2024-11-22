@@ -47,6 +47,7 @@ import com.example.peraapp.PeraApplication
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.CardType
 import com.example.peraapp.navigation.AppDestinations
+import java.util.Calendar
 import java.util.Date
 
 data class CardValues(
@@ -190,9 +191,9 @@ fun CardNumberField(value: String, onValueChange: (String) -> Unit) {
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
         ),
-        isError = cardNumberTouched && (value.length !in 16..19)
+        isError = cardNumberTouched && (value.length !in listOf(15, 16, 19))
     )
-    if (cardNumberTouched && value.length !in 16..19) {
+    if (cardNumberTouched && value.length !in listOf(15, 16, 19)) {
         Text(
             text = stringResource(R.string.error_numero_tarjeta),
             color = MaterialTheme.colorScheme.error,
@@ -200,13 +201,13 @@ fun CardNumberField(value: String, onValueChange: (String) -> Unit) {
         )
     }
 
-    // Detecta cuando el campo ha sido tocado
     LaunchedEffect(value) {
         if (value.isNotEmpty()) {
             cardNumberTouched = true
         }
     }
 }
+
 
 
 @Composable
@@ -224,7 +225,6 @@ fun CardHolderField(value: String, onValueChange: (String) -> Unit) {
 
 @Composable
 fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
-    var expiryDate by remember { mutableStateOf("") }
     var expiryDateTouched by remember { mutableStateOf(false) }
     val formattedValue = remember(value) {
         formatExpiryDate(value)
@@ -242,9 +242,9 @@ fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
         ),
-        isError = expiryDateTouched && !formattedValue.matches(Regex("^\\d{2}/\\d{2}$"))
+        isError = expiryDateTouched && !isValidExpiryDate(formattedValue)
     )
-    if (expiryDateTouched && !formattedValue.matches(Regex("^\\d{2}/\\d{2}$"))) {
+    if (expiryDateTouched && !isValidExpiryDate(formattedValue)) {
         Text(
             text = stringResource(R.string.error_fecha),
             color = MaterialTheme.colorScheme.error,
@@ -258,6 +258,23 @@ fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
         }
     }
 }
+
+private fun isValidExpiryDate(expiryDate: String): Boolean {
+    val dateRegex = Regex("^\\d{2}/\\d{2}$")
+    if (!expiryDate.matches(dateRegex)) return false
+
+    val parts = expiryDate.split("/")
+    val month = parts[0].toIntOrNull() ?: return false
+    val year = parts[1].toIntOrNull() ?: return false
+
+    if (month !in 1..12) return false
+
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR) % 100
+    val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
+
+    return (year > currentYear) || (year == currentYear && month >= currentMonth)
+}
+
 
 fun formatExpiryDate(input: String): String {
     val digitsOnly = input.filter { it.isDigit() }

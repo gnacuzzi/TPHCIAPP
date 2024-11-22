@@ -91,7 +91,7 @@
     <string name="correcto">se completó</string>
     <string name="fallo">falló</string>
 
-    <string name="error_numero_tarjeta">El número de tarjeta debe tener entre 16 y 19 dígitos</string>
+    <string name="error_numero_tarjeta">El número de tarjeta debe 15, 16 o 19 dígitos</string>
     <string name="error_codigo">El código CVV debe tener 3 o 4 dígitos</string>
     <string name="error_fecha">La fecha debe estar en formato MM/YY</string>
     <string name="email_invalido">Correo no válido</string>
