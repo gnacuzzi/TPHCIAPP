@@ -57,12 +57,12 @@ fun TransferScreen(onNavigateToRoute: (String) -> Unit,
 
 @Composable
 fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel){
-    val uiState by viewModel.uiState.collectAsState()
     var mail by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    var cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
@@ -124,7 +124,7 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
                             onCardClick = {
-                                method = R.string.saldoencuenta
+                                method = "BALANCE"
                                 state = true
                                 showDialog = true
                             }
@@ -139,7 +139,7 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                             name = card.fullName,
                             date = card.expirationDate,
                             onCardClick = {
-                                method = R.string.tarjeta
+                                method = "CARD"
                                 cardId = card.id!!
                                 state = true
                                 showDialog = true
@@ -170,8 +170,8 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    var cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
@@ -235,7 +235,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
                             onCardClick = {
-                                method = R.string.saldoencuenta
+                                method = "BALANCE"
                                 state = true
                                 showDialog = true
                             }
@@ -250,7 +250,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                             name = card.fullName,
                             date = card.expirationDate,
                             onCardClick = {
-                                method = R.string.tarjeta
+                                method = "CARD"
                                 cardId = card.id!!
                                 state = true
                                 showDialog = true
@@ -280,8 +280,8 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method: Int? = null
-    var cardId: Int = 0
+    var method by remember { mutableStateOf<String?>(null) }
+    var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
@@ -327,7 +327,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
                             onCardClick = {
-                                method = R.string.saldoencuenta
+                                method = "BALANCE"
                                 state = true
                                 showDialog = true
                             }
@@ -342,7 +342,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                             name = card.fullName,
                             date = card.expirationDate,
                             onCardClick = {
-                                method = R.string.tarjeta
+                                method = "CARD"
                                 cardId = card.id!!
                                 state = true
                                 showDialog = true
@@ -375,7 +375,7 @@ fun TransferScreenPhonePortrait(
     var amount by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val cards = uiState.cards ?: emptyList()
-    var method by remember { mutableStateOf<Int?>(null) }
+    var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
@@ -417,7 +417,7 @@ fun TransferScreenPhonePortrait(
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
                             onCardClick = {
-                                method = R.string.saldoencuenta
+                                method = "BALANCE"
                                 state = true
                                 showDialog = true
                             }
@@ -432,7 +432,7 @@ fun TransferScreenPhonePortrait(
                             name = card.fullName,
                             date = card.expirationDate,
                             onCardClick = {
-                                method = R.string.tarjeta
+                                method = "CARD"
                                 cardId = card.id!!
                                 state = true
                                 showDialog = true
@@ -528,22 +528,24 @@ fun TransferInputField(
 @Composable
 fun TransferButton(
     onClick: () -> Unit, email: String,
-    amount: String, method: Int?, cardId: Int, viewModel: HomeViewModel) {
+    amount: String, method: String?, cardId: Int, viewModel: HomeViewModel) {
     val description = stringResource(R.string.transferencia)
 
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        TransferDialog(
-            onDismissRequest = { showDialog = false },
-            onConfirmation = {},
-            dialogTitle = "title",
-            recipientEmail = email,
-            amount = amount.toInt(),
-            method = method,
-            viewModel = viewModel,
-            cardId = cardId,
-        )
+        if (method != null) {
+            TransferDialog(
+                onDismissRequest = { showDialog = false },
+                onConfirmation = {},
+                dialogTitle = "title",
+                recipientEmail = email,
+                amount = amount.toInt(),
+                method = method,
+                viewModel = viewModel,
+                cardId = cardId,
+            )
+        }
     }
     
     Button(
@@ -569,7 +571,7 @@ fun TransferDialog(
     dialogTitle: String,
     recipientEmail: String,
     amount: Int,
-    method: Int?,
+    method: String,
     cardId: Int,
     viewModel: HomeViewModel
 ) {
@@ -609,20 +611,22 @@ fun TransferDialog(
                     var state = false
 
                     Button(onClick = {
-                        if (method == R.string.saldoencuenta) {
+                        if (method == "BALANCE") {
                             val balance = BalancePayment(
                                 amount = amount,
                                 description = R.string.transferencia.toString(),
-                                receiverEmail = recipientEmail
+                                receiverEmail = recipientEmail,
+                                type = "BALANCE"
                             )
                             viewModel.makeBalancePayment(balance)
                             state = true
-                        } else if (method == R.string.tarjeta) {
+                        } else if (method == "CARD") {
                             val card = CardPayment(
                                 amount = amount,
                                 description = R.string.transferencia.toString(),
                                 cardId = cardId,
-                                receiverEmail = recipientEmail
+                                receiverEmail = recipientEmail,
+                                type = "CARD"
                             )
                             viewModel.makeCardPayment(card)
                             state = true
