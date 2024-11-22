@@ -1,5 +1,6 @@
 package com.example.peraapp.pages
 
+import android.util.Patterns
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -210,6 +211,8 @@ fun LoginFormSection(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var emailErrorMessage by remember { mutableStateOf<String?>(null) }
+    var showDialog by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier,
@@ -229,7 +232,7 @@ fun LoginFormSection(
             onValueChange = { newEmail ->
                 email = newEmail
                 emailErrorMessage = if (!isValidEmail(newEmail)) {
-                    "Correo inválido"
+                    R.string.email_invalido.toString()
                 } else {
                     null
                 }
@@ -248,7 +251,9 @@ fun LoginFormSection(
         )
 
         TextButton(
-            modifier = Modifier.padding(top = 3.dp).align(Alignment.End),
+            modifier = Modifier
+                .padding(top = 3.dp)
+                .align(Alignment.End),
             onClick = {
                 onNavigateToRoute(AppDestinations.VERIFICACION.route)
             },
@@ -269,11 +274,27 @@ fun LoginFormSection(
             {
                 viewModel.login("arely.nicolas@ethereal.email", "1234567890")
                 //viewModel.login(email, password)
+                if( uiState.error != null){
+                    showDialog = true
+                    state = false
+                } else {
+                    showDialog = true
+                    state = true
+                }
                 onNavigateToRoute(AppDestinations.INICIO.route)
             },
             backgroundColor = MaterialTheme.colorScheme.secondary,
             textColor = MaterialTheme.colorScheme.background
         )
+
+        if(showDialog){
+            LoginDialog(
+                onDismissRequest = {},
+                dialogTitle = "title",
+                state = state
+            )
+        }
+
         Spacer(modifier = Modifier.padding(10.dp))
 
         // Register Button
@@ -345,7 +366,7 @@ fun LoginTextField(
 
 
 fun isValidEmail(email: String): Boolean {
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
 @Composable
