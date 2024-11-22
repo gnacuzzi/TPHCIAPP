@@ -263,22 +263,25 @@ fun LoginFormSection(
 
 
 
-        // Login Button
+        val shouldNavigate by viewModel.shouldNavigate.collectAsState()
+
+        LaunchedEffect(shouldNavigate) {
+            shouldNavigate?.let { route ->
+                viewModel.clearNavigationFlag()
+                onNavigateToRoute(route)
+            }
+        }
+
         LoginButton(
             text = stringResource(R.string.iniciarsesion),
             onClick =
             {
                 viewModel.login("dulce.frami@ethereal.email", "hola123")
                 //viewModel.login(email, password)
-                /*
-                if( uiState.error != null){
+                if (uiState.error != null){
                     showDialog = true
                     state = false
-                } else {
-                    onNavigateToRoute(AppDestinations.INICIO.route)
                 }
-                 */
-                onNavigateToRoute(AppDestinations.INICIO.route)
 
             },
             backgroundColor = MaterialTheme.colorScheme.secondary,

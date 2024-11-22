@@ -15,6 +15,7 @@ import com.example.peraapp.data.model.VerifyCode
 import com.example.peraapp.data.repository.PaymentRepository
 import com.example.peraapp.data.repository.UserRepository
 import com.example.peraapp.data.repository.WalletRepository
+import com.example.peraapp.navigation.AppDestinations
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,6 +38,8 @@ class HomeViewModel(
     private var paymentStreamJob: Job? = null
     private val _uiState = MutableStateFlow(HomeUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    private val _shouldNavigate = MutableStateFlow<String?>(null)
+    val shouldNavigate: StateFlow<String?> = _shouldNavigate
 
     init {
         if (uiState.value.isAuthenticated) {
@@ -62,8 +65,13 @@ class HomeViewModel(
             observeCreditCardsStream()
             observePaymentStream()
         },
-        { state, _ -> state.copy(isAuthenticated = true) }
+        { state, _ -> _shouldNavigate.value = AppDestinations.INICIO.route
+            state.copy(isAuthenticated = true) }
     )
+
+    fun clearNavigationFlag() {
+        _shouldNavigate.value = null
+    }
 
     fun logout() = runOnViewModelScope(
         {
