@@ -113,7 +113,7 @@ fun Card(
     Surface(
         color = backgroundColor,
         shape = RoundedCornerShape(roundedCorner.dp),
-        border = BorderStroke(2.dp, borderColor),
+        border = BorderStroke(3.dp, borderColor),
         modifier = Modifier
             .padding(paddingSurface.dp)
             .clickable(onClick = onCardClick)
@@ -301,6 +301,7 @@ fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit,
 
     if (showAddCardDialog) {
         AddCardTabletDialog(
+            onNavigateToRoute = onNavigateToRoute,
             onDismissRequest = { showAddCardDialog = false },
             viewModel = viewModel
         )
