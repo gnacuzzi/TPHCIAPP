@@ -335,6 +335,8 @@ fun AddCardButton(toppadding: Int = 10,
                   viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showStateDialog by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
     val newCard = Card(
         id = null,
         number = cardValues.cardNumber,
@@ -349,6 +351,8 @@ fun AddCardButton(toppadding: Int = 10,
         onClick =
         {
             viewModel.addCard(newCard)
+            state = uiState.error == null
+            showStateDialog = true
         },
         modifier = Modifier
             .padding(top = toppadding.dp)
@@ -360,6 +364,16 @@ fun AddCardButton(toppadding: Int = 10,
         )
     ) {
         Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
+    }
+    if(showStateDialog) {
+        AddCardDialogState(
+            onDismissRequest =
+            {
+                showStateDialog = false
+
+            },
+            state = state
+        )
     }
 }
 
@@ -375,7 +389,7 @@ fun AddCardDialogStatePreview() {
 fun AddCardDialogState(
     onDismissRequest: () -> Unit = {},
     dialogTitle: String = stringResource(R.string.estadoagregartarjeta),
-    dismissAfterMillis: Long = 3000,
+    dismissAfterMillis: Long = 2000,
     state: Boolean = true
 ) {
     var addText = stringResource(R.string.correcto)

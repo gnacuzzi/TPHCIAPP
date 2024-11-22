@@ -208,7 +208,7 @@ fun LoginFormSection(
     var password by remember { mutableStateOf("") }
     var emailErrorMessage by remember { mutableStateOf<String?>(null) }
     var showDialog by remember { mutableStateOf(false) }
-    var state by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(true) }
 
     Column(
         modifier = modifier,

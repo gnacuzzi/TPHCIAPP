@@ -295,11 +295,8 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
         ) {
             Row (
                 modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically
             ){
                 Column(
-                    modifier = Modifier
-                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TransferInputField(
@@ -318,10 +315,10 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                         width = 200
                     )
                 }
-                LazyRow {
+                LazyColumn {
 
                     item{
-                        Card(
+                        CardHome(
                             bank = "Pera",
                             number = uiState.walletDetail?.balance.toString(),
                             name = stringResource(R.string.saldoencuenta),
@@ -336,7 +333,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
 
                     items(cards.size) { index ->
                         val card = cards[index]
-                        Card(
+                        CardHome(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
@@ -409,7 +406,6 @@ fun TransferScreenPhonePortrait(
                 )
 
                 LazyRow {
-
                     item{
                         Card(
                             bank = "Pera",
@@ -537,7 +533,6 @@ fun TransferButton(
         if (method != null) {
             TransferDialog(
                 onDismissRequest = { showDialog = false },
-                onConfirmation = {},
                 dialogTitle = stringResource(R.string.transferir),
                 recipientEmail = email,
                 amount = amount.toInt(),
@@ -567,7 +562,6 @@ fun TransferButton(
 @Composable
 fun TransferDialog(
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
     dialogTitle: String,
     recipientEmail: String,
     amount: Int,
@@ -575,6 +569,9 @@ fun TransferDialog(
     cardId: Int,
     viewModel: HomeViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    var showStateDialog by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -607,8 +604,6 @@ fun TransferDialog(
                         Text(text = stringResource(R.string.cancelar))
                     }
 
-                    var showDialog = false
-                    var state = false
 
                     Button(onClick = {
                         if (method == "BALANCE") {
@@ -619,7 +614,7 @@ fun TransferDialog(
                                 type = "BALANCE"
                             )
                             viewModel.makeBalancePayment(balance)
-                            state = true
+                            state = uiState.error == null
                         } else if (method == "CARD") {
                             val card = CardPayment(
                                 amount = amount,
@@ -629,16 +624,21 @@ fun TransferDialog(
                                 type = "CARD"
                             )
                             viewModel.makeCardPayment(card)
-                            state = true
+                            state = uiState.error == null
                         }
-                        showDialog = true
+                        showStateDialog = true
                     }) {
                         Text(text = stringResource(R.string.confirmar))
                     }
 
-                    if(showDialog) {
+                    if(showStateDialog) {
                         TransferDialogState(
-                            onDismissRequest = { },
+                            onDismissRequest =
+                            {
+                                showStateDialog = false
+                                onDismissRequest()
+
+                            },
                             dialogTitle = stringResource(R.string.transferir),
                             state = state
                         )
@@ -653,13 +653,13 @@ fun TransferDialog(
 @Composable
 fun TransferDialogState(
     onDismissRequest: () -> Unit,
-    dialogTitle: String = stringResource(R.string.deseatransaccion),
-    dismissAfterMillis: Long = 3000,
+    dialogTitle: String = stringResource(R.string.transferir),
+    dismissAfterMillis: Long = 2000,
     state: Boolean = true
 ) {
-    var addText = stringResource(R.string.correcto)
-    if (!state){
-        addText = stringResource(R.string.fallo)
+    var addText = stringResource(R.string.fallo)
+    if (state){
+        addText = stringResource(R.string.correcto)
     }
     LaunchedEffect(Unit) {
         delay(dismissAfterMillis)

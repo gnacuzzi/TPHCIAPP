@@ -421,6 +421,8 @@ fun DepositDialog(
     viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showStateDialog by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
             shape = RoundedCornerShape(12.dp),
@@ -452,9 +454,6 @@ fun DepositDialog(
                         Text(text = stringResource(R.string.cancelar))
                     }
 
-                    var showDialog = false
-                    var state = false
-
                     Button(onClick = {
                         if (method == "CARD") {
                             val card = uiState.currentUser?.let {
@@ -469,16 +468,19 @@ fun DepositDialog(
                             if (card != null) {
                                 viewModel.makeCardPayment(card)
                             }
-                            state = true
+                            state = uiState.error == null
                         }
-                        showDialog = true
+                        showStateDialog = true
                     }) {
                         Text(text = stringResource(R.string.confirmar))
                     }
 
-                    if(showDialog) {
+                    if(showStateDialog) {
                         TransferDialogState(
-                            onDismissRequest = { },
+                            onDismissRequest = {
+                                showStateDialog = false
+                                onDismissRequest()
+                            },
                             dialogTitle = stringResource(R.string.ingresar),
                             state = state
                         )
@@ -506,7 +508,7 @@ fun DepositDialogStatePreview() {
 fun DepositDialogState(
     onDismissRequest: () -> Unit,
     dialogTitle: String,
-    dismissAfterMillis: Long = 3000,
+    dismissAfterMillis: Long = 2000,
     state: Boolean = true
 ) {
     var addText = stringResource(R.string.correcto)

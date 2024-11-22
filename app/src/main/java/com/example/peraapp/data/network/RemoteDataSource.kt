@@ -45,6 +45,7 @@ abstract class RemoteDataSource {
         when (statusCode) {
             400 -> throw DataSourceException(DATA_ERROR, message)
             401 -> throw DataSourceException(UNAUTHORIZED_ERROR_CODE, message)
+            404 -> throw DataSourceException(NOT_BELONGS, message)
             else -> throw DataSourceException(UNEXPECTED_ERROR_CODE, message)
         }
     }
@@ -54,8 +55,8 @@ abstract class RemoteDataSource {
 
         const val UNAUTHORIZED_ERROR_CODE = 1
         const val DATA_ERROR = 2
-        // TODO
         const val CONNECTION_ERROR_CODE = 98
         const val UNEXPECTED_ERROR_CODE = 99
+        const val NOT_BELONGS = 404
     }
 }

@@ -209,6 +209,8 @@ fun VerifyFormSection(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var verifycode by remember { mutableStateOf("") }
+    var showStateDialog by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier,
@@ -252,10 +254,19 @@ fun VerifyFormSection(
                 viewModel.verify(VerifyCode(
                     code = verifycode
                 ))
+                state = uiState.error == null
+                showStateDialog = true
             },
             backgroundColor = MaterialTheme.colorScheme.secondary,
             textColor = MaterialTheme.colorScheme.background
         )
+
+        if(showStateDialog) {
+            VerifyDialog(
+                onDismissRequest = { showStateDialog = false },
+                state = state
+            )
+        }
     }
 }
 
@@ -305,8 +316,8 @@ fun VerifyDialogPreview() {
 @Composable
 fun VerifyDialog(
     onDismissRequest: () -> Unit,
-    dialogTitle: String,
-    dismissAfterMillis: Long = 3000,
+    dialogTitle: String = stringResource(R.string.verify),
+    dismissAfterMillis: Long = 2000,
     state: Boolean = false
 ) {
     var addText = stringResource(R.string.correcto)

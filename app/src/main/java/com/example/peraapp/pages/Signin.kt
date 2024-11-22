@@ -318,6 +318,8 @@ fun FormActions(
 
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showStateDialog by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf(false) }
 
     Button(
         onClick =
@@ -329,11 +331,8 @@ fun FormActions(
                 email = email,
                 password = password
             ))
-            if(uiState.error?.code != null){
-                onNavigateToRoute(AppDestinations.INICIARSESION.route)
-                //mostrar dialogo de correcto
-            }
-            //else mostrar dialogo fail
+            state = uiState.error == null
+            showStateDialog = true
         },
         modifier = Modifier
             .width(180.dp)
@@ -345,6 +344,13 @@ fun FormActions(
         )
     ) {
         Text(stringResource(R.string.registrarme), style = MaterialTheme.typography.titleMedium)
+    }
+
+    if(showStateDialog) {
+        SigninDialog(
+            onDismissRequest = { showStateDialog = false },
+            state = state
+        )
     }
 }
 
@@ -427,7 +433,7 @@ fun SigninDialogPreview() {
 @Composable
 fun SigninDialog(
     onDismissRequest: () -> Unit,
-    dialogTitle: String,
+    dialogTitle: String = stringResource(R.string.registrarme),
     dismissAfterMillis: Long = 3000,
     state: Boolean = true
 ) {
