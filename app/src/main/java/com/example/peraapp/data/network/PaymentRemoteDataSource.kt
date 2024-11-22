@@ -3,7 +3,7 @@ package com.example.peraapp.data.network
 import com.example.peraapp.data.network.api.PaymentApiService
 import com.example.peraapp.data.network.model.NetworkBalancePayment
 import com.example.peraapp.data.network.model.NetworkCardPayment
-import com.example.peraapp.data.network.model.NetworkPayment
+import com.example.peraapp.data.network.model.NetworkPaymentList
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ class PaymentRemoteDataSource (
     private val paymentApiService: PaymentApiService
 ) : RemoteDataSource(){
 
-    val getPaymentsStream: Flow<List<NetworkPayment>> = flow {
+    val getPaymentsStream: Flow<NetworkPaymentList> = flow {
         while (true){
             val payments = handleApiResponse {
                 paymentApiService.getPayments()
