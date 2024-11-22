@@ -237,7 +237,7 @@ fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
                 onValueChange(newValue)
             }
         },
-        label = { Text("Fecha de Vencimiento") },
+        label = { Text(stringResource(R.string.fechadeven)) },
         modifier = Modifier.padding(bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number
@@ -246,13 +246,12 @@ fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
     )
     if (expiryDateTouched && !formattedValue.matches(Regex("^\\d{2}/\\d{2}$"))) {
         Text(
-            text = "Formato de fecha inválido. Debe ser MM/AA",
+            text = stringResource(R.string.error_fecha),
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
         )
     }
 
-    // Detecta cuando el campo ha sido tocado
     LaunchedEffect(value) {
         if (value.isNotEmpty()) {
             expiryDateTouched = true
@@ -260,22 +259,17 @@ fun ExpiryDateField(value: String, onValueChange: (String) -> Unit) {
     }
 }
 
-// Función para formatear la fecha automáticamente
 fun formatExpiryDate(input: String): String {
-    // Remueve todo lo que no sea un número
     val digitsOnly = input.filter { it.isDigit() }
 
     return when {
         digitsOnly.length <= 2 -> {
-            // Agrega solo los dos primeros dígitos
             digitsOnly
         }
         digitsOnly.length in 3..4 -> {
-            // Coloca la barra inclinada después de los dos primeros dígitos
             "${digitsOnly.substring(0, 2)}/${digitsOnly.substring(2)}"
         }
         else -> {
-            // Si hay más de 4 dígitos, solo toma los primeros 4
             "${digitsOnly.substring(0, 2)}/${digitsOnly.substring(2, 4)}"
         }
     }
@@ -307,7 +301,6 @@ fun CVVField(value: String, onValueChange: (String) -> Unit) {
         )
     }
 
-    // Detecta cuando el campo ha sido tocado
     LaunchedEffect(value) {
         if (value.isNotEmpty()) {
             cvvTouched = true

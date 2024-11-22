@@ -88,7 +88,6 @@ fun DeleteCardScreenPhonePortrait(card: Card?, viewModel: HomeViewModel, onNavig
                     dialogTitle = stringResource(R.string.deseaelimiar),
                     onDeleteConfirmed = {
                         card.id?.let { viewModel.deleteCard(it) }
-                        println("Tarjeta eliminada")
                     },
                     onNavigateToRoute = onNavigateToRoute
                 )
@@ -137,7 +136,6 @@ fun DeleteCardScreenPhoneLandscape(card: Card?, viewModel: HomeViewModel, onNavi
                         dialogTitle = stringResource(R.string.deseaelimiar),
                         onDeleteConfirmed = {
                             card.id?.let { viewModel.deleteCard(it) }
-                            println("Tarjeta eliminada")
                         },
                         onNavigateToRoute = onNavigateToRoute
                     )
@@ -195,7 +193,6 @@ fun DeleteCardScreenTabletLandscape(card: Card?, viewModel: HomeViewModel, onNav
                     dialogTitle = stringResource(R.string.deseaelimiar),
                     onDeleteConfirmed = {
                         card.id?.let { viewModel.deleteCard(it) }
-                        println("Tarjeta eliminada")
                     },
                     onNavigateToRoute = onNavigateToRoute
                 )
@@ -252,7 +249,6 @@ fun DeleteCardScreenTabletPortrait(card: Card?, viewModel: HomeViewModel, onNavi
                     dialogTitle = stringResource(R.string.deseaelimiar),
                     onDeleteConfirmed = {
                         card.id?.let { viewModel.deleteCard(it) }
-                        println("Tarjeta eliminada")
                     },
                     onNavigateToRoute = onNavigateToRoute
                 )
@@ -261,19 +257,16 @@ fun DeleteCardScreenTabletPortrait(card: Card?, viewModel: HomeViewModel, onNavi
     }
 }
 
-//me parece que la logica para eliminar se puede dejar fija asi no repetimos tanto codigo
 @Composable
 fun DeleteCardDialogHandler(
     card: Card,
-    dialogTitle: String,
+    dialogTitle: String = stringResource(R.string.deseaelimiar),
     onDeleteConfirmed: () -> Unit,
     modifier: Modifier = Modifier,
     onNavigateToRoute: (String) -> Unit
 ) {
-    // Estado del diálogo
     var showDialog by remember { mutableStateOf(false) }
 
-    // Mostrar el botón que abre el diálogo
     Button(
         onClick = { showDialog = true },
         colors = ButtonDefaults.buttonColors(
@@ -310,20 +303,6 @@ fun DeleteCardDialogHandler(
     }
 }
 
-
-@Composable
-fun DeleteCardDialogPreview(card: Card?) {
-    PeraAppTheme {
-        if (card != null) {
-            DeleteCardDialog(
-                card = card,
-                onDismissRequest = { },
-                onConfirmation = { },
-                dialogTitle = "${stringResource(R.string.deseaelimiar)}?"
-            )
-        }
-    }
-}
 
 @Composable
 fun DeleteCardDialog(
@@ -376,49 +355,3 @@ fun DeleteCardDialog(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun DeleteCardDialogStatePreview() {
-    PeraAppTheme {
-        DeleteCardDialogState(
-            onDismissRequest = { /* seria eliminarse nomas */ },
-            dialogTitle = stringResource(R.string.estadoeliminartarjeta)
-        )
-    }
-}
-
-@Composable
-fun DeleteCardDialogState(
-    onDismissRequest: () -> Unit,
-    dialogTitle: String,
-    dismissAfterMillis: Long = 3000,
-    state: Boolean = true
-) {
-    var addText = stringResource(R.string.correcto)
-    if (!state){
-        addText = stringResource(R.string.fallo)
-    }
-    LaunchedEffect(Unit) {
-        delay(dismissAfterMillis)
-        onDismissRequest()
-    }
-
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        Surface(
-            shape = RoundedCornerShape(12.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 8.dp,
-        ) {
-            Text(
-                text = "$dialogTitle $addText",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    }
-}
-
-
-

@@ -507,7 +507,7 @@ fun DepositDialogStatePreview() {
 @Composable
 fun DepositDialogState(
     onDismissRequest: () -> Unit,
-    dialogTitle: String,
+    dialogTitle: String = stringResource(R.string.ingresar),
     dismissAfterMillis: Long = 2000,
     state: Boolean = true
 ) {

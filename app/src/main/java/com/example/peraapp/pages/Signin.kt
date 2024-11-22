@@ -205,7 +205,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.name)) },
                 modifier = Modifier
                     .weight(1f)
                     .height(60.dp)
@@ -213,7 +213,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
             OutlinedTextField(
                 value = surname,
                 onValueChange = { surname = it },
-                label = { Text("Surname") },
+                label = { Text(stringResource(R.string.apellido)) },
                 modifier = Modifier
                     .weight(1f)
                     .height(60.dp)
@@ -226,7 +226,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
                 email = it
                 isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
             },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.mail)) },
             modifier = Modifier
                 .width(400.dp)
                 .height(60.dp),
@@ -238,7 +238,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
 
         if (!isEmailValid) {
             Text(
-                text = "Invalid Email",
+                text = stringResource(R.string.email_invalido),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(start = 16.dp)
@@ -251,7 +251,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
                 password = it
                 doPasswordsMatch = password == confirmPassword
             },
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.contraseña)) },
             modifier = Modifier
                 .width(400.dp)
                 .height(60.dp),
@@ -275,7 +275,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
                 confirmPassword = it
                 doPasswordsMatch = password == confirmPassword
             },
-            label = { Text("Confirm Password") },
+            label = { Text(stringResource(R.string.confirmarcontraseña)) },
             modifier = Modifier
                 .width(400.dp)
                 .height(60.dp),
@@ -295,7 +295,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
 
         if (!doPasswordsMatch) {
             Text(
-                text = "Passwords do not match",
+                text = stringResource(R.string.passwords_no_coinciden),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(start = 16.dp)

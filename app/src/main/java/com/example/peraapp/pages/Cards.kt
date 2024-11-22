@@ -124,7 +124,7 @@ fun Card(
 
             // Número de tarjeta
             Text(
-                text = "**** **** **** ${number.takeLast(4)}", // Mostrar solo los últimos 4 dígitos
+                text = number,
                 modifier = Modifier
                     .align(Alignment.Start)
                     .padding(horizontal = horizontalNumberPadding.dp),

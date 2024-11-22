@@ -100,7 +100,8 @@
     <string name="mostrar">Mostrar</string>
     <string name="toggle_password_visibility">Mostrar/Ocultar contraseña</string>
     <string name="transferencia">Transferencia</string>
-    <string name="invalidoverificacion">El codigo no puede ser vacio</string>
+    <string name="invalidoverificacion">El código no puede ser vacio</string>
+    <string name="monto_invalido">Monto inválido</string>
 
     <string name="desconocido">Desconocido</string>
     <string name="verify">Verifica a un usuario</string>

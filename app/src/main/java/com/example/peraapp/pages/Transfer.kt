@@ -502,14 +502,14 @@ fun TransferInputField(
                 if (showError || error) {
                     if (keyboardType == KeyboardType.Email) {
                         Text(
-                            text = "Correo electrónico no válido",
+                            text = stringResource(R.string.email_invalido),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(start = 16.dp)
                         )
                     } else if (keyboardType == KeyboardType.Number) {
                         Text(
-                            text = "Por favor ingrese un monto válido",
+                            text = stringResource(R.string.monto_invalido),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier.padding(start = 16.dp)

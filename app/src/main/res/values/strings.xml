@@ -96,6 +96,7 @@
     <string name="email_invalido">Invalid email</string>
     <string name="passwords_no_coinciden">Passwords do not match</string>
     <string name="invalidoverificacion">Code can´t be empty</string>
+    <string name="monto_invalido">Invalid amount</string>
 
     <string name="ocultar">Hide</string>
     <string name="mostrar">Show</string>
