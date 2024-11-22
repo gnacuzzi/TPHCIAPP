@@ -61,7 +61,12 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(amount, method) {
+        amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Column(
         modifier = Modifier
@@ -111,24 +116,26 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
                                 method = "CARD"
                                 state = true
                                 cardId = card.id!!
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
-
-                DepositButton(
-                    onNavigateToRoute,
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+                if(isButtonEnabled) {
+                    DepositButton(
+                        onNavigateToRoute,
+                        onClick = { /* Agregar lógica si es necesario */ },
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }
@@ -142,7 +149,12 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(amount, method) {
+        amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Column(
         modifier = Modifier
@@ -191,24 +203,27 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
                                 method = "CARD"
                                 state = true
                                 cardId = card.id!!
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
 
-                DepositButton(
-                    onNavigateToRoute,
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+                if(isButtonEnabled) {
+                    DepositButton(
+                        onNavigateToRoute,
+                        onClick = { /* Agregar lógica si es necesario */ },
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }
@@ -222,7 +237,12 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(amount, method) {
+        amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar, false) }
@@ -258,24 +278,27 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
+                            isSelected = selectedCardId == card.id,
                             date = card.expirationDate,
                             onCardClick = {
                                 method = "CARD"
                                 state = true
                                 cardId = card.id!!
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
-                DepositButton(
-                    onNavigateToRoute,
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+                if(isButtonEnabled) {
+                    DepositButton(
+                        onNavigateToRoute,
+                        onClick = { /* Agregar lógica si es necesario */ },
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }
@@ -288,7 +311,12 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(amount, method) {
+        amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Scaffold(
         topBar = { TopBar(R.string.ingresar) }
@@ -319,26 +347,28 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
+                            isSelected = selectedCardId == card.id,
                             date = card.expirationDate,
                             onCardClick = {
                                 method = "CARD"
                                 state = true
                                 cardId = card.id!!
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
 
-
-                DepositButton(
-                    onNavigateToRoute,
-                    onClick = { /* Agregar lógica si es necesario */ },
-                    amount = amount,
-                    method = method,
-                    cardId = cardId,
-                    viewModel = viewModel
-                )
+                if(isButtonEnabled) {
+                    DepositButton(
+                        onNavigateToRoute,
+                        onClick = { /* Agregar lógica si es necesario */ },
+                        amount = amount,
+                        method = method,
+                        cardId = cardId,
+                        viewModel = viewModel
+                    )
+                }
             }
         }
     }
