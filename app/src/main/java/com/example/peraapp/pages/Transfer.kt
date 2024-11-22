@@ -448,7 +448,7 @@ fun TransferButton(
             recipientEmail = email,
             amount = amount.toInt(),
             method = method,
-            viewModel = TODO(),
+            viewModel = viewModel,
             cardId = cardId,
         )
     }
@@ -530,6 +530,7 @@ fun TransferDialog(
                         Text(text = stringResource(R.string.cancelar))
                     }
 
+                    var showDialog = false
                     var state = false
 
                     Button(onClick = {
@@ -551,15 +552,18 @@ fun TransferDialog(
                             viewModel.makeCardPayment(card)
                             state = true
                         }
+                        showDialog = true
                     }) {
                         Text(text = stringResource(R.string.confirmar))
                     }
 
-                    TransferDialogState(
-                        onDismissRequest = { },
-                        dialogTitle = stringResource(R.string.deseatransaccion),
-                        state = state
-                    )
+                    if(showDialog) {
+                        TransferDialogState(
+                            onDismissRequest = { },
+                            dialogTitle = stringResource(R.string.deseatransaccion),
+                            state = state
+                        )
+                    }
                 }
             }
         }
