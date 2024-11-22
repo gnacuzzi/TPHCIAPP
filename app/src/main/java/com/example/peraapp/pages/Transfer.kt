@@ -441,35 +441,20 @@ fun TransferButton(
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        TransferDialogState(
+        TransferDialog(
             onDismissRequest = { showDialog = false },
-            dialogTitle = stringResource(R.string.deseatransaccion),
-            state = false
+            onConfirmation = {},
+            dialogTitle = "title",
+            recipientEmail = email,
+            amount = amount.toInt(),
+            method = method,
+            viewModel = TODO(),
+            cardId = cardId,
         )
     }
     
     Button(
-        onClick = {
-            if (method == R.string.saldoencuenta) {
-                val balance = BalancePayment(
-                    amount = amount.toInt(),
-                    description = description,
-                    receiverEmail = email
-                )
-                viewModel.makeBalancePayment(balance)
-            } else if (method == R.string.tarjeta) {
-                val card = CardPayment(
-                    amount = amount.toInt(),
-                    description = description,
-                    cardId = cardId,
-                    receiverEmail = email
-                )
-                viewModel.makeCardPayment(card)
-            } else {
-                showDialog = true;
-            }
-
-        },
+        onClick = { showDialog = true },
         modifier = Modifier
             .padding(top = 20.dp)
             .width(200.dp),
@@ -494,9 +479,10 @@ fun TransferDialogPreview() {
             onConfirmation = { },
             dialogTitle = "${stringResource(R.string.deseatransaccion)}?",
             recipientEmail = "Fer",
-            amount = "200",
-            method = "Balance"
-            //habria que pasar la tarjeta pero actualmente es una funcion no una clase
+            amount = 200,
+            method = 2,
+            viewModel = TODO(),
+            cardId = TODO()
         )
     }
 }
@@ -507,8 +493,10 @@ fun TransferDialog(
     onConfirmation: () -> Unit,
     dialogTitle: String,
     recipientEmail: String,
-    amount: String,
-    method: String
+    amount: Int,
+    method: Int?,
+    cardId: Int,
+    viewModel: HomeViewModel
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
@@ -541,9 +529,37 @@ fun TransferDialog(
                     Button(onClick = { onDismissRequest() }) {
                         Text(text = stringResource(R.string.cancelar))
                     }
-                    Button(onClick = { onConfirmation() }) {
+
+                    var state = false
+
+                    Button(onClick = {
+                        if (method == R.string.saldoencuenta) {
+                            val balance = BalancePayment(
+                                amount = amount,
+                                description = R.string.transferencia.toString(),
+                                receiverEmail = recipientEmail
+                            )
+                            viewModel.makeBalancePayment(balance)
+                            state = true
+                        } else if (method == R.string.tarjeta) {
+                            val card = CardPayment(
+                                amount = amount,
+                                description = R.string.transferencia.toString(),
+                                cardId = cardId,
+                                receiverEmail = recipientEmail
+                            )
+                            viewModel.makeCardPayment(card)
+                            state = true
+                        }
+                    }) {
                         Text(text = stringResource(R.string.confirmar))
                     }
+
+                    TransferDialogState(
+                        onDismissRequest = { },
+                        dialogTitle = stringResource(R.string.deseatransaccion),
+                        state = state
+                    )
                 }
             }
         }
