@@ -13,8 +13,9 @@ class PaymentRepository (
 ){
     val paymentDetailStream: Flow<List<Payment>> =
         remoteDataSource.getPaymentsStream
-            .map { list ->
-                list.map { it.asModel() } }
+            .map { networkPaymentList ->
+            networkPaymentList.asModel()
+        }
 
     suspend fun makeBalancePayment(balancePayment: BalancePayment) {
         remoteDataSource.makeBalancePayment(balancePayment.asNetWorkModel())
