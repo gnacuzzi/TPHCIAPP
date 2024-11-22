@@ -30,13 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.CardPayment
@@ -64,7 +61,13 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(mail, amount, method) {
+        mail.isNotEmpty() && isValidEmail(mail) &&
+                amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Column(
         modifier = Modifier
@@ -116,39 +119,40 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                 )
 
                 LazyRow {
-
-                    item{
-                        Card(
+                    item {
+                        CardTablet(
                             bank = "Pera",
                             number = uiState.walletDetail?.balance.toString(),
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
                                 method = "BALANCE"
                                 state = true
-                                showDialog = true
+                                selectedCardId = null
                             }
                         )
                     }
 
                     items(cards.size) { index ->
                         val card = cards[index]
-                        Card(
+                        CardTablet(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
                                 method = "CARD"
                                 cardId = card.id!!
                                 state = true
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
 
-                if(showDialog) {
+                if(isButtonEnabled) {
                     TransferButton(
                         onClick = { /* Lógica para transferir */ },
                         email = mail,
@@ -173,7 +177,13 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(mail, amount, method) {
+        mail.isNotEmpty() && isValidEmail(mail) &&
+                amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Column(
         modifier = Modifier
@@ -227,39 +237,40 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                 )
 
                 LazyRow {
-
-                    item{
-                        Card(
+                    item {
+                        CardTablet(
                             bank = "Pera",
                             number = uiState.walletDetail?.balance.toString(),
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
                                 method = "BALANCE"
                                 state = true
-                                showDialog = true
+                                selectedCardId = null
                             }
                         )
                     }
 
                     items(cards.size) { index ->
                         val card = cards[index]
-                        Card(
+                        CardTablet(
                             bank = card.type.name,
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
                                 method = "CARD"
                                 cardId = card.id!!
                                 state = true
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
 
-                if(showDialog) {
+                if(isButtonEnabled) {
                     TransferButton(
                         onClick = { /* Lógica para transferir */ },
                         email = mail,
@@ -283,7 +294,13 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
     var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(mail, amount, method) {
+        mail.isNotEmpty() && isValidEmail(mail) &&
+                amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Scaffold(
         topBar = { TopBar(R.string.transferir, false) }
@@ -316,17 +333,17 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                     )
                 }
                 LazyColumn {
-
-                    item{
+                    item {
                         CardHome(
                             bank = "Pera",
                             number = uiState.walletDetail?.balance.toString(),
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
                                 method = "BALANCE"
                                 state = true
-                                showDialog = true
+                                selectedCardId = null
                             }
                         )
                     }
@@ -338,17 +355,18 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
                                 method = "CARD"
                                 cardId = card.id!!
                                 state = true
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
 
-                if(showDialog) {
+                if(isButtonEnabled) {
                     TransferButton(
                         onClick = { /* Lógica para transferir */ },
                         email = mail,
@@ -374,8 +392,13 @@ fun TransferScreenPhonePortrait(
     val cards = uiState.cards ?: emptyList()
     var method by remember { mutableStateOf<String?>(null) }
     var cardId by remember { mutableStateOf(0) }
-    var state by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
+    var selectedCardId by remember { mutableStateOf<Int?>(null) }
+
+    val isButtonEnabled = remember(mail, amount, method) {
+        mail.isNotEmpty() && isValidEmail(mail) &&
+                amount.isNotEmpty() && amount.toFloatOrNull()?.let { it > 0 } == true &&
+                method != null
+    }
 
     Scaffold(
         topBar = { TopBar(R.string.transferir) }
@@ -406,16 +429,16 @@ fun TransferScreenPhonePortrait(
                 )
 
                 LazyRow {
-                    item{
+                    item {
                         Card(
                             bank = "Pera",
                             number = uiState.walletDetail?.balance.toString(),
                             name = stringResource(R.string.saldoencuenta),
                             date = "",
+                            isSelected = selectedCardId == null,
                             onCardClick = {
                                 method = "BALANCE"
-                                state = true
-                                showDialog = true
+                                selectedCardId = null
                             }
                         )
                     }
@@ -427,19 +450,19 @@ fun TransferScreenPhonePortrait(
                             number = card.number,
                             name = card.fullName,
                             date = card.expirationDate,
+                            isSelected = selectedCardId == card.id,
                             onCardClick = {
                                 method = "CARD"
                                 cardId = card.id!!
-                                state = true
-                                showDialog = true
+                                selectedCardId = card.id
                             }
                         )
                     }
                 }
 
-                if(showDialog) {
+                if (isButtonEnabled) {
                     TransferButton(
-                        onClick = { /* Lógica para transferir */ },
+                        onClick = {  },
                         email = mail,
                         amount = amount,
                         method = method,
@@ -451,6 +474,7 @@ fun TransferScreenPhonePortrait(
         }
     }
 }
+
 
 @Composable
 fun TransferInputField(
@@ -476,17 +500,9 @@ fun TransferInputField(
             value = value,
             onValueChange = {
                 if (keyboardType == KeyboardType.Email) {
-                    error = if (isValidEmail(it)) {
-                        false
-                    } else {
-                        true
-                    }
+                    error = !isValidEmail(it)
                 } else if (keyboardType == KeyboardType.Number) {
-                    error = if (it.isEmpty() || it.matches("\\d*".toRegex())) {
-                        false
-                    } else {
-                        true
-                    }
+                    error = !(it.isEmpty() || it.matches("\\d*".toRegex()))
                 }
                 onValueChange(it)
             },
