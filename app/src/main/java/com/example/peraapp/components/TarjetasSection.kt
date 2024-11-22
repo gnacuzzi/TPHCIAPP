@@ -159,6 +159,7 @@ fun TarjetasSectionTablet(
     }
     if (showAddCardDialog) {
         AddCardTabletDialog(
+            onNavigateToRoute,
             onDismissRequest = { showAddCardDialog = false },
             viewModel = viewModel
         )

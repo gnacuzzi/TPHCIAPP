@@ -127,7 +127,7 @@ fun AddCardLandscape(
                         }
                     }
                 }
-                AddCardButton(60, cardValues, viewModel)
+                AddCardButton(onNavigateToRoute, 60, cardValues, viewModel)
             }
         }
     }
@@ -169,7 +169,7 @@ fun AddCardPortrait(
                     onValueChange(cardValues.copy(bank = newValue))
                 }
                 // Botón para agregar la tarjeta
-                AddCardButton(10, cardValues, viewModel)
+                AddCardButton(onNavigateToRoute, 10, cardValues, viewModel)
             }
         }
     }
@@ -340,7 +340,8 @@ fun BankField(value: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun AddCardButton(toppadding: Int = 10,
+fun AddCardButton(onNavigateToRoute: (String) -> Unit,
+                  toppadding: Int = 10,
                   cardValues: CardValues,
                   viewModel: HomeViewModel
 ) {
@@ -380,7 +381,9 @@ fun AddCardButton(toppadding: Int = 10,
             onDismissRequest =
             {
                 showStateDialog = false
-
+                if(state){
+                    onNavigateToRoute(AppDestinations.TARJETAS.route)
+                }
             },
             state = state
         )
@@ -429,6 +432,7 @@ fun AddCardDialogState(
 
 @Composable
 fun AddCardTabletDialog(
+    onNavigateToRoute: (String) -> Unit,
     onDismissRequest: () -> Unit,
     viewModel: HomeViewModel
 ) {
@@ -476,8 +480,9 @@ fun AddCardTabletDialog(
                 BankField(value = cardValues.bank) { newValue ->
                     updateCardValues(cardValues.copy(bank = newValue))
                 }
-                AddCardButton(10, cardValues, viewModel)
+                AddCardButton(onNavigateToRoute ,10, cardValues, viewModel)
             }
+
         }
     }
 }

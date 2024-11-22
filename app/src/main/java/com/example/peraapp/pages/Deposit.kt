@@ -33,13 +33,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
-import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.CardPayment
+import com.example.peraapp.navigation.AppDestinations
 import kotlinx.coroutines.delay
 
 @Composable
@@ -123,6 +122,7 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                 }
 
                 DepositButton(
+                    onNavigateToRoute,
                     onClick = { /* Agregar lógica si es necesario */ },
                     amount = amount,
                     method = method,
@@ -202,6 +202,7 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                 }
 
                 DepositButton(
+                    onNavigateToRoute,
                     onClick = { /* Agregar lógica si es necesario */ },
                     amount = amount,
                     method = method,
@@ -268,6 +269,7 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
                     }
                 }
                 DepositButton(
+                    onNavigateToRoute,
                     onClick = { /* Agregar lógica si es necesario */ },
                     amount = amount,
                     method = method,
@@ -330,6 +332,7 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
 
 
                 DepositButton(
+                    onNavigateToRoute,
                     onClick = { /* Agregar lógica si es necesario */ },
                     amount = amount,
                     method = method,
@@ -376,7 +379,7 @@ fun DepositInputField(
 
 
 @Composable
-fun DepositButton(onClick: () -> Unit,
+fun DepositButton(onNavigateToRoute: (String) -> kotlin.Unit, onClick: () -> Unit,
   amount: String, method: String?, cardId:Int , viewModel: HomeViewModel) {
 
     val description = stringResource(R.string.ingresar)
@@ -385,6 +388,7 @@ fun DepositButton(onClick: () -> Unit,
 
     if (showDialog) {
         DepositDialog(
+            onNavigateToRoute,
             onDismissRequest = { showDialog = false },
             onConfirmation = {},
             dialogTitle = stringResource(R.string.ingresar),
@@ -412,6 +416,7 @@ fun DepositButton(onClick: () -> Unit,
 
 @Composable
 fun DepositDialog(
+    onNavigateToRoute: (String) -> Unit,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -480,6 +485,9 @@ fun DepositDialog(
                             onDismissRequest = {
                                 showStateDialog = false
                                 onDismissRequest()
+                                if(state){
+                                    onNavigateToRoute(AppDestinations.INICIO.route)
+                                }
                             },
                             dialogTitle = stringResource(R.string.ingresar),
                             state = state

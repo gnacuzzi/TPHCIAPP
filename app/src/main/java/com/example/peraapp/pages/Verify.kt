@@ -263,7 +263,12 @@ fun VerifyFormSection(
 
         if(showStateDialog) {
             VerifyDialog(
-                onDismissRequest = { showStateDialog = false },
+                onDismissRequest = {
+                    showStateDialog = false
+                    if(state){
+                        onNavigateToRoute(AppDestinations.INICIARSESION.route)
+                    }
+                                   },
                 state = state
             )
         }

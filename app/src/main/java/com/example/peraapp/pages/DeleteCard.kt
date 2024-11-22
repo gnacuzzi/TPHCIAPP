@@ -25,25 +25,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PeraApplication
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
-import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
-import kotlinx.coroutines.delay
 import com.example.peraapp.data.model.Card
-import com.example.peraapp.data.model.CardType
 import com.example.peraapp.navigation.AppDestinations
-import com.example.peraapp.navigation.AppDestinationsHelper
 
 @Composable
 fun DeleteCardScreen(viewModel: HomeViewModel, cardId: Int?, onNavigateToRoute: (String) -> Unit){
