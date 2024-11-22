@@ -44,6 +44,7 @@ import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.navigation.AppDestinationsHelper
 import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
@@ -170,7 +171,7 @@ fun CardsScreenPhonePortrait(onNavigateToRoute: (String) -> Unit,
                     name = card.fullName,
                     date = card.expirationDate
                 ) {
-                    onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                    onNavigateToRoute(AppDestinationsHelper.eliminarTarjetaRoute(card.id!!))
                 }
             }
             item {
@@ -202,7 +203,7 @@ fun CardsScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit,
                         name = card.fullName,
                         date = card.expirationDate
                     ) {
-                        onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                        onNavigateToRoute(AppDestinationsHelper.eliminarTarjetaRoute(card.id!!))
                     }
                 }
             }
@@ -242,7 +243,7 @@ fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit,
                         name = card.fullName,
                         date = card.expirationDate
                     ) {
-                        onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                        onNavigateToRoute(AppDestinationsHelper.eliminarTarjetaRoute(card.id!!))
                     }
                 }
             }

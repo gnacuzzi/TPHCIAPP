@@ -25,7 +25,7 @@ enum class AppDestinations(
     TRANSFERIR(Icons.Outlined.MoneyOff, R.string.transferir, "transferir"),
     INGRESAR(Icons.Outlined.AttachMoney, R.string.ingresar, "ingresar"),
     AGREGARTARJETA(Icons.Outlined.CreditCard, R.string.agregartarjeta, "agregartarjeta"),
-    ELIMINARTARJETA(Icons.Outlined.CreditCard, R.string.eliminartarjeta, "eliminartarjeta"), //esta deberia ser dinamica quizas
+    ELIMINARTARJETA(Icons.Outlined.CreditCard, R.string.eliminartarjeta, "eliminartarjeta/{cardId}"),
     INICIARSESION(Icons.Outlined.Person, R.string.iniciarsesion, "iniciarsesion"),
     REGISTRARME(Icons.Outlined.Person, R.string.registrarme, "registrarme"),
     CERRARSESION(Icons.AutoMirrored.Outlined.Logout, R.string.cerrarsesion, "iniciarsesion")

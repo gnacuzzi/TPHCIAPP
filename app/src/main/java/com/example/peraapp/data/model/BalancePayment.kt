@@ -3,7 +3,7 @@ package com.example.peraapp.data.model
 import com.example.peraapp.data.network.model.NetworkBalancePayment
 
 class BalancePayment(
-    var amount: String,
+    var amount: Int,
     var description: String,
     var type: String = "BALANCE",
     var receiverEmail: String

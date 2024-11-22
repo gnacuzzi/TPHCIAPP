@@ -31,6 +31,7 @@ import com.example.peraapp.HomeViewModel
 import com.example.peraapp.R
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.navigation.AppDestinationsHelper
 import com.example.peraapp.pages.AddCardTabletDialog
 import com.example.peraapp.pages.CardHome
 
@@ -79,7 +80,7 @@ fun TarjetasSectionPhone(
                     name = card.fullName,
                     date = card.expirationDate
                 ) {
-                    onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                    onNavigateToRoute(AppDestinationsHelper.eliminarTarjetaRoute(card.id!!))
                 }
             }
             item {
@@ -137,7 +138,7 @@ fun TarjetasSectionTablet(
                         name = card.fullName,
                         date = card.expirationDate
                     ) {
-                        onNavigateToRoute(AppDestinations.ELIMINARTARJETA.route)
+                        onNavigateToRoute(AppDestinationsHelper.eliminarTarjetaRoute(card.id!!))
                     }
                 }
                 item {
