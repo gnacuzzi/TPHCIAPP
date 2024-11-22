@@ -38,6 +38,7 @@ import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.ui.theme.PeraAppTheme
 import com.example.peraapp.components.ModularizedLayout
+import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.CardPayment
 import kotlinx.coroutines.delay
 
@@ -354,33 +355,25 @@ fun DepositInputField(
 fun DepositButton(onClick: () -> Unit, email: String,
   amount: String, method: Int?, cardId:Int , viewModel: HomeViewModel) {
 
-    val description = stringResource(R.string.transferencia)
+    val description = stringResource(R.string.ingresar)
 
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        DepositDialogState(
+        DepositDialog(
             onDismissRequest = { showDialog = false },
-            dialogTitle = stringResource(R.string.deseatransaccion),
-            state = false
+            onConfirmation = {},
+            dialogTitle = "title",
+            recipientEmail = email,
+            amount = amount.toInt(),
+            method = method,
+            viewModel = viewModel,
+            cardId = cardId,
         )
     }
+
     Button(
-        onClick = {
-            if (method == R.string.tarjeta) {
-                val card = CardPayment(
-                    amount = amount.toInt(),
-                    description = description,
-                    cardId = cardId,
-                    receiverEmail = email
-                )
-                viewModel.makeCardPayment(card)
-            } else {
-                showDialog = true
-            }
-        },
-
-
+        onClick = { showDialog = true },
         modifier = Modifier
             .padding(top = 20.dp)
             .width(200.dp),
@@ -393,6 +386,82 @@ fun DepositButton(onClick: () -> Unit, email: String,
         Text(stringResource(R.string.ingresar), style = MaterialTheme.typography.titleLarge)
     }
 }
+
+@Composable
+fun DepositDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    recipientEmail: String,
+    amount: Int,
+    method: Int?,
+    cardId: Int,
+    viewModel: HomeViewModel
+) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp,
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = dialogTitle,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Text("${stringResource(R.string.pagoa)}: $recipientEmail") // Siempre va a ser el email del usuario
+                Text("${stringResource(R.string.monto)}: $amount")
+                Text("${stringResource(R.string.con)}: $method")
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(onClick = { onDismissRequest() }) {
+                        Text(text = stringResource(R.string.cancelar))
+                    }
+
+                    var showDialog = false
+                    var state = false
+
+                    Button(onClick = {
+                        if (method == R.string.tarjeta) {
+                            val card = CardPayment(
+                                amount = amount,
+                                description = R.string.ingresarmonto.toString(),
+                                cardId = cardId,
+                                receiverEmail = recipientEmail
+                            )
+                            viewModel.makeCardPayment(card)
+                            state = true
+                        }
+                        showDialog = true
+                    }) {
+                        Text(text = stringResource(R.string.confirmar))
+                    }
+
+                    if(showDialog) {
+                        TransferDialogState(
+                            onDismissRequest = { },
+                            dialogTitle = stringResource(R.string.ingresar),
+                            state = state
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 
 @Preview(showBackground = true)
@@ -436,4 +505,6 @@ fun DepositDialogState(
             )
         }
     }
+
+
 }
