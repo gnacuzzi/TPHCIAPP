@@ -4,6 +4,7 @@ import com.example.peraapp.data.network.model.NetworkCredentials
 import com.example.peraapp.data.network.model.NetworkRegisterUser
 import com.example.peraapp.data.network.model.NetworkToken
 import com.example.peraapp.data.network.model.NetworkUser
+import com.example.peraapp.data.network.model.NetworkVerifyCode
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,4 +23,7 @@ interface UserApiService {
 
     @GET("user")
     suspend fun getCurrentUser(): Response<NetworkUser>
+
+    @POST("user/verify")
+    suspend fun verify(@Body verifyCode: NetworkVerifyCode) : Response<NetworkUser>
 }

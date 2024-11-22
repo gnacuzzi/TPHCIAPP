@@ -19,55 +19,60 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import com.example.peraapp.PreviewSizes
-import com.example.peraapp.R
-import com.example.peraapp.components.ModularizedLayout
-import com.example.peraapp.navigation.AppDestinations
-import com.example.peraapp.ui.theme.PeraAppTheme
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PeraApplication
+import com.example.peraapp.PreviewSizes
+import com.example.peraapp.R
+import com.example.peraapp.components.ModularizedLayout
+import com.example.peraapp.data.model.VerifyCode
+import com.example.peraapp.navigation.AppDestinations
+import com.example.peraapp.ui.theme.PeraAppTheme
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoginScreen(onNavigateToRoute: (String) -> Unit,
-                viewModel: HomeViewModel ) {
+fun VerifyScreen(onNavigateToRoute: (String) -> Unit,
+                viewModel: HomeViewModel
+) {
     ModularizedLayout(
-        contentPhonePortrait = { LoginScreenPhonePortrait(onNavigateToRoute, viewModel) },
-        contentPhoneLandscape = { LoginScreenPhoneLandscape(onNavigateToRoute, viewModel) },
-        contentTabletPortrait = { LoginScreenTabletPortrait(onNavigateToRoute, viewModel) },
-        contentTabletLandscape = { LoginScreenTabletLandscape(onNavigateToRoute, viewModel) }
+        contentPhonePortrait = { VerifyScreenPhonePortrait(onNavigateToRoute, viewModel) },
+        contentPhoneLandscape = { VerifyScreenPhoneLandscape(onNavigateToRoute, viewModel) },
+        contentTabletPortrait = { VerifyScreenTabletPortrait(onNavigateToRoute, viewModel) },
+        contentTabletLandscape = { VerifyScreenTabletLandscape(onNavigateToRoute, viewModel) }
     )
 }
 
 
 @Composable
-fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
+fun VerifyScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -87,20 +92,23 @@ fun LoginScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: Ho
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier.size(width = 500.dp, height = 350.dp)
             ) {
-                LoginFormSection(
+
+                VerifyFormSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     onNavigateToRoute = onNavigateToRoute,
                     viewModel = viewModel
                 )
+
+
             }
         }
     }
 }
 
 @Composable
-fun LoginScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
+fun VerifyScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -115,19 +123,20 @@ fun LoginScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: Ho
                 .background(MaterialTheme.colorScheme.primary)
         )
 
-        LoginFormSection(
+        VerifyFormSection(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             onNavigateToRoute = onNavigateToRoute,
             viewModel = viewModel
         )
+
+
     }
 }
 
 @Composable
-fun LoginScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
+fun VerifyScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -138,24 +147,25 @@ fun LoginScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: Hom
             contentDescription = stringResource(R.string.fotoinicio),
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.60f)
+                .fillMaxHeight(0.65f)
                 .background(MaterialTheme.colorScheme.primary)
         )
 
-        LoginFormSection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            onNavigateToRoute = onNavigateToRoute,
-            viewModel = viewModel
-        )
+            VerifyFormSection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = 16.dp, vertical = 80.dp),
+                onNavigateToRoute = onNavigateToRoute,
+                viewModel = viewModel
+            )
+
     }
 }
 
 
 @Composable
-fun LoginScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
+fun VerifyScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
@@ -175,181 +185,83 @@ fun LoginScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: H
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier.size(width = 500.dp, height = 350.dp)
             ) {
-                LoginFormSection(
+
+
+                VerifyFormSection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     onNavigateToRoute = onNavigateToRoute,
                     viewModel = viewModel
                 )
+
+
             }
         }
     }
 }
 
 @Composable
-fun TopImageSection(
-    @DrawableRes imageRes: Int,
-    contentDescription: String,
-    modifier: Modifier = Modifier
-) {
-    Image(
-        painter = painterResource(id = imageRes),
-        contentDescription = contentDescription,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun LoginFormSection(
+fun VerifyFormSection(
     modifier: Modifier = Modifier,
     onNavigateToRoute: (String) -> Unit,
     viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var emailErrorMessage by remember { mutableStateOf<String?>(null) }
+    var verifycode by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        IconButton(
+            onClick = { onNavigateToRoute(AppDestinations.INICIARSESION.route) },
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.volveratras),
+                tint = MaterialTheme.colorScheme.onBackground
+            )
+        }
+
         Text(
-            text = stringResource(R.string.iniciodesesion),
+            text = stringResource(R.string.verify),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        LoginTextField(
-            label = stringResource(R.string.mail),
-            keyboardType = KeyboardType.Email,
-            value = email,  // Aquí se pasa el valor del email
-            onValueChange = { newEmail ->
-                email = newEmail
-                emailErrorMessage = if (!isValidEmail(newEmail)) {
-                    "Correo inválido"
-                } else {
-                    null
-                }
-            },
-            validate = { it.isNotEmpty() }
-        )
 
-        LoginTextField(
-            label = stringResource(R.string.contraseña),
-            keyboardType = KeyboardType.Password,
-            value = password,  // Aquí se pasa el valor de la contraseña
-            onValueChange = { newPassword -> password = newPassword },
-            isPassword = true,
-            validate = { it.isNotEmpty() },
-            modifier = Modifier.padding(bottom = 15.dp)
-        )
-
-        TextButton(
-            modifier = Modifier.padding(top = 3.dp).align(Alignment.End),
-            onClick = {
-                onNavigateToRoute(AppDestinations.VERIFICACION.route)
-            },
-            colors = ButtonDefaults.buttonColors(
-                contentColor = MaterialTheme.colorScheme.secondary,
-                containerColor = Color.Transparent
+        OutlinedTextField(
+            value = verifycode,
+            onValueChange = { newVerifycode -> verifycode = newVerifycode },
+            label = { Text(stringResource(R.string.codigoverificacion)) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text
             ),
-        ) {
-            Text(stringResource(R.string.verify))
-        }
+            modifier = Modifier
+                .padding(bottom = 15.dp)
+                .fillMaxWidth()
+        )
 
-
-
-        // Login Button
-        LoginButton(
-            text = stringResource(R.string.iniciarsesion),
+        VerifyButton(
+            text = stringResource(R.string.verify),
             onClick =
             {
-                viewModel.login("arely.nicolas@ethereal.email", "1234567890")
-                //viewModel.login(email, password)
-                onNavigateToRoute(AppDestinations.INICIO.route)
+                viewModel.verify(VerifyCode(
+                    code = verifycode
+                ))
             },
             backgroundColor = MaterialTheme.colorScheme.secondary,
             textColor = MaterialTheme.colorScheme.background
         )
-        Spacer(modifier = Modifier.padding(10.dp))
-
-        // Register Button
-        LoginButton(
-            text = stringResource(R.string.registrarme),
-            onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
-            backgroundColor = MaterialTheme.colorScheme.background,
-            textColor = MaterialTheme.colorScheme.secondary,
-            border = true
-        )
     }
 }
 
 
 @Composable
-fun LoginTextField(
-    label: String,
-    keyboardType: KeyboardType,
-    onValueChange: (String) -> Unit,
-    validate: (String) -> Boolean,
-    modifier: Modifier = Modifier,
-    isPassword: Boolean = false,
-    value: String,
-) {
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    var localErrorMessage by remember { mutableStateOf<String?>(null) }
-
-    OutlinedTextField(
-        value = value,
-        onValueChange = { input ->
-            localErrorMessage = if (!validate(input)) {
-                "Correo inválido"
-            } else {
-                null
-            }
-            onValueChange(input)
-        },
-        label = { Text(label) },
-        modifier = modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = keyboardType
-        ),
-        isError = localErrorMessage != null,
-        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
-        trailingIcon = {
-            if (isPassword) {
-                IconButton(
-                    onClick = { passwordVisible = !passwordVisible }
-                ) {
-                    Icon(
-                        imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                        contentDescription = stringResource(R.string.toggle_password_visibility)
-                    )
-                }
-            }
-        }
-    )
-
-    localErrorMessage?.let {
-        Text(
-            text = it,
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
-        )
-    }
-}
-
-
-fun isValidEmail(email: String): Boolean {
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}
-
-@Composable
-fun LoginButton(
+fun VerifyButton(
     text: String,
     onClick: () -> Unit,
     backgroundColor: Color,
@@ -381,17 +293,17 @@ fun LoginButton(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginDialogPreview() {
+fun VerifyDialogPreview() {
     PeraAppTheme {
-        LoginDialog(
+        VerifyDialog(
             onDismissRequest = { /* seria volver al inicio */ },
-            dialogTitle = stringResource(R.string.estadoiniciarsesion)
+            dialogTitle = stringResource(R.string.verify)
         )
     }
 }
 
 @Composable
-fun LoginDialog(
+fun VerifyDialog(
     onDismissRequest: () -> Unit,
     dialogTitle: String,
     dismissAfterMillis: Long = 3000,

@@ -2,6 +2,7 @@ package com.example.peraapp.data.repository
 
 import com.example.peraapp.data.model.RegisterUser
 import com.example.peraapp.data.model.User
+import com.example.peraapp.data.model.VerifyCode
 import com.example.peraapp.data.network.UserRemoteDataSource
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -37,5 +38,9 @@ class UserRepository(
         }
 
         return currentUserMutex.withLock { this.currentUser }
+    }
+
+    suspend fun verify(verifyCode: VerifyCode){
+        remoteDataSource.verify(verifyCode.asNetworkMode())
     }
 }

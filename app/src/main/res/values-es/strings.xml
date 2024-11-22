@@ -99,6 +99,9 @@
     <string name="mostrar">Mostrar</string>
     <string name="toggle_password_visibility">Mostrar/Ocultar contraseña</string>
     <string name="transferencia">Transferencia</string>
+    <string name="invalidoverificacion">El codigo no puede ser vacio</string>
 
     <string name="desconocido">Desconocido</string>
+    <string name="verify">Verifica a un usuario</string>
+    <string name="codigoverificacion">Código de verificación</string>
 </resources>

@@ -208,7 +208,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
                 label = { Text("Name") },
                 modifier = Modifier
                     .weight(1f)
-                    .height(55.dp)
+                    .height(60.dp)
             )
             OutlinedTextField(
                 value = surname,
@@ -216,7 +216,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
                 label = { Text("Surname") },
                 modifier = Modifier
                     .weight(1f)
-                    .height(55.dp)
+                    .height(60.dp)
             )
         }
 
@@ -229,7 +229,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
             label = { Text("Email") },
             modifier = Modifier
                 .width(400.dp)
-                .height(55.dp),
+                .height(60.dp),
             isError = !isEmailValid,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Email
@@ -254,7 +254,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
             label = { Text("Password") },
             modifier = Modifier
                 .width(400.dp)
-                .height(55.dp),
+                .height(60.dp),
             visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Password
@@ -278,7 +278,7 @@ fun FormFields(onNavigateToRoute: (String) -> Unit, viewModel: HomeViewModel) {
             label = { Text("Confirm Password") },
             modifier = Modifier
                 .width(400.dp)
-                .height(55.dp),
+                .height(60.dp),
             visualTransformation = if (isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Password
@@ -358,7 +358,7 @@ fun SigninScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: Ho
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.50f)
+                .fillMaxHeight(0.55f)
                 .background(MaterialTheme.colorScheme.primary),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

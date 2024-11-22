@@ -28,5 +28,6 @@ enum class AppDestinations(
     ELIMINARTARJETA(Icons.Outlined.CreditCard, R.string.eliminartarjeta, "eliminartarjeta/{cardId}"),
     INICIARSESION(Icons.Outlined.Person, R.string.iniciarsesion, "iniciarsesion"),
     REGISTRARME(Icons.Outlined.Person, R.string.registrarme, "registrarme"),
-    CERRARSESION(Icons.AutoMirrored.Outlined.Logout, R.string.cerrarsesion, "iniciarsesion")
+    CERRARSESION(Icons.AutoMirrored.Outlined.Logout, R.string.cerrarsesion, "iniciarsesion"),
+    VERIFICACION(Icons.Outlined.Person, R.string.verify, "verificar")
 }

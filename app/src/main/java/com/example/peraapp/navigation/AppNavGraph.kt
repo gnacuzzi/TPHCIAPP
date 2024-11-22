@@ -17,6 +17,7 @@ import com.example.peraapp.pages.MovementsScreen
 import com.example.peraapp.pages.ProfileScreen
 import com.example.peraapp.pages.SigninScreen
 import com.example.peraapp.pages.TransferScreen
+import com.example.peraapp.pages.VerifyScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController,
@@ -69,6 +70,9 @@ fun AppNavGraph(navController: NavHostController,
         }
         composable(route = AppDestinations.REGISTRARME.route){
             SigninScreen(onNavigateToRoute, viewModel)
+        }
+        composable(route = AppDestinations.VERIFICACION.route){
+            VerifyScreen(onNavigateToRoute, viewModel)
         }
     }
 }

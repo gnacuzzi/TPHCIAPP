@@ -6,6 +6,7 @@ import com.example.peraapp.data.network.model.NetworkUser
 import com.example.peraapp.SessionManager
 import com.example.peraapp.data.model.User
 import com.example.peraapp.data.network.model.NetworkRegisterUser
+import com.example.peraapp.data.network.model.NetworkVerifyCode
 
 class UserRemoteDataSource(
     private val sessionManager: SessionManager,
@@ -32,5 +33,11 @@ class UserRemoteDataSource(
 
     suspend fun getCurrentUser(): NetworkUser {
         return handleApiResponse { userApiService.getCurrentUser() }
+    }
+
+    suspend fun verify(verifyCode: NetworkVerifyCode){
+        handleApiResponse {
+            userApiService.verify(verifyCode)
+        }
     }
 }

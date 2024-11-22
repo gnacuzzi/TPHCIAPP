@@ -8,6 +8,7 @@ import com.example.peraapp.data.model.WalletDetail
 
 data class HomeUiState(
     val isAuthenticated: Boolean = false,
+    val isVerified: Boolean = false,
     val isFetching: Boolean = false,
     val currentUser: User? = null,
     val walletDetail: WalletDetail? = null,

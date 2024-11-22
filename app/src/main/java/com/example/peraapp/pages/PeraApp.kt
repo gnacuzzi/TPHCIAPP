@@ -41,7 +41,8 @@ fun MainScreen(
     val isTablet = configuration.screenWidthDp >= 600
     val routesWithoutBars = listOf(
         AppDestinations.INICIARSESION.route,
-        AppDestinations.REGISTRARME.route
+        AppDestinations.REGISTRARME.route,
+        AppDestinations.VERIFICACION.route
     )
     val showBars = currentRoute !in routesWithoutBars
 
@@ -110,7 +111,8 @@ private fun navigateSafely(
 ) {
     val routesWithoutAuthentication = listOf(
         AppDestinations.INICIARSESION.route,
-        AppDestinations.REGISTRARME.route
+        AppDestinations.REGISTRARME.route,
+        AppDestinations.VERIFICACION.route
     )
 
     if (isAuthenticated || route in routesWithoutAuthentication) {

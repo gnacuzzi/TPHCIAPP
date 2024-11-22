@@ -11,6 +11,7 @@ import com.example.peraapp.data.model.CardPayment
 import com.example.peraapp.data.model.Error
 import com.example.peraapp.data.model.RegisterUser
 import com.example.peraapp.data.model.User
+import com.example.peraapp.data.model.VerifyCode
 import com.example.peraapp.data.repository.PaymentRepository
 import com.example.peraapp.data.repository.UserRepository
 import com.example.peraapp.data.repository.WalletRepository
@@ -77,6 +78,15 @@ class HomeViewModel(
                 walletDetail = null,
                 cards = null
             )
+        }
+    )
+
+    fun verify(verifyCode: VerifyCode) = runOnViewModelScope(
+        {
+            userRepository.verify(verifyCode)
+        },
+        {
+                state, _ -> state.copy()
         }
     )
 

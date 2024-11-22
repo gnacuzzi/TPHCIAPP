@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
 import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
@@ -43,7 +44,7 @@ import com.example.peraapp.navigation.AppDestinations
 val profileItems = listOf(
     AppDestinations.TRANSFERIR,
     AppDestinations.INGRESAR,
-    AppDestinations.CERRARSESION //tengo que usar logout
+    AppDestinations.CERRARSESION
 )
 
 @Composable
@@ -69,10 +70,10 @@ fun ProfileScreen(
     }
 
     ModularizedLayout(
-        contentPhonePortrait = { ProfileScreenPhonePortrait(name, surname, mail, onNavigateToRoute) },
-        contentPhoneLandscape = { ProfileScreenPhoneLandscape(name, surname, mail, onNavigateToRoute) },
-        contentTabletPortrait = { ProfileScreenTabletPortrait(name, surname, mail, onNavigateToRoute) },
-        contentTabletLandscape = { ProfileScreenTabletLandscape(name, surname, mail, onNavigateToRoute) }
+        contentPhonePortrait = { ProfileScreenPhonePortrait(name, surname, mail, onNavigateToRoute, viewModel) },
+        contentPhoneLandscape = { ProfileScreenPhoneLandscape(name, surname, mail, onNavigateToRoute, viewModel) },
+        contentTabletPortrait = { ProfileScreenTabletPortrait(name, surname, mail, onNavigateToRoute, viewModel) },
+        contentTabletLandscape = { ProfileScreenTabletLandscape(name, surname, mail, onNavigateToRoute, viewModel) }
     )
 }
 
@@ -82,7 +83,8 @@ fun ProfileScreenPhoneLandscape(
     name: String,
     surname: String,
     mail: String,
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    viewModel: HomeViewModel
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -106,7 +108,15 @@ fun ProfileScreenPhoneLandscape(
                     ProfileButton(
                         icon = item.icon,
                         textResId = item.text,
-                        onClick = { onNavigateToRoute(item.route) },
+                        onClick =
+                        {
+                            if (item == AppDestinations.CERRARSESION) {
+                                viewModel.logout()
+                                onNavigateToRoute(item.route)
+                            } else {
+                                onNavigateToRoute(item.route)
+                            }
+                        },
                         textStyle = MaterialTheme.typography.titleMedium,
                         iconSize = 28.dp
                     )
@@ -122,7 +132,8 @@ fun ProfileScreenTabletPortrait(
     name: String,
     surname: String,
     mail: String,
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    viewModel: HomeViewModel
 ) {
     var showCobrarDialog by remember { mutableStateOf(false) }
 
@@ -153,7 +164,15 @@ fun ProfileScreenTabletPortrait(
                 ProfileButton(
                     icon = item.icon,
                     textResId = item.text,
-                    onClick = {onNavigateToRoute(item.route) },
+                    onClick =
+                    {
+                        if (item == AppDestinations.CERRARSESION) {
+                            viewModel.logout()
+                            onNavigateToRoute(item.route)
+                        } else {
+                            onNavigateToRoute(item.route)
+                        }
+                    },
                     textStyle = MaterialTheme.typography.titleLarge,
                     iconSize = 46.dp
                 )
@@ -175,7 +194,8 @@ fun ProfileScreenPhonePortrait(
     name: String,
     surname: String,
     mail: String,
-    onNavigateToRoute: (String) -> Unit
+    onNavigateToRoute: (String) -> Unit,
+    viewModel: HomeViewModel
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -188,7 +208,15 @@ fun ProfileScreenPhonePortrait(
                 ProfileButton(
                     icon = item.icon,
                     textResId = item.text,
-                    onClick = { onNavigateToRoute(item.route) }
+                    onClick =
+                    {
+                        if (item == AppDestinations.CERRARSESION) {
+                            viewModel.logout()
+                            onNavigateToRoute(item.route)
+                        } else {
+                            onNavigateToRoute(item.route)
+                        }
+                    },
                 )
             }
         }
@@ -200,7 +228,8 @@ fun ProfileScreenPhonePortrait(
 fun ProfileScreenTabletLandscape(name: String,
                       surname: String,
                       mail: String,
-                      onNavigateToRoute: (String) -> Unit) {
+                      onNavigateToRoute: (String) -> Unit,
+                                 viewModel: HomeViewModel) {
     var showCobrarDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -235,7 +264,15 @@ fun ProfileScreenTabletLandscape(name: String,
                         ProfileButton(
                             icon = item.icon,
                             textResId = item.text,
-                            onClick = { onNavigateToRoute(item.route) },
+                            onClick =
+                            {
+                                if (item == AppDestinations.CERRARSESION) {
+                                    viewModel.logout()
+                                    onNavigateToRoute(item.route)
+                                } else {
+                                    onNavigateToRoute(item.route)
+                                }
+                            },
                             textStyle = MaterialTheme.typography.titleLarge,
                             iconSize = 46.dp
                         )
