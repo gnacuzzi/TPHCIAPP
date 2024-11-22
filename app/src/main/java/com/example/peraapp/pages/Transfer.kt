@@ -127,16 +127,15 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                     }
                 }
 
-                method?.let {
-                    TransferButton(
-                        onClick = { /* Agregar lógica si es necesario */ },
-                        email = mail,
-                        amount = amount,
-                        method = it,
-                        cardId = cardId,
-                        viewModel = viewModel
-                    )
-                }
+                TransferButton(
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
+                )
+
             }
         }
     }
@@ -217,16 +216,14 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                     }
                 }
 
-                method?.let {
-                    TransferButton(
-                        onClick = { /* Agregar lógica si es necesario */ },
-                        email = mail,
-                        amount = amount,
-                        method = it,
-                        cardId = cardId,
-                        viewModel = viewModel
-                    )
-                }
+                TransferButton(
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -288,16 +285,14 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                         }
                     }
                 }
-                method?.let {
-                    TransferButton(
-                        onClick = { /* Agregar lógica si es necesario */ },
-                        email = mail,
-                        amount = amount,
-                        method = it,
-                        cardId = cardId,
-                        viewModel = viewModel
-                    )
-                }
+                TransferButton(
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -354,17 +349,15 @@ fun TransferScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                     }
                 }
 
+                TransferButton(
+                    onClick = { /* Agregar lógica si es necesario */ },
+                    email = mail,
+                    amount = amount,
+                    method = method,
+                    cardId = cardId,
+                    viewModel = viewModel
+                )
 
-                method?.let {
-                    TransferButton(
-                        onClick = { /* Agregar lógica si es necesario */ },
-                        email = mail,
-                        amount = amount,
-                        method = it,
-                        cardId = cardId,
-                        viewModel = viewModel
-                    )
-                }
             }
         }
     }
@@ -442,7 +435,7 @@ fun TransferInputField(
 @Composable
 fun TransferButton(
     onClick: () -> Unit, email: String,
-    amount: String, method: Int, cardId: Int, viewModel: HomeViewModel) {
+    amount: String, method: Int?, cardId: Int, viewModel: HomeViewModel) {
     val description = stringResource(R.string.transferencia)
 
     var showDialog by remember { mutableStateOf(false) }
