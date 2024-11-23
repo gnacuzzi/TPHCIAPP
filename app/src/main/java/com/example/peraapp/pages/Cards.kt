@@ -15,15 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,18 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.navigation.AppDestinationsHelper
-import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
 fun CardHome(bank: String, number: String, name: String, date: String,  isSelected: Boolean = false, onCardClick: () -> Unit){
@@ -124,14 +114,12 @@ fun Card(
                 .padding(normalPadding.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Banco
             Text(
                 text = bank,
                 modifier = Modifier.align(Alignment.End),
                 style = MaterialTheme.typography.titleMedium
             )
 
-            // Número de tarjeta
             Text(
                 text = number,
                 modifier = Modifier
@@ -140,7 +128,6 @@ fun Card(
                 style = MaterialTheme.typography.titleLarge
             )
 
-            // Información de la tarjeta (Nombre y Fecha)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -276,7 +263,7 @@ fun CardsScreenTablet(onNavigateToRoute: (String) -> Unit,
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { showAddCardDialog = true }, // Abre el diálogo al hacer clic
+                onClick = { showAddCardDialog = true },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = MaterialTheme.colorScheme.tertiary,
                     containerColor = MaterialTheme.colorScheme.background

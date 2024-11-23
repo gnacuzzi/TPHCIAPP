@@ -33,17 +33,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.R
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.components.isLandscape
 import kotlinx.coroutines.delay
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PeraApplication
 import com.example.peraapp.data.model.Card
 import com.example.peraapp.data.model.CardType
 import com.example.peraapp.navigation.AppDestinations
@@ -152,7 +149,6 @@ fun AddCardPortrait(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Campos de entrada del formulario
                 CardNumberField(value = cardValues.cardNumber) { newValue ->
                     onValueChange(cardValues.copy(cardNumber = newValue))
                 }
@@ -168,7 +164,6 @@ fun AddCardPortrait(
                 BankField(value = cardValues.bank) { newValue ->
                     onValueChange(cardValues.copy(bank = newValue))
                 }
-                // Botón para agregar la tarjeta
                 AddCardButton(onNavigateToRoute, 10, cardValues, viewModel)
             }
         }

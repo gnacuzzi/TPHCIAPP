@@ -37,22 +37,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.navigation.AppDestinations
 import com.example.peraapp.ui.theme.PeraAppTheme
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PeraApplication
 import com.example.peraapp.data.model.RegisterUser
-import com.example.peraapp.data.model.User
-import java.util.Date
 
 @Composable
 fun SigninScreen(onNavigateToRoute: (String) -> Unit,
@@ -428,7 +422,7 @@ fun SigninScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
 fun SigninDialogPreview() {
     PeraAppTheme {
         SigninDialog(
-            onDismissRequest = { /* seria volver al inicio */ },
+            onDismissRequest = { },
             dialogTitle = stringResource(R.string.estadoregistro)
         )
     }

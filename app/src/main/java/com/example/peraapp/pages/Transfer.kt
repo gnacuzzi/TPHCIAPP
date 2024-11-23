@@ -156,7 +156,7 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
                 if(isButtonEnabled) {
                     TransferButton(
                         onNavigateToRoute = onNavigateToRoute,
-                        onClick = { /* Lógica para transferir */ },
+                        onClick = {  },
                         email = mail,
                         amount = amount,
                         method = method,
@@ -275,7 +275,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
                 if(isButtonEnabled) {
                     TransferButton(
                         onNavigateToRoute = onNavigateToRoute,
-                        onClick = { /* Lógica para transferir */ },
+                        onClick = { },
                         email = mail,
                         amount = amount,
                         method = method,
@@ -372,7 +372,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                 if(isButtonEnabled) {
                     TransferButton(
                         onNavigateToRoute = onNavigateToRoute,
-                        onClick = { /* Lógica para transferir */ },
+                        onClick = { },
                         email = mail,
                         amount = amount,
                         method = method,

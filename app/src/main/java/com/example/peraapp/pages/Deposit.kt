@@ -108,7 +108,7 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                     modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
                 )
 
-                LazyRow {//foreach
+                LazyRow {
                     items(cards.size) { index ->
                         val card = cards[index]
                         CardTablet(
@@ -129,7 +129,7 @@ fun DepositScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
                 if(isButtonEnabled) {
                     DepositButton(
                         onNavigateToRoute,
-                        onClick = { /* Agregar lógica si es necesario */ },
+                        onClick = { },
                         amount = amount,
                         method = method,
                         cardId = cardId,
@@ -195,7 +195,7 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                     modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
                 )
 
-                LazyRow {//foreach
+                LazyRow {
                     items(cards.size) { index ->
                         val card = cards[index]
                         CardTablet(
@@ -217,7 +217,7 @@ fun DepositScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel: 
                 if(isButtonEnabled) {
                     DepositButton(
                         onNavigateToRoute,
-                        onClick = { /* Agregar lógica si es necesario */ },
+                        onClick = { },
                         amount = amount,
                         method = method,
                         cardId = cardId,
@@ -271,7 +271,7 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
                         width = 200
                     )
                 }
-                LazyColumn{//foreach
+                LazyColumn{
                     items(cards.size) { index ->
                         val card = cards[index]
                         CardHome(
@@ -292,7 +292,7 @@ fun DepositScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel: 
                 if(isButtonEnabled) {
                     DepositButton(
                         onNavigateToRoute,
-                        onClick = { /* Agregar lógica si es necesario */ },
+                        onClick = { },
                         amount = amount,
                         method = method,
                         cardId = cardId,
@@ -340,7 +340,7 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
                     keyboardType = KeyboardType.Number
                 )
 
-                LazyRow{//foreach
+                LazyRow{
                     items(cards.size) { index ->
                         val card = cards[index]
                         Card(
@@ -362,7 +362,7 @@ fun DepositScreenPhonePortrait(onNavigateToRoute: (String) -> Unit, viewModel: H
                 if(isButtonEnabled) {
                     DepositButton(
                         onNavigateToRoute,
-                        onClick = { /* Agregar lógica si es necesario */ },
+                        onClick = { },
                         amount = amount,
                         method = method,
                         cardId = cardId,
@@ -536,7 +536,7 @@ fun DepositDialog(
 fun DepositDialogStatePreview() {
     PeraAppTheme {
         DepositDialogState(
-            onDismissRequest = { /* seria eliminarse nomas */ },
+            onDismissRequest = { },
             dialogTitle = stringResource(R.string.estadoingresar)
         )
     }
