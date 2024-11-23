@@ -111,8 +111,40 @@ class HomeViewModel(
         }
     )
 
+    var currentPage = 1
+
+    private var _hasMorePayments = MutableStateFlow(true) // Inicialmente asume que hay más pagos
+    val hasMorePayments: StateFlow<Boolean> = _hasMorePayments.asStateFlow()
+
+    fun loadPayments(page: Int) = runOnViewModelScope(
+        {
+            val result = paymentRepository.getPayments(page)
+            _hasMorePayments.value = result.isNotEmpty() // Determina si hay más datos
+            result
+        },
+        { state, response ->
+            state.copy(payments = response)
+        }
+    )
+
+    fun nextPage() {
+        if (_hasMorePayments.value) {
+            currentPage++
+            loadPayments(currentPage)
+        }
+    }
+
+
+
+    fun previousPage() {
+        if (currentPage > 1) {
+            currentPage--
+            loadPayments(currentPage)
+        }
+    }
+
     fun getPayments() = runOnViewModelScope(
-        { paymentRepository.getPayments() },
+        { paymentRepository.getPayments(currentPage) },
         { state, response -> state.copy(payments = response) }
     )
 

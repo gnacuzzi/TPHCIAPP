@@ -107,4 +107,7 @@
 
     <string name="verify">Verify a user</string>
     <string name="codigoverificacion">Verification Code</string>
+
+    <string name="previa">Previous</string>
+    <string name="proxima">Next</string>
 </resources>

@@ -106,4 +106,7 @@
     <string name="desconocido">Desconocido</string>
     <string name="verify">Verifica a un usuario</string>
     <string name="codigoverificacion">Código de verificación</string>
+
+    <string name="previa">Previa</string>
+    <string name="proxima">Próxima</string>
 </resources>

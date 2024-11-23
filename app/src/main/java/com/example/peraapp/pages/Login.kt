@@ -276,7 +276,7 @@ fun LoginFormSection(
             text = stringResource(R.string.iniciarsesion),
             onClick =
             {
-                viewModel.login("gordon.moen19@ethereal.email", "hola123")
+                viewModel.login("dulce.frami@ethereal.email", "hola123")
                 //viewModel.login(email, password)
                 if (uiState.error != null){
                     showDialog = true

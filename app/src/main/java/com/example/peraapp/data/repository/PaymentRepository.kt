@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.map
 class PaymentRepository (
     private val remoteDataSource: PaymentRemoteDataSource
 ){
-    suspend fun getPayments(): List<Payment> {
-        val result = remoteDataSource.getPayments()
+    suspend fun getPayments(page: Int): List<Payment> {
+        val result = remoteDataSource.getPayments(page)
         return result.asModel()
     }
 

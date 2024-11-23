@@ -13,11 +13,12 @@ class PaymentRemoteDataSource (
     private val paymentApiService: PaymentApiService
 ) : RemoteDataSource(){
 
-    suspend fun getPayments(): NetworkPaymentList {
+    suspend fun getPayments(page: Int): NetworkPaymentList {
         return handleApiResponse {
-            paymentApiService.getPayments()
+            paymentApiService.getPayments(page)
         }
     }
+
 
     suspend fun makeBalancePayment(payment: NetworkBalancePayment) {
         handleApiResponse {
