@@ -27,7 +27,7 @@ fun AppNavGraph(navController: NavHostController,
                 onNavigateToRoute: (String) -> Unit,
 ) {
     fun eliminarTarjetaRoute(cardId: Int): String {
-        return "eliminarTarjeta/$cardId" // Generador de rutas con ID
+        return "eliminarTarjeta/$cardId"
     }
 
     NavHost(

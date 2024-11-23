@@ -1,8 +1,6 @@
 package com.example.peraapp.ui.theme
 
-import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -38,8 +36,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun PeraAppTheme(
-    darkTheme: Boolean = false, //no vamos a tener modo oscuro
-    // Dynamic color is available on Android 12+
+    darkTheme: Boolean = false,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
