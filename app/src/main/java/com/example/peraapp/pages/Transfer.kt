@@ -650,6 +650,7 @@ fun TransferDialog(
                             viewModel.makeCardPayment(card)
                             state = uiState.error == null
                         }
+                        onNavigateToRoute(AppDestinations.INICIO.route)
                         showStateDialog = true
                     }) {
                         Text(text = stringResource(R.string.confirmar))
