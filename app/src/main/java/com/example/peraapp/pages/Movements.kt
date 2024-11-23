@@ -24,17 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.peraapp.HomeViewModel
-import com.example.peraapp.PreviewSizes
 import com.example.peraapp.R
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.components.TopBar
 import com.example.peraapp.data.model.Payment
-import com.example.peraapp.ui.theme.PeraAppTheme
 
 @Composable
 fun MovementsScreen(

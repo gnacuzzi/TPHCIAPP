@@ -224,7 +224,7 @@ fun LoginFormSection(
         LoginTextField(
             label = stringResource(R.string.mail),
             keyboardType = KeyboardType.Email,
-            value = email,  // Aquí se pasa el valor del email
+            value = email,
             onValueChange = { newEmail ->
                 email = newEmail
                 emailErrorMessage = if (!isValidEmail(newEmail)) {
@@ -239,7 +239,7 @@ fun LoginFormSection(
         LoginTextField(
             label = stringResource(R.string.contraseña),
             keyboardType = KeyboardType.Password,
-            value = password,  // Aquí se pasa el valor de la contraseña
+            value = password,
             onValueChange = { newPassword -> password = newPassword },
             isPassword = true,
             validate = { it.isNotEmpty() },
@@ -276,7 +276,7 @@ fun LoginFormSection(
             text = stringResource(R.string.iniciarsesion),
             onClick =
             {
-                viewModel.login("dulce.frami@ethereal.email", "hola123")
+                viewModel.login("gordon.moen19@ethereal.email", "hola123")
                 //viewModel.login(email, password)
                 if (uiState.error != null){
                     showDialog = true
@@ -298,7 +298,6 @@ fun LoginFormSection(
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        // Register Button
         LoginButton(
             text = stringResource(R.string.registrarme),
             onClick = { onNavigateToRoute(AppDestinations.REGISTRARME.route) },
@@ -406,7 +405,7 @@ fun LoginButton(
 fun LoginDialogPreview() {
     PeraAppTheme {
         LoginDialog(
-            onDismissRequest = { /* seria volver al inicio */ },
+            onDismissRequest = { },
             dialogTitle = stringResource(R.string.estadoiniciarsesion)
         )
     }
