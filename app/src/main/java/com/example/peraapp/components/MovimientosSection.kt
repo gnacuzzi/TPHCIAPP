@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import com.example.peraapp.R
 import com.example.peraapp.data.model.Payment
 import com.example.peraapp.navigation.AppDestinations
-import com.example.peraapp.pages.CardHome
 import com.example.peraapp.pages.MovimientoItem
 
 @Composable

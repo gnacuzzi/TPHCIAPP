@@ -6,7 +6,6 @@ import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.material.icons.outlined.CreditCard
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.MoneyOff
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Update

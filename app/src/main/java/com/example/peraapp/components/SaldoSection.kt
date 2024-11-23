@@ -26,9 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.example.peraapp.R
 import com.example.peraapp.navigation.AppDestinations
 
-//obvio que se puede modularizar mas pero solo si tenemos tiempo
-
-
 val homeItems = listOf(
     AppDestinations.TRANSFERIR,
     AppDestinations.INGRESAR,
