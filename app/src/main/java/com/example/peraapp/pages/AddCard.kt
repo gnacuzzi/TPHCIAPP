@@ -334,6 +334,15 @@ fun BankField(value: String, onValueChange: (String) -> Unit) {
     )
 }
 
+private fun isFormValid(cardValues: CardValues): Boolean {
+    return cardValues.cardNumber.length in listOf(15, 16, 19) &&
+            cardValues.cardHolder.isNotBlank() &&
+            isValidExpiryDate(cardValues.expiryDate) &&
+            (cardValues.cvv.length == 3 || cardValues.cvv.length == 4) &&
+            cardValues.bank.isNotBlank()
+}
+
+
 @Composable
 fun AddCardButton(onNavigateToRoute: (String) -> Unit,
                   toppadding: Int = 10,
@@ -354,23 +363,24 @@ fun AddCardButton(onNavigateToRoute: (String) -> Unit,
         updatedAt = Date()
     )
     Button(
-        onClick =
-        {
+        onClick = {
             viewModel.addCard(newCard)
             state = uiState.error == null
             showStateDialog = true
         },
+        enabled = isFormValid(cardValues),
         modifier = Modifier
             .padding(top = toppadding.dp)
             .width(270.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = MaterialTheme.colorScheme.secondary,
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = if (isFormValid(cardValues)) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
         )
     ) {
         Text(stringResource(R.string.agregartarjeta), style = MaterialTheme.typography.titleMedium)
     }
+
     if(showStateDialog) {
         AddCardDialogState(
             onDismissRequest =
