@@ -511,7 +511,7 @@ fun DepositDialog(
                     }
 
                     if(showStateDialog) {
-                        TransferDialogState(
+                        DepositDialogState(
                             onDismissRequest = {
                                 showStateDialog = false
                                 onDismissRequest()
