@@ -37,6 +37,7 @@ import com.example.peraapp.components.TopBar
 import com.example.peraapp.components.ModularizedLayout
 import com.example.peraapp.data.model.BalancePayment
 import com.example.peraapp.data.model.CardPayment
+import com.example.peraapp.navigation.AppDestinations
 import kotlinx.coroutines.delay
 
 @Composable
@@ -154,6 +155,7 @@ fun TransferScreenTabletLandscape(onNavigateToRoute: (String) -> Unit, viewModel
 
                 if(isButtonEnabled) {
                     TransferButton(
+                        onNavigateToRoute = onNavigateToRoute,
                         onClick = { /* Lógica para transferir */ },
                         email = mail,
                         amount = amount,
@@ -272,6 +274,7 @@ fun TransferScreenTabletPortrait(onNavigateToRoute: (String) -> Unit, viewModel:
 
                 if(isButtonEnabled) {
                     TransferButton(
+                        onNavigateToRoute = onNavigateToRoute,
                         onClick = { /* Lógica para transferir */ },
                         email = mail,
                         amount = amount,
@@ -368,6 +371,7 @@ fun TransferScreenPhoneLandscape(onNavigateToRoute: (String) -> Unit, viewModel:
 
                 if(isButtonEnabled) {
                     TransferButton(
+                        onNavigateToRoute = onNavigateToRoute,
                         onClick = { /* Lógica para transferir */ },
                         email = mail,
                         amount = amount,
@@ -462,6 +466,7 @@ fun TransferScreenPhonePortrait(
 
                 if (isButtonEnabled) {
                     TransferButton(
+                        onNavigateToRoute = onNavigateToRoute,
                         onClick = {  },
                         email = mail,
                         amount = amount,
@@ -539,6 +544,7 @@ fun TransferInputField(
 
 @Composable
 fun TransferButton(
+    onNavigateToRoute: (String) -> Unit,
     onClick: () -> Unit, email: String,
     amount: String, method: String?, cardId: Int, viewModel: HomeViewModel) {
     val description = stringResource(R.string.transferencia)
@@ -548,6 +554,7 @@ fun TransferButton(
     if (showDialog) {
         if (method != null) {
             TransferDialog(
+                onNavigateToRoute = onNavigateToRoute,
                 onDismissRequest = { showDialog = false },
                 dialogTitle = stringResource(R.string.transferir),
                 recipientEmail = email,
@@ -577,6 +584,7 @@ fun TransferButton(
 
 @Composable
 fun TransferDialog(
+    onNavigateToRoute: (String) -> Unit,
     onDismissRequest: () -> Unit,
     dialogTitle: String,
     recipientEmail: String,
@@ -653,6 +661,9 @@ fun TransferDialog(
                             {
                                 showStateDialog = false
                                 onDismissRequest()
+                                if(state){
+                                    onNavigateToRoute(AppDestinations.INICIO.route)
+                                }
 
                             },
                             dialogTitle = stringResource(R.string.transferir),
