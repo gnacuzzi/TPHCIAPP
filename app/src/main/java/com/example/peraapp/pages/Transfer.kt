@@ -655,21 +655,6 @@ fun TransferDialog(
                         Text(text = stringResource(R.string.confirmar))
                     }
 
-                    if(showStateDialog) {
-                        TransferDialogState(
-                            onDismissRequest =
-                            {
-                                showStateDialog = false
-                                onDismissRequest()
-                                if(state){
-                                    onNavigateToRoute(AppDestinations.INICIO.route)
-                                }
-
-                            },
-                            dialogTitle = stringResource(R.string.transferir),
-                            state = state
-                        )
-                    }
                 }
             }
         }
